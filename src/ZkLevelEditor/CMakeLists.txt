@@ -5,6 +5,7 @@ set(SOURCES
 	TriangleNode.cpp
 	MeshTriangle.cpp
 	MeshTriangleEdge.cpp
+	MeshLayer.cpp
 )
 
 add_executable(ZkLevelEditor ${SOURCES})
