@@ -6,8 +6,8 @@
 namespace Zk {
 namespace LevelEditor {
 
-class LevelView;
 class MeshTriangleNode;
+class MeshLayer;
 
 class MeshTriangleEdge : public QObject, public QGraphicsLineItem
 {
@@ -15,7 +15,7 @@ class MeshTriangleEdge : public QObject, public QGraphicsLineItem
 	
 public:
 	MeshTriangleEdge(
-		LevelView * lv,
+		MeshLayer * ml,
 		std::array<MeshTriangleNode*, 2> ends,
 		QGraphicsItem * parent = nullptr
 	);

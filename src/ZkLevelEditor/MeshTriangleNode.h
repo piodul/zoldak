@@ -6,14 +6,14 @@ namespace Zk {
 namespace LevelEditor {
 
 class MeshTriangle;
-class LevelView;
+class MeshLayer;
 
 class MeshTriangleNode : public QObject, public QGraphicsEllipseItem
 {
 	Q_OBJECT;
 	
 public:
-	MeshTriangleNode(LevelView * lv, QGraphicsItem * parent = nullptr);
+	MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent = nullptr);
 	virtual ~MeshTriangleNode();
 	
 	void attachTriangle(MeshTriangle * mt);
@@ -28,7 +28,7 @@ protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant & value) override;
 
 private:
-	LevelView * parentView;
+	MeshLayer * parentLayer;
 	QList<MeshTriangle*> linkedTriangles;
 };
 

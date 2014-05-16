@@ -1,5 +1,5 @@
 #include "MeshTriangleNode.h"
-#include "LevelView.h"
+#include "MeshLayer.h"
 
 #include <QtCore>
 #include <QtGui>
@@ -7,10 +7,10 @@
 
 using namespace Zk::LevelEditor;
 
-MeshTriangleNode::MeshTriangleNode(LevelView * lv, QGraphicsItem * parent)
+MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 	: QGraphicsEllipseItem(parent)
 {
-	parentView = lv;
+	parentLayer = ml;
 	
 	setPen(QPen(Qt::black));
 	setBrush(QBrush(Qt::white));

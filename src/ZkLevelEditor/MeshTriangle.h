@@ -7,7 +7,7 @@ namespace Zk {
 namespace LevelEditor {
 
 class MeshTriangleNode;
-class LevelView;
+class MeshLayer;
 
 class MeshTriangle : public QObject, public QGraphicsPathItem
 {
@@ -15,7 +15,7 @@ class MeshTriangle : public QObject, public QGraphicsPathItem
 	
 public:
 	MeshTriangle(
-		LevelView * lv,
+		MeshLayer * ml,
 		std::array<MeshTriangleNode*, 3> verts,
 		QGraphicsItem * parent = nullptr
 	);
@@ -25,7 +25,7 @@ public slots:
 	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
 	
 private:
-	LevelView * parentView;
+	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 3> verts;
 };
 
