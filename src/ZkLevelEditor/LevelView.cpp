@@ -18,6 +18,8 @@ LevelView::LevelView(QWidget * parent)
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
 		this, SLOT(showContextMenu(const QPoint&)));
 	
+	setDragMode(QGraphicsView::RubberBandDrag);
+	
 	MeshTriangleNode * na = createNode(QPoint(0, 0));
 	MeshTriangleNode * nb = createNode(QPoint(0, 200));
 	MeshTriangleNode * nc = createNode(QPoint(200, 0));
