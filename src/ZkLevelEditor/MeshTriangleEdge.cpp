@@ -1,5 +1,5 @@
 #include "MeshTriangleEdge.h"
-#include "TriangleNode.h"
+#include "MeshTriangleNode.h"
 #include "LevelView.h"
 
 #include <QtCore>
@@ -9,17 +9,17 @@ using namespace Zk::LevelEditor;
 
 MeshTriangleEdge::MeshTriangleEdge(
 	LevelView * lv,
-	std::array<TriangleNode*, 2> ends,
+	std::array<MeshTriangleNode*, 2> ends,
 	QGraphicsItem * parent
 )
 	: QGraphicsLineItem(parent)
 {
 	this->ends = ends;
 	
-	for (TriangleNode * end : ends)
+	for (MeshTriangleNode * end : ends)
 	{
-		connect(end, SIGNAL(moved(TriangleNode*, const QPointF&)),
-			this, SLOT(updatePosition(TriangleNode*, const QPointF&)));
+		connect(end, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
+			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
 	}
 	
 	QPen pen(QColor(0, 127, 255));
@@ -35,7 +35,7 @@ MeshTriangleEdge::~MeshTriangleEdge()
 	
 }
 
-std::array<TriangleNode*, 2> MeshTriangleEdge::getEnds() const
+std::array<MeshTriangleNode*, 2> MeshTriangleEdge::getEnds() const
 {
 	return ends;
 }
@@ -49,11 +49,11 @@ void MeshTriangleEdge::deactivateExtruding()
 	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
 }
 
-void MeshTriangleEdge::updatePosition(TriangleNode * tn, const QPointF & pos)
+void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
-	if (tn == ends[0])
+	if (mtn == ends[0])
 		setLine(QLineF(pos, ends[1]->pos()));
-	else if (tn == ends[1])
+	else if (mtn == ends[1])
 		setLine(QLineF(ends[0]->pos(), pos));
 }
 

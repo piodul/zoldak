@@ -1,4 +1,4 @@
-#include "TriangleNode.h"
+#include "MeshTriangleNode.h"
 #include "LevelView.h"
 
 #include <QtCore>
@@ -7,7 +7,7 @@
 
 using namespace Zk::LevelEditor;
 
-TriangleNode::TriangleNode(LevelView * lv, QGraphicsItem * parent)
+MeshTriangleNode::MeshTriangleNode(LevelView * lv, QGraphicsItem * parent)
 	: QGraphicsEllipseItem(parent)
 {
 	parentView = lv;
@@ -22,23 +22,23 @@ TriangleNode::TriangleNode(LevelView * lv, QGraphicsItem * parent)
 	setZValue(1.0);
 }
 
-TriangleNode::~TriangleNode()
+MeshTriangleNode::~MeshTriangleNode()
 {
 	
 }
 
-void TriangleNode::attachTriangle(MeshTriangle * mt)
+void MeshTriangleNode::attachTriangle(MeshTriangle * mt)
 {
 	linkedTriangles << mt;
 }
 
-void TriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
+void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsEllipseItem::mousePressEvent(event);
 	emit clicked(this);
 }
 
-void TriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+void MeshTriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
 	QMenu menu;
 	qDebug() << "DUPA";
@@ -46,7 +46,7 @@ void TriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 	menu.exec(event->screenPos());
 }
 
-QVariant TriangleNode::itemChange(
+QVariant MeshTriangleNode::itemChange(
 	GraphicsItemChange change,
 	const QVariant & value
 )

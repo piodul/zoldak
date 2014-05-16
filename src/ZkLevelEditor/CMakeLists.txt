@@ -2,7 +2,7 @@ set(SOURCES
 	main.cpp
 	MainWindow.cpp
 	LevelView.cpp
-	TriangleNode.cpp
+	MeshTriangleNode.cpp
 	MeshTriangle.cpp
 	MeshTriangleEdge.cpp
 	MeshLayer.cpp

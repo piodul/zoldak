@@ -7,7 +7,7 @@ namespace Zk {
 namespace LevelEditor {
 
 class LevelView;
-class TriangleNode;
+class MeshTriangleNode;
 
 class MeshTriangleEdge : public QObject, public QGraphicsLineItem
 {
@@ -16,25 +16,25 @@ class MeshTriangleEdge : public QObject, public QGraphicsLineItem
 public:
 	MeshTriangleEdge(
 		LevelView * lv,
-		std::array<TriangleNode*, 2> ends,
+		std::array<MeshTriangleNode*, 2> ends,
 		QGraphicsItem * parent = nullptr
 	);
 	virtual ~MeshTriangleEdge();
 	
-	std::array<TriangleNode*, 2> getEnds() const;
+	std::array<MeshTriangleNode*, 2> getEnds() const;
 	void deactivateExtruding();
 	
 signals:
 	void clicked(MeshTriangleEdge * mte, const QPointF & pos);
 	
 public slots:
-	void updatePosition(TriangleNode * tn, const QPointF & pos);
+	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
 	
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	
 private:
-	std::array<TriangleNode*, 2> ends;
+	std::array<MeshTriangleNode*, 2> ends;
 	bool canExtrude;
 };
 

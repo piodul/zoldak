@@ -6,7 +6,7 @@
 namespace Zk {
 namespace LevelEditor {
 
-class TriangleNode;
+class MeshTriangleNode;
 class MeshTriangle;
 class MeshTriangleEdge;
 
@@ -20,13 +20,13 @@ public:
 	
 private slots:
 	void showContextMenu(const QPoint & pos);
-	void triangleNodeClicked(TriangleNode * tn);
+	void triangleNodeClicked(MeshTriangleNode * mtn);
 	void triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos);
 	
 private:
-	TriangleNode * createNode(const QPointF & pos);
-	MeshTriangle * createTriangle(std::array<TriangleNode*, 3> verts);
-	MeshTriangleEdge * createTriangleEdge(std::array<TriangleNode*, 2> ends);
+	MeshTriangleNode * createNode(const QPointF & pos);
+	MeshTriangle * createTriangle(std::array<MeshTriangleNode*, 3> verts);
+	MeshTriangleEdge * createTriangleEdge(std::array<MeshTriangleNode*, 2> ends);
 };
 
 }}

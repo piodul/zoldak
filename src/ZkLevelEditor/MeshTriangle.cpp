@@ -1,5 +1,5 @@
 #include "MeshTriangle.h"
-#include "TriangleNode.h"
+#include "MeshTriangleNode.h"
 
 #include <QtCore>
 #include <QtGui>
@@ -9,7 +9,7 @@ using namespace Zk::LevelEditor;
 
 MeshTriangle::MeshTriangle(
 	LevelView * lv,
-	std::array<TriangleNode*, 3> verts,
+	std::array<MeshTriangleNode*, 3> verts,
 	QGraphicsItem * parent
 )
 	: QGraphicsPathItem(parent)
@@ -17,10 +17,10 @@ MeshTriangle::MeshTriangle(
 	parentView = lv;
 	this->verts = verts;
 	
-	for (TriangleNode * vert : verts)
+	for (MeshTriangleNode * vert : verts)
 	{
-		connect(vert, SIGNAL(moved(TriangleNode*, const QPointF&)),
-			this, SLOT(updatePosition(TriangleNode*, const QPointF&)));
+		connect(vert, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
+			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
 		
 		updatePosition(vert, vert->pos());
 	}
@@ -35,12 +35,12 @@ MeshTriangle::~MeshTriangle()
 	
 }
 
-void MeshTriangle::updatePosition(TriangleNode * tn, const QPointF & pos)
+void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
 	QPolygonF poly;
-	for (TriangleNode * vert : verts)
+	for (MeshTriangleNode * vert : verts)
 	{
-		if (vert == tn)
+		if (vert == mtn)
 			poly << pos;
 		else
 			poly << vert->pos();

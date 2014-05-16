@@ -8,19 +8,19 @@ namespace LevelEditor {
 class MeshTriangle;
 class LevelView;
 
-class TriangleNode : public QObject, public QGraphicsEllipseItem
+class MeshTriangleNode : public QObject, public QGraphicsEllipseItem
 {
 	Q_OBJECT;
 	
 public:
-	TriangleNode(LevelView * lv, QGraphicsItem * parent = nullptr);
-	virtual ~TriangleNode();
+	MeshTriangleNode(LevelView * lv, QGraphicsItem * parent = nullptr);
+	virtual ~MeshTriangleNode();
 	
 	void attachTriangle(MeshTriangle * mt);
 
 signals:
-	void clicked(TriangleNode * tn);
-	void moved(TriangleNode * tn, const QPointF & pos);
+	void clicked(MeshTriangleNode * mtn);
+	void moved(MeshTriangleNode * mtn, const QPointF & pos);
 	
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;

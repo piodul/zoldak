@@ -1,5 +1,5 @@
 #include "LevelView.h"
-#include "TriangleNode.h"
+#include "MeshTriangleNode.h"
 #include "MeshTriangle.h"
 #include "MeshTriangleEdge.h"
 
@@ -18,11 +18,11 @@ LevelView::LevelView(QWidget * parent)
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
 		this, SLOT(showContextMenu(const QPoint&)));
 	
-	TriangleNode * na = createNode(QPoint(0, 0));
-	TriangleNode * nb = createNode(QPoint(0, 200));
-	TriangleNode * nc = createNode(QPoint(200, 0));
+	MeshTriangleNode * na = createNode(QPoint(0, 0));
+	MeshTriangleNode * nb = createNode(QPoint(0, 200));
+	MeshTriangleNode * nc = createNode(QPoint(200, 0));
 	
-	//TriangleNode * verts[3] = { na, nb, nc };
+	//MeshTriangleNode * verts[3] = { na, nb, nc };
 	//createTriangle(verts);
 	createTriangle({ na, nb, nc });
 	createTriangleEdge({ na, nb });
@@ -50,40 +50,40 @@ void LevelView::showContextMenu(const QPoint & pos)
 	}
 }
 
-void LevelView::triangleNodeClicked(TriangleNode * tn)
+void LevelView::triangleNodeClicked(MeshTriangleNode * mtn)
 {
-	qDebug() << "TN clicked";
+	qDebug() << "MTN clicked";
 }
 
 void LevelView::triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos)
 {
 	qDebug() << "MTE clicked";
 	
-	std::array<TriangleNode*, 2> ends = mte->getEnds();
+	std::array<MeshTriangleNode*, 2> ends = mte->getEnds();
 	
 	//Create triangle "protruding" form the edge
-	// TriangleNode * tn = new TriangleNode(this);
-	// tn->setPos(pos);
-	TriangleNode * tn = createNode(pos);
-	createTriangle({ tn, ends[0], ends[1] });
+	// MeshTriangleNode * mtn = new MeshTriangleNode(this);
+	// mtn->setPos(pos);
+	MeshTriangleNode * mtn = createNode(pos);
+	createTriangle({ mtn, ends[0], ends[1] });
 	//createTriangleEdge(ends); //Include it or not?
-	createTriangleEdge({ tn, ends[0] });
-	createTriangleEdge({ tn, ends[1] });
+	createTriangleEdge({ mtn, ends[0] });
+	createTriangleEdge({ mtn, ends[1] });
 }
 
-TriangleNode * LevelView::createNode(const QPointF & pos)
+MeshTriangleNode * LevelView::createNode(const QPointF & pos)
 {
-	TriangleNode * tn = new TriangleNode(this);
-	tn->setPos(pos);
+	MeshTriangleNode * mtn = new MeshTriangleNode(this);
+	mtn->setPos(pos);
 	
-	connect(tn, SIGNAL(clicked(TriangleNode*)),
-		this, SLOT(triangleNodeClicked(TriangleNode*)));
+	connect(mtn, SIGNAL(clicked(MeshTriangleNode*)),
+		this, SLOT(triangleNodeClicked(MeshTriangleNode*)));
 	
-	scene()->addItem(tn);
-	return tn;
+	scene()->addItem(mtn);
+	return mtn;
 }
 
-MeshTriangle * LevelView::createTriangle(std::array<TriangleNode*, 3> verts)
+MeshTriangle * LevelView::createTriangle(std::array<MeshTriangleNode*, 3> verts)
 {
 	MeshTriangle * mt = new MeshTriangle(this, verts);
 	
@@ -94,7 +94,7 @@ MeshTriangle * LevelView::createTriangle(std::array<TriangleNode*, 3> verts)
 	return mt;
 }
 
-MeshTriangleEdge * LevelView::createTriangleEdge(std::array<TriangleNode*, 2> ends)
+MeshTriangleEdge * LevelView::createTriangleEdge(std::array<MeshTriangleNode*, 2> ends)
 {
 	MeshTriangleEdge * mte = new MeshTriangleEdge(this, ends);
 	
