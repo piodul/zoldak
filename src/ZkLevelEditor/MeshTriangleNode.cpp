@@ -12,8 +12,8 @@ MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 {
 	parentLayer = ml;
 	
-	setPen(QPen(Qt::black));
-	setBrush(QBrush(Qt::white));
+	setPen(QPen(QBrush(Qt::white), 2.0));
+	setBrush(QBrush(color));
 	setRect(QRect(-8, -8, 16, 16));
 	
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -35,6 +35,7 @@ void MeshTriangleNode::attachTriangle(MeshTriangle * mt)
 void MeshTriangleNode::setColor(const QColor & color)
 {
 	this->color = color;
+	setBrush(QBrush(QColor(color)));
 	emit colorChanged(this);
 }
 
