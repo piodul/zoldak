@@ -28,10 +28,15 @@ public:
 		QWidget * widget = nullptr
 	) override;
 	
+	virtual QPainterPath shape() const override;
+	
 public slots:
 	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
 	void updateColors();
-	
+
+protected:
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+
 private:
 	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 3> verts;

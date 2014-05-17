@@ -76,6 +76,17 @@ void MeshTriangle::paint(
 	painter->endNativePainting();
 }
 
+QPainterPath MeshTriangle::shape() const
+{
+	QPolygonF poly;
+	poly << verts[0]->pos() << verts[1]->pos() << verts[2]->pos();
+	
+	QPainterPath pp;
+	pp.addPolygon(poly);
+	
+	return pp;
+}
+
 void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
 	update();
@@ -84,4 +95,10 @@ void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 void MeshTriangle::updateColors()
 {
 	update();
+}
+
+void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
+{
+	QGraphicsObject::mousePressEvent(event);
+	qDebug() << "Clicked!";
 }
