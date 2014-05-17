@@ -19,7 +19,7 @@ LevelView::LevelView(QWidget * parent)
 	//Włączamy OpenGL (dla rysowania trójkątów)
 	setViewport(new QGLWidget());
 	
-	setContextMenuPolicy(Qt::CustomContextMenu);
+	//setContextMenuPolicy(Qt::CustomContextMenu);
 	// connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
 	// 	this, SLOT(showContextMenu(const QPoint&)));
 	
