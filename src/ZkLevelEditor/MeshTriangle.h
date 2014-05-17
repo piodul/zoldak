@@ -9,7 +9,7 @@ namespace LevelEditor {
 class MeshTriangleNode;
 class MeshLayer;
 
-class MeshTriangle : public QObject, public QGraphicsPathItem
+class MeshTriangle : public QGraphicsObject
 {
 	Q_OBJECT;
 	
@@ -21,8 +21,16 @@ public:
 	);
 	virtual ~MeshTriangle();
 	
+	virtual QRectF boundingRect() const override;
+	virtual void paint(
+		QPainter * painter,
+		const QStyleOptionGraphicsItem * option,
+		QWidget * widget = nullptr
+	) override;
+	
 public slots:
 	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
+	void updateColors();
 	
 private:
 	MeshLayer * parentLayer;

@@ -7,9 +7,11 @@ set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
 
 set(QT_LIBRARIES
 	Qt5::Widgets
+	Qt5::OpenGL
 )
 
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
 
 set(SFML_STATIC_VARIABLES TRUE)
 find_package(SFML 2.1 COMPONENTS system window graphics audio REQUIRED)

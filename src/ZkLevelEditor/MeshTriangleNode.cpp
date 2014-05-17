@@ -8,7 +8,7 @@
 using namespace Zk::LevelEditor;
 
 MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
-	: QGraphicsEllipseItem(parent)
+	: QGraphicsEllipseItem(parent), color(0, 255, 0)
 {
 	parentLayer = ml;
 	
@@ -30,6 +30,17 @@ MeshTriangleNode::~MeshTriangleNode()
 void MeshTriangleNode::attachTriangle(MeshTriangle * mt)
 {
 	linkedTriangles << mt;
+}
+
+void MeshTriangleNode::setColor(const QColor & color)
+{
+	this->color = color;
+	emit colorChanged(this);
+}
+
+QColor MeshTriangleNode::getColor() const
+{
+	return color;
 }
 
 void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)

@@ -6,6 +6,7 @@
 
 #include <QtCore>
 #include <QtGui>
+#include <QGLWidget>
 #include <QDebug>
 
 using namespace Zk::LevelEditor;
@@ -14,6 +15,9 @@ LevelView::LevelView(QWidget * parent)
 	: QGraphicsView(parent)
 {
 	setScene(new QGraphicsScene());
+	
+	//Włączamy OpenGL (dla rysowania trójkątów)
+	setViewport(new QGLWidget());
 	
 	setContextMenuPolicy(Qt::CustomContextMenu);
 	// connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),

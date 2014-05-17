@@ -17,10 +17,13 @@ public:
 	virtual ~MeshTriangleNode();
 	
 	void attachTriangle(MeshTriangle * mt);
+	void setColor(const QColor & color);
+	QColor getColor() const;
 
 signals:
 	void clicked(MeshTriangleNode * mtn);
 	void moved(MeshTriangleNode * mtn, const QPointF & pos);
+	void colorChanged(MeshTriangleNode * mtn);
 	
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
@@ -29,6 +32,7 @@ protected:
 
 private:
 	MeshLayer * parentLayer;
+	QColor color;
 	QList<MeshTriangle*> linkedTriangles;
 };
 

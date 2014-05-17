@@ -16,6 +16,10 @@ MeshLayer::MeshLayer(QGraphicsScene * scene, QObject * parent)
 	MeshTriangleNode * nb = createNode(QPoint(0, 200));
 	MeshTriangleNode * nc = createNode(QPoint(200, 0));
 	
+	na->setColor(QColor(255, 0, 0));
+	nb->setColor(QColor(0, 255, 0));
+	nc->setColor(QColor(0, 0, 255));
+	
 	createTriangle({ na, nb, nc });
 	createEdge({ na, nb });
 	createEdge({ nb, nc });
