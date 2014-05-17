@@ -30,8 +30,6 @@ MeshTriangle::MeshTriangle(
 	
 	updatePosition(nullptr, QPointF());
 	
-	//setBrush(QBrush(QColor(255, 127, 0)));
-	//setPen(QPen(Qt::transparent));
 	setZValue(-1.0);
 }
 
@@ -80,18 +78,6 @@ void MeshTriangle::paint(
 
 void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
-	/*QPolygonF poly;
-	for (MeshTriangleNode * vert : verts)
-	{
-		if (vert == mtn)
-			poly << pos;
-		else
-			poly << vert->pos();
-	}
-	
-	QPainterPath path;
-	path.addPolygon(poly);
-	setPath(path);*/
 	update();
 }
 
