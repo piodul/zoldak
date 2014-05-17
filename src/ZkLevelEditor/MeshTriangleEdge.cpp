@@ -60,6 +60,6 @@ void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & po
 void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsLineItem::mousePressEvent(event);
-	if (canExtrude)
+	if (canExtrude && event->button() == Qt::LeftButton)
 		emit clicked(this, event->pos());
 }
