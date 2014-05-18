@@ -34,9 +34,16 @@ private slots:
 	void triangleNodeClicked(MeshTriangleNode * mtn);
 	void triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos);
 	
+	void triangleDestroyed(MeshTriangle * mt);
+	void nodeDestroyed(MeshTriangleNode * mtn);
+	void edgeDestroyed(MeshTriangleEdge * mte);
+	
 private:
 	MeshTriangleNode * createNode(const QPointF & pos);
-	MeshTriangle * createTriangle(std::array<MeshTriangleNode*, 3> verts);
+	MeshTriangle * createTriangle(
+		std::array<MeshTriangleNode*, 3> verts,
+		std::array<MeshTriangleEdge*, 3> edges
+	);
 	MeshTriangleEdge * createEdge(std::array<MeshTriangleNode*, 2> ends);
 	
 	QList<MeshTriangle*> triangles;

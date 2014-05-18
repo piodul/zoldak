@@ -44,6 +44,36 @@ QColor MeshTriangleNode::getColor() const
 	return color;
 }
 
+void MeshTriangleNode::addTriangleLink(MeshTriangle * mt)
+{
+	linkedTriangles << mt;
+}
+
+int MeshTriangleNode::getTriangleLinkCount() const
+{
+	return linkedTriangles.size();
+}
+
+void MeshTriangleNode::remTriangleLink(MeshTriangle * mt)
+{
+	linkedTriangles.removeOne(mt);
+}
+
+void MeshTriangleNode::addEdgeLink(MeshTriangleEdge * mt)
+{
+	linkedEdges << mt;
+}
+
+int MeshTriangleNode::getEdgeLinkCount() const
+{
+	return linkedEdges.size();
+}
+
+void MeshTriangleNode::remEdgeLink(MeshTriangleEdge * mte)
+{
+	linkedEdges.removeOne(mte);
+}
+
 void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsEllipseItem::mousePressEvent(event);

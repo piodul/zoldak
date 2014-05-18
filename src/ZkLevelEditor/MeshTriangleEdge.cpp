@@ -49,6 +49,21 @@ void MeshTriangleEdge::deactivateExtruding()
 	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
 }
 
+void MeshTriangleEdge::addTriangleLink(MeshTriangle * mt)
+{
+	linkedTriangles << mt;
+}
+
+int MeshTriangleEdge::getTriangleLinkCount() const
+{
+	return linkedTriangles.size();
+}
+
+void MeshTriangleEdge::remTriangleLink(MeshTriangle * mt)
+{
+	linkedTriangles.removeOne(mt);
+}
+
 void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
 	if (mtn == ends[0])

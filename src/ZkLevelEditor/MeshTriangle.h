@@ -7,6 +7,7 @@ namespace Zk {
 namespace LevelEditor {
 
 class MeshTriangleNode;
+class MeshTriangleEdge;
 class MeshLayer;
 
 class MeshTriangle : public QGraphicsObject
@@ -17,6 +18,7 @@ public:
 	MeshTriangle(
 		MeshLayer * ml,
 		std::array<MeshTriangleNode*, 3> verts,
+		std::array<MeshTriangleEdge*, 3> edges,
 		QGraphicsItem * parent = nullptr
 	);
 	virtual ~MeshTriangle();
@@ -40,6 +42,7 @@ protected:
 private:
 	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 3> verts;
+	std::array<MeshTriangleEdge*, 3> edges;
 };
 
 }}

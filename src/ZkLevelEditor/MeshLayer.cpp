@@ -16,14 +16,15 @@ MeshLayer::MeshLayer(QGraphicsScene * scene, QObject * parent)
 	MeshTriangleNode * nb = createNode(QPoint(0, 200));
 	MeshTriangleNode * nc = createNode(QPoint(200, 0));
 	
+	MeshTriangleEdge * ea = createEdge({ na, nb });
+	MeshTriangleEdge * eb = createEdge({ nb, nc });
+	MeshTriangleEdge * ec = createEdge({ nc, na });
+	
+	createTriangle({ na, nb, nc }, { ea, eb, ec });
+
 	na->setColor(QColor(255, 0, 0));
 	nb->setColor(QColor(0, 255, 0));
 	nc->setColor(QColor(0, 0, 255));
-	
-	createTriangle({ na, nb, nc });
-	createEdge({ na, nb });
-	createEdge({ nb, nc });
-	createEdge({ nc, na });
 }
 
 MeshLayer::~MeshLayer()
@@ -46,10 +47,30 @@ void MeshLayer::triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos)
 	// MeshTriangleNode * mtn = new MeshTriangleNode(this);
 	// mtn->setPos(pos);
 	MeshTriangleNode * mtn = createNode(pos);
-	createTriangle({ mtn, ends[0], ends[1] });
-	//createEdge(ends); //Include it or not?
-	createEdge({ mtn, ends[0] });
-	createEdge({ mtn, ends[1] });
+	MeshTriangleEdge * ea = createEdge({ mtn, ends[0] });
+	MeshTriangleEdge * eb = createEdge({ mtn, ends[1] });
+	createTriangle(
+		{ mtn, ends[0], ends[1] },
+		{ mte, ea, eb }
+	);
+}
+
+void MeshLayer::triangleDestroyed(MeshTriangle * mt)
+{
+	qDebug() << "MT destroyed";
+	triangles.removeOne(mt);
+}
+
+void MeshLayer::nodeDestroyed(MeshTriangleNode * mtn)
+{
+	qDebug() << "MTN destroyed";
+	nodes.removeOne(mtn);
+}
+
+void MeshLayer::edgeDestroyed(MeshTriangleEdge * mte)
+{
+	qDebug() << "MTE destroyed";
+	edges.removeOne(mte);
 }
 
 MeshTriangleNode * MeshLayer::createNode(const QPointF & pos)
@@ -65,9 +86,12 @@ MeshTriangleNode * MeshLayer::createNode(const QPointF & pos)
 	return mtn;
 }
 
-MeshTriangle * MeshLayer::createTriangle(std::array<MeshTriangleNode*, 3> verts)
+MeshTriangle * MeshLayer::createTriangle(
+	std::array<MeshTriangleNode*, 3> verts,
+	std::array<MeshTriangleEdge*, 3> edges
+)
 {
-	MeshTriangle * mt = new MeshTriangle(this, verts);
+	MeshTriangle * mt = new MeshTriangle(this, verts, edges);
 	
 	for (int i : { 0, 1, 2 })
 		verts[i]->attachTriangle(mt);

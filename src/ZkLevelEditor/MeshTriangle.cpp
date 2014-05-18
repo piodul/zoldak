@@ -1,5 +1,6 @@
 #include "MeshTriangle.h"
 #include "MeshTriangleNode.h"
+#include "MeshTriangleEdge.h"
 #include "MeshLayer.h"
 
 #include <QtCore>
@@ -12,12 +13,14 @@ using namespace Zk::LevelEditor;
 MeshTriangle::MeshTriangle(
 	MeshLayer * ml,
 	std::array<MeshTriangleNode*, 3> verts,
+	std::array<MeshTriangleEdge*, 3> edges,
 	QGraphicsItem * parent
 )
 	: QGraphicsObject(parent)
 {
 	parentLayer = ml;
 	this->verts = verts;
+	this->edges = edges;
 	
 	for (MeshTriangleNode * vert : verts)
 	{
