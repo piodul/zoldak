@@ -37,7 +37,8 @@ void BackgroundItem::paint(
 	QWidget * widget
 )
 {
-	
+	painter->setBrush(QBrush(QColor(200, 200, 200)));
+	painter->drawRect(sceneRect);
 }
 
 void BackgroundItem::updateSceneView()
@@ -48,5 +49,5 @@ void BackgroundItem::updateSceneView()
 
 void BackgroundItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
-	emit contextMenuOpened(event->pos());
+	emit contextMenuOpened(event->screenPos());
 }

@@ -33,12 +33,22 @@ LevelView::LevelView(QWidget * parent)
 	
 	mainLayer = new MeshLayer(scene(), this);
 	bgItem = new BackgroundItem(this);
+	connect(bgItem, SIGNAL(contextMenuOpened(const QPoint&)),
+		this, SLOT(contextMenu(const QPoint&)));
 	scene()->addItem(bgItem);
 }
 
 LevelView::~LevelView()
 {
 	
+}
+
+void LevelView::contextMenu(const QPoint & pos)
+{
+	QMenu menu;
+	qDebug() << "DUPA";
+	QAction * removeAction = menu.addAction("&Dummy");
+	menu.exec(pos);
 }
 
 void LevelView::mousePressEvent(QMouseEvent * event)
@@ -60,6 +70,7 @@ void LevelView::mouseMoveEvent(QMouseEvent * event)
 		QPoint delta = event->pos() - oldMousePos;
 		//translate(delta.x(), delta.y());
 		setSceneRect(sceneRect().translated(-delta));
+		bgItem->updateSceneView();
 		
 		oldMousePos = event->pos();
 		
@@ -67,6 +78,12 @@ void LevelView::mouseMoveEvent(QMouseEvent * event)
 	}
 	else
 		QGraphicsView::mouseMoveEvent(event);
+}
+
+void LevelView::resizeEvent(QResizeEvent * event)
+{
+	QGraphicsView::resizeEvent(event);
+	bgItem->updateSceneView();
 }
 
 void LevelView::mouseReleaseEvent(QMouseEvent * event)

@@ -22,7 +22,7 @@ public:
 	) override;
 	
 signals:
-	void contextMenuOpened(const QPointF & pos);
+	void contextMenuOpened(const QPoint & pos);
 	
 public slots:
 	void updateSceneView();
