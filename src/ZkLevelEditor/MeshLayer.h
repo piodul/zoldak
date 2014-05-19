@@ -35,8 +35,8 @@ private slots:
 	void triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos);
 	
 	void triangleDestroyed(MeshTriangle * mt);
-	void nodeDestroyed(MeshTriangleNode * mtn);
-	void edgeDestroyed(MeshTriangleEdge * mte);
+	void nodeUnlinked(MeshTriangleNode * mtn);
+	void edgeUnlinked(MeshTriangleEdge * mte);
 	
 private:
 	MeshTriangleNode * createNode(const QPointF & pos);

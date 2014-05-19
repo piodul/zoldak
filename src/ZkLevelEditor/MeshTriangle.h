@@ -32,6 +32,9 @@ public:
 	
 	virtual QPainterPath shape() const override;
 	
+signals:
+	void destroyed(MeshTriangle * me);
+	
 public slots:
 	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
 	void updateColors();

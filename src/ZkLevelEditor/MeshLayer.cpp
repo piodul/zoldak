@@ -61,16 +61,18 @@ void MeshLayer::triangleDestroyed(MeshTriangle * mt)
 	triangles.removeOne(mt);
 }
 
-void MeshLayer::nodeDestroyed(MeshTriangleNode * mtn)
+void MeshLayer::nodeUnlinked(MeshTriangleNode * mtn)
 {
-	qDebug() << "MTN destroyed";
+	qDebug() << "MTN unlinked, destroying";
 	nodes.removeOne(mtn);
+	delete mtn;
 }
 
-void MeshLayer::edgeDestroyed(MeshTriangleEdge * mte)
+void MeshLayer::edgeUnlinked(MeshTriangleEdge * mte)
 {
-	qDebug() << "MTE destroyed";
+	qDebug() << "MTE unlinked, destroying";
 	edges.removeOne(mte);
+	delete mte;
 }
 
 MeshTriangleNode * MeshLayer::createNode(const QPointF & pos)
@@ -80,6 +82,9 @@ MeshTriangleNode * MeshLayer::createNode(const QPointF & pos)
 	
 	connect(mtn, SIGNAL(clicked(MeshTriangleNode*)),
 		this, SLOT(triangleNodeClicked(MeshTriangleNode*)));
+	
+	connect(mtn, SIGNAL(unlinked(MeshTriangleNode*)),
+		this, SLOT(nodeUnlinked(MeshTriangleNode*)));
 	
 	nodes << mtn;
 	scene->addItem(mtn);
@@ -93,8 +98,8 @@ MeshTriangle * MeshLayer::createTriangle(
 {
 	MeshTriangle * mt = new MeshTriangle(this, verts, edges);
 	
-	for (int i : { 0, 1, 2 })
-		verts[i]->attachTriangle(mt);
+	connect(mt, SIGNAL(destroyed(MeshTriangle*)),
+		this, SLOT(triangleDestroyed(MeshTriangle*)));
 	
 	triangles << mt;
 	scene->addItem(mt);
@@ -107,6 +112,9 @@ MeshTriangleEdge * MeshLayer::createEdge(std::array<MeshTriangleNode*, 2> ends)
 	
 	connect(mte, SIGNAL(clicked(MeshTriangleEdge*, const QPointF&)),
 		this, SLOT(triangleEdgeClicked(MeshTriangleEdge*, const QPointF&)));
+	
+	connect(mte, SIGNAL(unlinked(MeshTriangleEdge*)),
+		this, SLOT(edgeUnlinked(MeshTriangleEdge*)));
 	
 	edges << mte;
 	scene->addItem(mte);

@@ -27,11 +27,6 @@ MeshTriangleNode::~MeshTriangleNode()
 	
 }
 
-void MeshTriangleNode::attachTriangle(MeshTriangle * mt)
-{
-	linkedTriangles << mt;
-}
-
 void MeshTriangleNode::setColor(const QColor & color)
 {
 	this->color = color;
@@ -56,7 +51,16 @@ int MeshTriangleNode::getTriangleLinkCount() const
 
 void MeshTriangleNode::remTriangleLink(MeshTriangle * mt)
 {
+	//qDebug() << linkedTriangles;
+	qDebug() << "Node ~/~ Triangle";
 	linkedTriangles.removeOne(mt);
+	
+	//qDebug() << mt;
+	
+	if (linkedTriangles.size() == 0 && linkedEdges.size() == 0)
+		emit unlinked(this);
+	
+	//qDebug() << linkedTriangles.size() << linkedEdges.size();
 }
 
 void MeshTriangleNode::addEdgeLink(MeshTriangleEdge * mt)
@@ -71,7 +75,13 @@ int MeshTriangleNode::getEdgeLinkCount() const
 
 void MeshTriangleNode::remEdgeLink(MeshTriangleEdge * mte)
 {
+	//qDebug() << "Node ~/~ Edge";
 	linkedEdges.removeOne(mte);
+	
+	if (linkedTriangles.size() == 0 && linkedEdges.size() == 0)
+		emit unlinked(this);
+	
+	//qDebug() << linkedTriangles.size() << linkedEdges.size();
 }
 
 void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)

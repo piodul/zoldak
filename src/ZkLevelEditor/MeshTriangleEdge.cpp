@@ -4,6 +4,7 @@
 
 #include <QtCore>
 #include <QtGui>
+#include <QDebug>
 
 using namespace Zk::LevelEditor;
 
@@ -18,8 +19,13 @@ MeshTriangleEdge::MeshTriangleEdge(
 	
 	for (MeshTriangleNode * end : ends)
 	{
+		end->addEdgeLink(this);
+		
 		connect(end, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
 			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
+		
+		connect(this, SIGNAL(unlinked(MeshTriangleEdge*)),
+			end, SLOT(remEdgeLink(MeshTriangleEdge*)));
 	}
 	
 	QPen pen(QColor(0, 127, 255));
@@ -61,7 +67,11 @@ int MeshTriangleEdge::getTriangleLinkCount() const
 
 void MeshTriangleEdge::remTriangleLink(MeshTriangle * mt)
 {
+	qDebug() << "Edge ~/~ Triangle";
 	linkedTriangles.removeOne(mt);
+	
+	if (linkedTriangles.size() == 0)
+		emit unlinked(this);
 }
 
 void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)

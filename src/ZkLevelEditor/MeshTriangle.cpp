@@ -24,11 +24,24 @@ MeshTriangle::MeshTriangle(
 	
 	for (MeshTriangleNode * vert : verts)
 	{
+		vert->addTriangleLink(this);
+		
 		connect(vert, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
 			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
 		
 		connect(vert, SIGNAL(colorChanged(MeshTriangleNode*)),
 			this, SLOT(updateColors()));
+		
+		connect(this, SIGNAL(destroyed(MeshTriangle*)),
+			vert, SLOT(remTriangleLink(MeshTriangle*)));
+	}
+	
+	for (MeshTriangleEdge * edge : edges)
+	{
+		edge->addTriangleLink(this);
+		
+		connect(this, SIGNAL(destroyed(MeshTriangle*)),
+			edge, SLOT(remTriangleLink(MeshTriangle*)));
 	}
 	
 	updatePosition(nullptr, QPointF());
@@ -38,7 +51,8 @@ MeshTriangle::MeshTriangle(
 
 MeshTriangle::~MeshTriangle()
 {
-	
+	emit destroyed(this);
+	//parentLayer->triangleDestroyed(this);
 }
 
 QRectF MeshTriangle::boundingRect() const
@@ -102,6 +116,9 @@ void MeshTriangle::updateColors()
 
 void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
-	QGraphicsObject::mousePressEvent(event);
+	if (event->modifiers() & Qt::ControlModifier)
+		delete this; //Zastanowić się czy to dobry pomysł
+	else
+		QGraphicsObject::mousePressEvent(event);
 	qDebug() << "Clicked!";
 }

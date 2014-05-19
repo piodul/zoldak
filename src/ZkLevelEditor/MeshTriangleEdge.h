@@ -27,14 +27,16 @@ public:
 	
 	void addTriangleLink(MeshTriangle * mt);
 	int getTriangleLinkCount() const;
-	void remTriangleLink(MeshTriangle * mt);
 	
 signals:
 	void clicked(MeshTriangleEdge * mte, const QPointF & pos);
+	
+	//Wysyłany przy rozłączeniu ze wszystkimi trójkątami
 	void unlinked(MeshTriangleEdge * mte);
 	
 public slots:
 	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
+	void remTriangleLink(MeshTriangle * mt);
 	
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
