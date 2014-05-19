@@ -26,6 +26,11 @@ LevelView::LevelView(QWidget * parent)
 	
 	setDragMode(QGraphicsView::RubberBandDrag);
 	
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	
+	setSceneRect(QRect(0, 0, 1, 1));
+	
 	mainLayer = new MeshLayer(scene(), this);
 	bgItem = new BackgroundItem(this);
 	scene()->addItem(bgItem);
@@ -35,6 +40,41 @@ LevelView::~LevelView()
 {
 	
 }
+
+void LevelView::mousePressEvent(QMouseEvent * event)
+{
+	if (event->modifiers() & Qt::ShiftModifier)
+	{
+		isDragging = true;
+		oldMousePos = event->pos();
+		qDebug() << "Started dragging!";
+	}
+	else
+		QGraphicsView::mousePressEvent(event);
+}
+
+void LevelView::mouseMoveEvent(QMouseEvent * event)
+{
+	if (isDragging)
+	{
+		QPoint delta = event->pos() - oldMousePos;
+		//translate(delta.x(), delta.y());
+		setSceneRect(sceneRect().translated(-delta));
+		
+		oldMousePos = event->pos();
+		
+		qDebug() << delta;
+	}
+	else
+		QGraphicsView::mouseMoveEvent(event);
+}
+
+void LevelView::mouseReleaseEvent(QMouseEvent * event)
+{
+	isDragging = false;
+	QGraphicsView::mouseReleaseEvent(event);
+}
+
 
 // void LevelView::showContextMenu(const QPoint & pos)
 // {
