@@ -3,6 +3,7 @@
 #include "MeshTriangle.h"
 #include "MeshTriangleEdge.h"
 #include "MeshLayer.h"
+#include "BackgroundItem.h"
 
 #include <QtCore>
 #include <QtGui>
@@ -26,6 +27,8 @@ LevelView::LevelView(QWidget * parent)
 	setDragMode(QGraphicsView::RubberBandDrag);
 	
 	mainLayer = new MeshLayer(scene(), this);
+	bgItem = new BackgroundItem(this);
+	scene()->addItem(bgItem);
 }
 
 LevelView::~LevelView()

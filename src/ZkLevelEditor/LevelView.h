@@ -11,6 +11,8 @@ class MeshTriangle;
 class MeshTriangleEdge;
 class MeshLayer;
 
+class BackgroundItem;
+
 class LevelView : public QGraphicsView
 {
 	Q_OBJECT;
@@ -21,7 +23,7 @@ public:
 	
 private:
 	MeshLayer * mainLayer;
-	
+	BackgroundItem * bgItem;
 };
 
 }}

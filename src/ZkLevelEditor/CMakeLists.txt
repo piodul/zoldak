@@ -1,4 +1,5 @@
 set(SOURCES
+	BackgroundItem.cpp
 	main.cpp
 	MainWindow.cpp
 	LevelView.cpp
