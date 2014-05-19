@@ -114,6 +114,12 @@ void MeshTriangle::updateColors()
 	update();
 }
 
+void MeshTriangle::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+{
+	//Nie przepuszczamy menu kontekstowego niżej
+	event->accept();
+}
+
 void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	if (event->modifiers() & Qt::ControlModifier)

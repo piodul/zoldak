@@ -82,6 +82,12 @@ void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 		emit clicked(this, event->pos());
 }
 
+void MeshTriangleEdge::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+{
+	//Nie przepuszczamy menu kontekstowego niżej
+	event->accept();
+}
+
 void MeshTriangleEdge::refreshLook()
 {
 	//TODO: Zrobić ztych magicznych liczb stałe

@@ -96,6 +96,8 @@ void MeshTriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 	qDebug() << "DUPA";
 	QAction * removeAction = menu.addAction("&Remove");
 	menu.exec(event->screenPos());
+	
+	event->accept();
 }
 
 QVariant MeshTriangleNode::itemChange(

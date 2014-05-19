@@ -43,11 +43,13 @@ void BackgroundItem::paint(
 
 void BackgroundItem::updateSceneView()
 {
+	prepareGeometryChange();
 	QRect viewportRect(QPoint(0, 0), view->viewport()->size());
 	sceneRect = view->mapToScene(viewportRect).boundingRect();
 }
 
 void BackgroundItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
+	qDebug() << "BackgroundItem::contextMenuEvent";
 	emit contextMenuOpened(event->screenPos());
 }

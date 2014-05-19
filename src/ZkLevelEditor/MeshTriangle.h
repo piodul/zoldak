@@ -40,6 +40,7 @@ public slots:
 	void updateColors();
 
 protected:
+	virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 
 private:

@@ -40,7 +40,8 @@ public slots:
 	void remTriangleLink(MeshTriangle * mt);
 	
 protected:
-	void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
+	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 	
 private:
 	void refreshLook();
