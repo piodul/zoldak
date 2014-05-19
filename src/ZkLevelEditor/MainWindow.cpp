@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget * parent)
 	centralWidget->setLayout(mainLayout);
 	
 	setCentralWidget(centralWidget);
+	
+	setStatusBar(new QStatusBar());
 }
 
 MainWindow::~MainWindow()
