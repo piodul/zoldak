@@ -23,10 +23,11 @@ public:
 	virtual ~MeshTriangleEdge();
 	
 	std::array<MeshTriangleNode*, 2> getEnds() const;
-	void deactivateExtruding();
 	
 	void addTriangleLink(MeshTriangle * mt);
 	int getTriangleLinkCount() const;
+	
+	bool canExtrude() const;
 	
 signals:
 	void clicked(MeshTriangleEdge * mte, const QPointF & pos);
@@ -42,9 +43,10 @@ protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	
 private:
+	void refreshLook();
+	
 	std::array<MeshTriangleNode*, 2> ends;
 	QList<MeshTriangle*> linkedTriangles;
-	bool canExtrude;
 };
 
 }}

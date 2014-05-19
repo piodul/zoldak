@@ -28,12 +28,7 @@ MeshTriangleEdge::MeshTriangleEdge(
 			end, SLOT(remEdgeLink(MeshTriangleEdge*)));
 	}
 	
-	QPen pen(QColor(0, 127, 255));
-	pen.setWidth(8);
-	setPen(pen);
-	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
-	
-	canExtrude = true;
+	refreshLook();
 }
 
 MeshTriangleEdge::~MeshTriangleEdge()
@@ -46,18 +41,10 @@ std::array<MeshTriangleNode*, 2> MeshTriangleEdge::getEnds() const
 	return ends;
 }
 
-void MeshTriangleEdge::deactivateExtruding()
-{
-	canExtrude = false;
-	QPen pen(QColor(0, 127, 127));
-	pen.setWidth(8);
-	setPen(pen);
-	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
-}
-
 void MeshTriangleEdge::addTriangleLink(MeshTriangle * mt)
 {
 	linkedTriangles << mt;
+	refreshLook();
 }
 
 int MeshTriangleEdge::getTriangleLinkCount() const
@@ -65,10 +52,16 @@ int MeshTriangleEdge::getTriangleLinkCount() const
 	return linkedTriangles.size();
 }
 
+bool MeshTriangleEdge::canExtrude() const
+{
+	return getTriangleLinkCount() < 2;
+}
+
 void MeshTriangleEdge::remTriangleLink(MeshTriangle * mt)
 {
 	qDebug() << "Edge ~/~ Triangle";
 	linkedTriangles.removeOne(mt);
+	refreshLook();
 	
 	if (linkedTriangles.size() == 0)
 		emit unlinked(this);
@@ -85,6 +78,25 @@ void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & po
 void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsLineItem::mousePressEvent(event);
-	if (canExtrude && event->button() == Qt::LeftButton)
+	if (event->button() == Qt::LeftButton)
 		emit clicked(this, event->pos());
+}
+
+void MeshTriangleEdge::refreshLook()
+{
+	//TODO: Zrobić ztych magicznych liczb stałe
+	QPen pen;
+	if (canExtrude())
+	{
+		pen.setColor(QColor(0, 127, 255));
+		pen.setWidth(8);
+	}
+	else
+	{
+		pen.setColor(QColor(127, 127, 127));
+		pen.setWidth(2);
+	}
+	
+	setPen(pen);
+	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
 }

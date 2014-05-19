@@ -41,6 +41,9 @@ void MeshLayer::triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos)
 {
 	qDebug() << "MTE clicked";
 	
+	if (!mte->canExtrude())
+		return;
+	
 	std::array<MeshTriangleNode*, 2> ends = mte->getEnds();
 	
 	//Create triangle "protruding" form the edge
