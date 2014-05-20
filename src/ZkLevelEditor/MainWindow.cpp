@@ -9,7 +9,7 @@ using namespace Zk::LevelEditor;
 MainWindow::MainWindow(QWidget * parent)
 	: QMainWindow(parent)
 {
-	LevelView * levelView = new LevelView();
+	LevelView * levelView = new LevelView(this);
 	
 	exitButton = new QPushButton("&Exit");
 	
@@ -23,9 +23,16 @@ MainWindow::MainWindow(QWidget * parent)
 	setCentralWidget(centralWidget);
 	
 	setStatusBar(new QStatusBar());
+	statusLabel = new QLabel();
+	statusBar()->addWidget(statusLabel);
 }
 
 MainWindow::~MainWindow()
 {
 	
+}
+
+void MainWindow::setStatusText(QString text)
+{
+	statusLabel->setText(text);
 }

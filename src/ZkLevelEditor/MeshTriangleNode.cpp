@@ -12,14 +12,13 @@ MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 {
 	parentLayer = ml;
 	
-	setPen(QPen(QBrush(Qt::white), 2.0));
-	setBrush(QBrush(color));
-	setRect(QRect(-8, -8, 16, 16));
-	
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
 	setFlag(QGraphicsItem::ItemIsMovable, true);
 	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	setZValue(1.0);
+	
+	marked = false;
+	refreshLook();
 }
 
 MeshTriangleNode::~MeshTriangleNode()
@@ -84,10 +83,26 @@ void MeshTriangleNode::remEdgeLink(MeshTriangleEdge * mte)
 	//qDebug() << linkedTriangles.size() << linkedEdges.size();
 }
 
+const QList<MeshTriangle*> & MeshTriangleNode::getLinkedTriangles() const
+{
+	return linkedTriangles;
+}
+
+const QList<MeshTriangleEdge*> & MeshTriangleNode::getLinkedEdges() const
+{
+	return linkedEdges;
+}
+
+void MeshTriangleNode::setMarked(bool marked)
+{
+	this->marked = marked;
+	refreshLook();
+}
+
 void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsEllipseItem::mousePressEvent(event);
-	emit clicked(this);
+	emit clicked(this, event);
 }
 
 void MeshTriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
@@ -109,4 +124,15 @@ QVariant MeshTriangleNode::itemChange(
 		emit moved(this, value.toPointF());
 	
 	return QGraphicsEllipseItem::itemChange(change, value);
+}
+
+void MeshTriangleNode::refreshLook()
+{
+	if (marked)
+		setPen(QPen(QBrush(Qt::blue), 3.0));
+	else
+		setPen(QPen(QBrush(Qt::white), 2.0));
+	
+	setBrush(QBrush(color));
+	setRect(QRect(-8, -8, 16, 16));
 }

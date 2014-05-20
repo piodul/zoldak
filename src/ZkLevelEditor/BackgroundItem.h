@@ -23,11 +23,13 @@ public:
 	
 signals:
 	void contextMenuOpened(const QPoint & pos);
+	void clicked();
 	
 public slots:
 	void updateSceneView();
 	
 protected:
+	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
 	
 private:

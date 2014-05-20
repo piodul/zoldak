@@ -1,3 +1,4 @@
+#include "MainWindow.h"
 #include "LevelView.h"
 #include "MeshTriangleNode.h"
 #include "MeshTriangle.h"
@@ -12,9 +13,10 @@
 
 using namespace Zk::LevelEditor;
 
-LevelView::LevelView(QWidget * parent)
+LevelView::LevelView(MainWindow * mw, QWidget * parent)
 	: QGraphicsView(parent)
 {
+	window = mw;
 	setScene(new QGraphicsScene());
 	
 	//Włączamy OpenGL (dla rysowania trójkątów)
@@ -32,9 +34,14 @@ LevelView::LevelView(QWidget * parent)
 	setSceneRect(QRect(0, 0, 1, 1));
 	
 	mainLayer = new MeshLayer(scene(), this);
+	connect(mainLayer, SIGNAL(statusTextChanged(QString)),
+		window, SLOT(setStatusText(QString)));
+	
 	bgItem = new BackgroundItem(this);
 	connect(bgItem, SIGNAL(contextMenuOpened(const QPoint&)),
 		this, SLOT(contextMenu(const QPoint&)));
+	connect(bgItem, SIGNAL(clicked()),
+		mainLayer, SLOT(backgroundClicked()));
 	scene()->addItem(bgItem);
 }
 

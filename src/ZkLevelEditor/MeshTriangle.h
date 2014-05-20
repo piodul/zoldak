@@ -32,6 +32,9 @@ public:
 	
 	virtual QPainterPath shape() const override;
 	
+	const std::array<MeshTriangleNode*, 3> & getLinkedNodes() const;
+	const std::array<MeshTriangleEdge*, 3> & getLinkedEdges() const;
+	
 signals:
 	void destroyed(MeshTriangle * me);
 	

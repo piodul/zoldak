@@ -14,11 +14,15 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget * parent = nullptr);
 	virtual ~MainWindow();
+	
+public slots:
+	void setStatusText(QString text);
 
 private:
 	LevelView * levelView;
 	
 	QPushButton * exitButton;
+	QLabel * statusLabel;
 };
 
 }}

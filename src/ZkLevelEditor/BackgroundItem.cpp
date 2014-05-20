@@ -48,6 +48,12 @@ void BackgroundItem::updateSceneView()
 	sceneRect = view->mapToScene(viewportRect).boundingRect();
 }
 
+void BackgroundItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
+{
+	QGraphicsObject::mousePressEvent(event);
+	emit clicked();
+}
+
 void BackgroundItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
 	qDebug() << "BackgroundItem::contextMenuEvent";

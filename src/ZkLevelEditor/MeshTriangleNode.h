@@ -26,10 +26,14 @@ public:
 	void addEdgeLink(MeshTriangleEdge * mte);
 	int getEdgeLinkCount() const;
 	
-	const QList<MeshTriangle*> getLinkedTriangles();
+	const QList<MeshTriangle*> & getLinkedTriangles() const;
+	const QList<MeshTriangleEdge*> & getLinkedEdges() const;
+	
+	void setMarked(bool marked);
+	bool isMarked() const;
 
 signals:
-	void clicked(MeshTriangleNode * mtn);
+	void clicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event);
 	void moved(MeshTriangleNode * mtn, const QPointF & pos);
 	void colorChanged(MeshTriangleNode * mtn);
 	
@@ -46,10 +50,14 @@ protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant & value) override;
 
 private:
+	void refreshLook();
+	
 	MeshLayer * parentLayer;
 	QColor color;
 	QList<MeshTriangle*> linkedTriangles;
 	QList<MeshTriangleEdge*> linkedEdges;
+	
+	bool marked;
 };
 
 }}

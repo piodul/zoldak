@@ -3,6 +3,8 @@
 #include <QtWidgets>
 #include <array>
 
+#include "EditState.h"
+
 namespace Zk {
 namespace LevelEditor {
 
@@ -30,13 +32,18 @@ public:
 		return isActive;
 	}
 	
+signals:
+	void statusTextChanged(QString txt);
+	
 private slots:
-	void triangleNodeClicked(MeshTriangleNode * mtn);
-	void triangleEdgeClicked(MeshTriangleEdge * mte, const QPointF & pos);
+	void triangleNodeClicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event);
+	void triangleEdgeClicked(MeshTriangleEdge * mte, const QGraphicsSceneMouseEvent * event);
 	
 	void triangleDestroyed(MeshTriangle * mt);
 	void nodeUnlinked(MeshTriangleNode * mtn);
 	void edgeUnlinked(MeshTriangleEdge * mte);
+	
+	void backgroundClicked();
 	
 private:
 	MeshTriangleNode * createNode(const QPointF & pos);
@@ -46,6 +53,8 @@ private:
 	);
 	MeshTriangleEdge * createEdge(std::array<MeshTriangleNode*, 2> ends);
 	
+	MeshTriangle * formTriangle(std::array<MeshTriangleNode*, 3> verts);
+	
 	QList<MeshTriangle*> triangles;
 	QList<MeshTriangleNode*> nodes;
 	QList<MeshTriangleEdge*> edges;
@@ -53,6 +62,8 @@ private:
 	QGraphicsScene * scene;
 	bool isActive;
 	
+	EditState editState;
+	std::array<MeshTriangleNode*, 3> nodesToConnect;
 };
 
 }}

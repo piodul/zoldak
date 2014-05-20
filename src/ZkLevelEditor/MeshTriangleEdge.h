@@ -30,13 +30,13 @@ public:
 	bool canExtrude() const;
 	
 signals:
-	void clicked(MeshTriangleEdge * mte, const QPointF & pos);
+	void clicked(MeshTriangleEdge * mte, const QGraphicsSceneMouseEvent*);
 	
 	//Wysyłany przy rozłączeniu ze wszystkimi trójkątami
 	void unlinked(MeshTriangleEdge * mte);
 	
 public slots:
-	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
+	void updatePosition(MeshTriangleNode * mtn, const QPointF&);
 	void remTriangleLink(MeshTriangle * mt);
 	
 protected:

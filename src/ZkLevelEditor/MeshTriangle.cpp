@@ -104,13 +104,25 @@ QPainterPath MeshTriangle::shape() const
 	return pp;
 }
 
+const std::array<MeshTriangleNode*, 3> & MeshTriangle::getLinkedNodes() const
+{
+	return verts;
+}
+
+const std::array<MeshTriangleEdge*, 3> & MeshTriangle::getLinkedEdges() const
+{
+	return edges;
+}
+
 void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
+	prepareGeometryChange();
 	update();
 }
 
 void MeshTriangle::updateColors()
 {
+	prepareGeometryChange();
 	update();
 }
 

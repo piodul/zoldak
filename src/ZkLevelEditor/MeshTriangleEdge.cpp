@@ -79,7 +79,7 @@ void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsLineItem::mousePressEvent(event);
 	if (event->button() == Qt::LeftButton)
-		emit clicked(this, event->pos());
+		emit clicked(this, event);
 }
 
 void MeshTriangleEdge::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)

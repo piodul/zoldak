@@ -6,6 +6,8 @@
 namespace Zk {
 namespace LevelEditor {
 
+class MainWindow;
+
 class MeshTriangleNode;
 class MeshTriangle;
 class MeshTriangleEdge;
@@ -18,7 +20,7 @@ class LevelView : public QGraphicsView
 	Q_OBJECT;
 	
 public:
-	LevelView(QWidget * parent = nullptr);
+	LevelView(MainWindow * mw, QWidget * parent = nullptr);
 	virtual ~LevelView();
 	
 private slots:
@@ -31,6 +33,7 @@ protected:
 	virtual void resizeEvent(QResizeEvent * event) override;
 	
 private:
+	MainWindow * window;
 	MeshLayer * mainLayer;
 	BackgroundItem * bgItem;
 	
