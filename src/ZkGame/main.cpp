@@ -1,4 +1,9 @@
+#include "GameSystem.h"
+
+using namespace Zk::Game;
+
 int main(int argc, char ** argv)
 {
-	return 0;
+	GameSystem gs;
+	return gs.run();
 }
