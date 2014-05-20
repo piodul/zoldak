@@ -23,9 +23,6 @@ public:
 	LevelView(MainWindow * mw, QWidget * parent = nullptr);
 	virtual ~LevelView();
 	
-private slots:
-	void contextMenu(const QPoint & pos);
-	
 protected:
 	virtual void mousePressEvent(QMouseEvent * event) override;
 	virtual void mouseMoveEvent(QMouseEvent * event) override;

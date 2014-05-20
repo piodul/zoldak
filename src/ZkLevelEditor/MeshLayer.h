@@ -45,6 +45,8 @@ private slots:
 	
 	void backgroundClicked();
 	
+	void contextMenu(const QPoint & pos, const QPointF & scenePos);
+	
 private:
 	MeshTriangleNode * createNode(const QPointF & pos);
 	MeshTriangle * createTriangle(
@@ -53,7 +55,11 @@ private:
 	);
 	MeshTriangleEdge * createEdge(std::array<MeshTriangleNode*, 2> ends);
 	
+	//Tworzy trójkąt na podstawie trzech istniejących wierzchołków
 	MeshTriangle * formTriangle(std::array<MeshTriangleNode*, 3> verts);
+	
+	//Tworzy osobny trójkąt
+	MeshTriangle * createFullTriangle(const QPointF & pos);
 	
 	QList<MeshTriangle*> triangles;
 	QList<MeshTriangleNode*> nodes;

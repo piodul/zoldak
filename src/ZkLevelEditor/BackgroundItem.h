@@ -22,7 +22,7 @@ public:
 	) override;
 	
 signals:
-	void contextMenuOpened(const QPoint & pos);
+	void contextMenuOpened(const QPoint & pos, const QPointF & scenePos);
 	void clicked();
 	
 public slots:

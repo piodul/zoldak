@@ -99,6 +99,11 @@ void MeshTriangleNode::setMarked(bool marked)
 	refreshLook();
 }
 
+bool MeshTriangleNode::isMarked() const
+{
+	return marked;
+}
+
 void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsEllipseItem::mousePressEvent(event);

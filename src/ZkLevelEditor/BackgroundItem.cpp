@@ -57,5 +57,5 @@ void BackgroundItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
 void BackgroundItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
 	qDebug() << "BackgroundItem::contextMenuEvent";
-	emit contextMenuOpened(event->screenPos());
+	emit contextMenuOpened(event->screenPos(), event->pos());
 }

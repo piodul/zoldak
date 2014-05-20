@@ -38,8 +38,8 @@ LevelView::LevelView(MainWindow * mw, QWidget * parent)
 		window, SLOT(setStatusText(QString)));
 	
 	bgItem = new BackgroundItem(this);
-	connect(bgItem, SIGNAL(contextMenuOpened(const QPoint&)),
-		this, SLOT(contextMenu(const QPoint&)));
+	connect(bgItem, SIGNAL(contextMenuOpened(const QPoint&, const QPointF&)),
+		mainLayer, SLOT(contextMenu(const QPoint&, const QPointF&)));
 	connect(bgItem, SIGNAL(clicked()),
 		mainLayer, SLOT(backgroundClicked()));
 	scene()->addItem(bgItem);
@@ -48,14 +48,6 @@ LevelView::LevelView(MainWindow * mw, QWidget * parent)
 LevelView::~LevelView()
 {
 	
-}
-
-void LevelView::contextMenu(const QPoint & pos)
-{
-	QMenu menu;
-	qDebug() << "DUPA";
-	QAction * removeAction = menu.addAction("&Dummy");
-	menu.exec(pos);
 }
 
 void LevelView::mousePressEvent(QMouseEvent * event)
