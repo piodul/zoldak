@@ -1,3 +1,5 @@
+add_subdirectory(ManyMouse)
+
 add_subdirectory(ZkCommon)
 add_subdirectory(ZkLevelEditor)
 add_subdirectory(ZkPoseEditor)
