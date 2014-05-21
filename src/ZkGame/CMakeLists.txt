@@ -2,6 +2,7 @@ set(SOURCES
 	main.cpp
 	Game.cpp
 	GameSystem.cpp
+	InputSystem.cpp
 )
 
 add_executable(ZkGame ${SOURCES})

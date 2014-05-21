@@ -1,6 +1,10 @@
 #pragma once
 
+#include <QtWidgets>
+
 #include <SFML/Graphics.hpp>
+
+#include "InputSystem.h"
 
 namespace Zk {
 namespace Game {
@@ -8,15 +12,19 @@ namespace Game {
 class GameSystem
 {
 public:
-	GameSystem();
+	GameSystem(int argc, char ** argv);
 	~GameSystem();
 	
-	int run();
+	int exec();
 	
 private:
 	sf::RenderWindow renderWindow;
 	sf::Texture texture;
 	sf::Sprite sprite;
+	
+	QApplication app;
+	
+	InputSystem inputSystem;
 };
 
 }}

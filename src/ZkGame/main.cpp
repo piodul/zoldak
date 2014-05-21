@@ -4,6 +4,6 @@ using namespace Zk::Game;
 
 int main(int argc, char ** argv)
 {
-	GameSystem gs;
-	return gs.run();
+	GameSystem gs(argc, argv);
+	return gs.exec();
 }

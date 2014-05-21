@@ -1,15 +1,19 @@
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include "../ManyMouse/manymouse.h"
 
+#include <QtWidgets>
+#include <QtGui>
+
 #include "GameSystem.h"
+#include "InputSystem.h"
 
 using namespace Zk::Game;
 
-GameSystem::GameSystem()
+GameSystem::GameSystem(int argc, char ** argv)
+	: app(argc, argv)
 {
-	ManyMouse_Init();
-	
 	renderWindow.create(
 		sf::VideoMode(800, 600),
 		L"Żołdak",
@@ -24,15 +28,28 @@ GameSystem::GameSystem()
 
 GameSystem::~GameSystem()
 {
-	ManyMouse_Quit();
+	
 }
 
-int GameSystem::run()
+int GameSystem::exec()
 {
 	sf::Vector2f position;
+	sf::Clock beat;
+	
+	int timeForEvents;
+	
+	MouseDeviceHandle mdh = inputSystem.getMouseDeviceHandle(0);
 	
 	while (renderWindow.isOpen())
 	{
+		app.sendPostedEvents();
+		app.processEvents(
+			QEventLoop::AllEvents,
+			timeForEvents
+		);
+		
+		sf::Time frameStart = beat.getElapsedTime();
+		
 		sf::Event event;
 		while (renderWindow.pollEvent(event))
 		{
@@ -40,50 +57,20 @@ int GameSystem::run()
 				renderWindow.close();
 		}
 		
-		ManyMouseEvent mme;
-		while (ManyMouse_PollEvent(&mme))
-		{
-			switch (mme.type)
-			{
-			case MANYMOUSE_EVENT_ABSMOTION:
-				if (mme.item == 0)
-					position.x = mme.value;
-				else if (mme.item == 1)
-					position.y = mme.value;
-				break;
-				
-			case MANYMOUSE_EVENT_RELMOTION:
-				if (mme.item == 0)
-					position += sf::Vector2f(mme.value, 0);
-				else if (mme.item == 1)
-					position += sf::Vector2f(0, mme.value);
-				break;
-				
-			case MANYMOUSE_EVENT_BUTTON:
-				
-				break;
-				
-			case MANYMOUSE_EVENT_SCROLL:
-				
-				break;
-				
-			case MANYMOUSE_EVENT_DISCONNECT:
-				
-				break;
-				
-			case MANYMOUSE_EVENT_MAX:
-				
-				break;
-				
-			}
-		}
+		inputSystem.pollInput();
 		
 		renderWindow.clear(sf::Color::Black);
 		
-		sprite.setPosition(position);
+		sf::Vector3i mouseState = mdh.getAbsolutePosition();
+		sprite.setPosition(mouseState.x, mouseState.y);
 		renderWindow.draw(sprite);
 		
 		renderWindow.display();
+		
+		sf::Time frameEnd = beat.getElapsedTime();
+		static const sf::Int32 millisPerFrame = 1000 / 60;
+		timeForEvents = millisPerFrame - (frameEnd - frameStart).asMilliseconds();
+		
 		glFinish();
 	}
 	
