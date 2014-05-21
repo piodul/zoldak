@@ -3,6 +3,8 @@
 
 #include "InputSystem.h"
 
+#include <QDebug>
+
 using namespace Zk::Game;
 
 static const int TOKEN_NUMBER = 2 * 3 * 7;
@@ -71,6 +73,7 @@ void InputSystem::pollInput()
 			
 		case MANYMOUSE_EVENT_DISCONNECT:
 			currMouse.connected = false;
+			qDebug() << "Mouse no." << mme.device << "disconnected!";
 			break;
 			
 		case MANYMOUSE_EVENT_MAX:
@@ -109,9 +112,15 @@ void InputSystem::initManyMouse()
 	
 	if (mouseCount > 0)
 	{
+		qDebug() << "Found" << mouseCount << "mouse devices";
+		qDebug() << "Driver:" << ManyMouse_DriverName();
+		
 		mouseInfos.reserve(mouseCount);
 		for (int i = 0; i < mouseCount; i++)
 		{
+			qDebug() << "Mouse no." << i;
+			qDebug() << " " << ManyMouse_DeviceName(i);
+			
 			mouseInfo_t mit;
 			mit.connected = true;
 			mouseInfos.push_back(mit);
@@ -120,6 +129,8 @@ void InputSystem::initManyMouse()
 		token = std::make_shared<int>(TOKEN_NUMBER);
 		manyMouseInitialized = true;
 	}
+	else
+		qDebug() << "No mice found!";
 }
 
 void InputSystem::quitManyMouse()
