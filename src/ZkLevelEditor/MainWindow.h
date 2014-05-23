@@ -17,6 +17,9 @@ public:
 	
 public slots:
 	void setStatusText(QString text);
+	
+	void loadLevel();
+	void saveLevel();
 
 private:
 	LevelView * levelView;
