@@ -68,10 +68,16 @@ Level::Level()
 
 Level::~Level()
 {
-	
+	for (LevelLayer * ll : layers)
+		delete ll;
 }
 
-std::vector<LevelLayer*> & Level::getLayers()
+void Level::clear()
+{
+	layers.clear();
+}
+
+const std::vector<LevelLayer*> & Level::getLayers() const
 {
 	return layers;
 }
