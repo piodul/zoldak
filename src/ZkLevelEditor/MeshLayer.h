@@ -28,7 +28,7 @@ public:
 	void setActivated(bool activated);
 	
 	//Zwraca czy jest aktywna
-	inline bool isActivated(bool activated)
+	inline bool isActivated()
 	{
 		return isActive;
 	}
