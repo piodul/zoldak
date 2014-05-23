@@ -12,7 +12,7 @@ using namespace Zk::LevelEditor;
 MainWindow::MainWindow(QWidget * parent)
 	: QMainWindow(parent)
 {
-	LevelView * levelView = new LevelView(this);
+	levelView = new LevelView(this);
 	
 	exitButton = new QPushButton("&Exit");
 	
