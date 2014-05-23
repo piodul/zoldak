@@ -3,6 +3,7 @@
 #include <QtWidgets>
 #include <array>
 
+#include "../ZkCommon/Level.h"
 #include "EditState.h"
 
 namespace Zk {
@@ -31,6 +32,10 @@ public:
 	{
 		return isActive;
 	}
+	
+	void clear();
+	bool fromCommonLevelLayer(const Common::LevelLayer & ll);
+	void toCommonLevelLayer(Common::LevelLayer & ll) const;
 	
 signals:
 	void statusTextChanged(QString txt);

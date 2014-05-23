@@ -1,8 +1,12 @@
+#include "../ZkCommon/Level.h"
+
 #include "MeshLayer.h"
 #include "MeshTriangle.h"
 #include "MeshTriangleNode.h"
 #include "MeshTriangleEdge.h"
 #include "EditState.h"
+
+#include <SFML/Graphics.hpp>
 
 #include <QtCore>
 #include <QtGui>
@@ -43,6 +47,80 @@ void MeshLayer::setActivated(bool activated)
 {
 	//TODO: Zaimplementować mechanizm włączania/wyłączania warstw
 	isActive = true;
+}
+
+void MeshLayer::clear()
+{
+	for (MeshTriangle * mt : triangles)
+		delete mt;
+	triangles.clear();
+	
+	//Węzłów i krawędzi nie trzeba usuwać, gdyż robią to za nas
+	//trójkąty w destruktorze
+	nodes.clear();
+	edges.clear();
+	
+	for (MeshTriangleNode* & n : nodesToConnect)
+		n = nullptr;
+	editState = EditState::IDLE;
+}
+
+bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
+{
+	clear();
+	
+	const std::vector<sf::Vertex> & vs = ll.getVertices();
+	for (const sf::Vertex & v : vs)
+		createNode(QPoint(v.position.x, v.position.y));
+	
+	const std::vector<Common::triangleDesc_t> & tds = ll.getTriangleDescriptions();
+	for (const Common::triangleDesc_t & td : tds)
+		formTriangle(
+			{
+				nodes[td.vert[0]],
+				nodes[td.vert[1]],
+				nodes[td.vert[2]]
+			}
+		);
+	
+	return true;
+}
+
+void MeshLayer::toCommonLevelLayer(Common::LevelLayer & ll) const
+{
+	std::vector<sf::Vertex> vs;
+	vs.reserve(nodes.size());
+	
+	ll.clear();
+	for (MeshTriangleNode * mtn : nodes)
+	{
+		QPointF pos = mtn->pos();
+		sf::Vector2f v(pos.x(), pos.y());
+		vs.push_back(sf::Vertex(v));
+	}
+	
+	ll.setVertices(vs);
+	
+	QHash<MeshTriangleNode*, qint16> nodeIndexes;
+	qint16 id = 0;
+	for (MeshTriangleNode * mtn : nodes)
+		nodeIndexes.insert(mtn, id++);
+	
+	std::vector<Common::triangleDesc_t> tds;
+	tds.reserve(triangles.size());
+	for (MeshTriangle * mt : triangles)
+	{
+		const std::array<MeshTriangleNode*, 3> & mtns = mt->getLinkedNodes();
+		tds.push_back(
+			{
+				nodeIndexes[mtns[0]],
+				nodeIndexes[mtns[1]],
+				nodeIndexes[mtns[2]]
+			}
+		);
+	}
+	
+	ll.setTriangleDescriptions(tds);
 }
 
 void MeshLayer::triangleNodeClicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event)
