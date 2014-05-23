@@ -17,6 +17,12 @@ LevelLayer::~LevelLayer()
 	
 }
 
+void LevelLayer::clear()
+{
+	verts.clear();
+	descs.clear();
+}
+
 void LevelLayer::constructMesh(sf::VertexArray & varr) const
 {
 	varr.clear();

@@ -23,6 +23,8 @@ public:
 	LevelLayer();
 	~LevelLayer();
 	
+	void clear();
+	
 	void constructMesh(sf::VertexArray & varr) const;
 	
 	void setVertices(const std::vector<sf::Vertex> & verts);
