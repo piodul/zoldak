@@ -4,13 +4,14 @@
 #include <QtCore>
 
 #include <vector>
+#include <array>
 
 namespace Zk {
 namespace Common {
 
 struct triangleDesc_t
 {
-	qint16 vert[3];
+	std::array<qint16, 3> vert;
 };
 
 QDataStream & operator<<(QDataStream & ds, const triangleDesc_t & td);
