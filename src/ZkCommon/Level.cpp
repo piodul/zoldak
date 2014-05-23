@@ -77,6 +77,11 @@ void Level::clear()
 	layers.clear();
 }
 
+void Level::setLayers(const std::vector<LevelLayer*> & layers)
+{
+	this->layers = layers;
+}
+
 const std::vector<LevelLayer*> & Level::getLayers() const
 {
 	return layers;

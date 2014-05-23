@@ -51,6 +51,7 @@ public:
 	
 	void clear();
 	
+	void setLayers(const std::vector<LevelLayer*> & layers);
 	const std::vector<LevelLayer*> & getLayers() const;
 	
 	friend QDataStream & operator<<(QDataStream & ds, const Level & l);
