@@ -39,6 +39,12 @@ MeshLayer::~MeshLayer()
 	
 }
 
+void MeshLayer::setActivated(bool activated)
+{
+	//TODO: Zaimplementować mechanizm włączania/wyłączania warstw
+	isActive = true;
+}
+
 void MeshLayer::triangleNodeClicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event)
 {
 	qDebug() << "MTN clicked";
