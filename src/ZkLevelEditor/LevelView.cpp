@@ -1,3 +1,5 @@
+#include "../ZkCommon/Level.h"
+
 #include "MainWindow.h"
 #include "LevelView.h"
 #include "MeshTriangleNode.h"
@@ -48,6 +50,25 @@ LevelView::LevelView(MainWindow * mw, QWidget * parent)
 LevelView::~LevelView()
 {
 	
+}
+
+bool LevelView::fromCommonLevel(const Common::Level & l)
+{
+	const std::vector<Common::LevelLayer*> & lls = l.getLayers();
+	
+	//Na razie ładujemy tylko jedną warstwę
+	return mainLayer->fromCommonLevelLayer(*lls[0]);
+}
+
+void LevelView::toCommonLevel(Common::Level & l) const
+{
+	l.clear();
+	
+	std::vector<Common::LevelLayer*> lls;
+	lls.push_back(new Common::LevelLayer());
+	mainLayer->toCommonLevelLayer(*lls[0]);
+	
+	l.setLayers(lls);
 }
 
 void LevelView::mousePressEvent(QMouseEvent * event)

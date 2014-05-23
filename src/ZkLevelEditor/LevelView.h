@@ -3,6 +3,8 @@
 #include <QtWidgets>
 #include <array>
 
+#include "../ZkCommon/Level.h"
+
 namespace Zk {
 namespace LevelEditor {
 
@@ -22,6 +24,12 @@ class LevelView : public QGraphicsView
 public:
 	LevelView(MainWindow * mw, QWidget * parent = nullptr);
 	virtual ~LevelView();
+	
+	// void saveLevel(const QString & path) const;
+	// void loadLevel(const QString & path);
+	
+	bool fromCommonLevel(const Common::Level & l);
+	void toCommonLevel(Common::Level & l) const;
 	
 protected:
 	virtual void mousePressEvent(QMouseEvent * event) override;
