@@ -40,7 +40,6 @@ signals:
 	
 public slots:
 	void updatePosition(MeshTriangleNode * mtn, const QPointF & pos);
-	void updateColors();
 
 protected:
 	virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
@@ -50,6 +49,7 @@ private:
 	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 3> verts;
 	std::array<MeshTriangleEdge*, 3> edges;
+	std::array<QColor, 3> vColors;
 };
 
 }}

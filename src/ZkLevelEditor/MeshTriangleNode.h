@@ -17,9 +17,6 @@ public:
 	MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent = nullptr);
 	virtual ~MeshTriangleNode();
 	
-	void setColor(const QColor & color);
-	QColor getColor() const;
-	
 	void addTriangleLink(MeshTriangle * mt);
 	int getTriangleLinkCount() const;
 	
@@ -35,7 +32,6 @@ public:
 signals:
 	void clicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event);
 	void moved(MeshTriangleNode * mtn, const QPointF & pos);
-	void colorChanged(MeshTriangleNode * mtn);
 	
 	//Wysyłany przy rozłączeniu ze wszystkimi trójkątami
 	void unlinked(MeshTriangleNode * mtn);
@@ -53,7 +49,6 @@ private:
 	void refreshLook();
 	
 	MeshLayer * parentLayer;
-	QColor color;
 	QList<MeshTriangle*> linkedTriangles;
 	QList<MeshTriangleEdge*> linkedEdges;
 	

@@ -22,15 +22,14 @@ MeshTriangle::MeshTriangle(
 	this->verts = verts;
 	this->edges = edges;
 	
+	vColors = { Qt::black, Qt::black, Qt::black };
+	
 	for (MeshTriangleNode * vert : verts)
 	{
 		vert->addTriangleLink(this);
 		
 		connect(vert, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
 			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
-		
-		connect(vert, SIGNAL(colorChanged(MeshTriangleNode*)),
-			this, SLOT(updateColors()));
 		
 		connect(this, SIGNAL(destroyed(MeshTriangle*)),
 			vert, SLOT(remTriangleLink(MeshTriangle*)));
@@ -81,12 +80,14 @@ void MeshTriangle::paint(
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_TRIANGLES);
+	int id = 0;
 	for (MeshTriangleNode * vert : verts)
 	{
-		QColor color = vert->getColor();
+		QColor color = vColors[id];
 		QPointF pos = vert->pos();
 		glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 		glVertex2f(pos.x(), pos.y());
+		id++;
 	}
 	glEnd();
 	
@@ -115,12 +116,6 @@ const std::array<MeshTriangleEdge*, 3> & MeshTriangle::getLinkedEdges() const
 }
 
 void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
-{
-	prepareGeometryChange();
-	update();
-}
-
-void MeshTriangle::updateColors()
 {
 	prepareGeometryChange();
 	update();
