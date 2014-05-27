@@ -52,11 +52,11 @@ void ColorBox::paintEvent(QPaintEvent * event)
 	
 	if (selected)
 	{
-		painter.setPen(QPen(Qt::black, 2.0));
-		painter.drawRect(rect().adjusted(1, 1, -1, -1));
+		painter.setPen(QPen(Qt::black, 1.0));
+		painter.drawRect(rect().adjusted(2, 2, -3, -3));
 		
-		painter.setPen(QPen(QBrush(Qt::white, Qt::Dense4Pattern), 2.0));
-		painter.drawRect(rect().adjusted(1, 1, -1, -1));
+		painter.setPen(QPen(Qt::white, 1.0));
+		painter.drawRect(rect().adjusted(1, 1, -2, -2));
 	}
 }
 
