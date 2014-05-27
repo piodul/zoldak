@@ -17,7 +17,7 @@ public:
 	MainWindow(QWidget * parent = nullptr);
 	virtual ~MainWindow();
 	
-public slots:
+private slots:
 	void setStatusText(QString text);
 	
 	void loadLevel();
