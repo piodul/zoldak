@@ -15,7 +15,11 @@
 
 using namespace Zk::LevelEditor;
 
-LevelView::LevelView(MainWindow * mw, QWidget * parent)
+LevelView::LevelView(
+	MainWindow * mw,
+	ColorPaletteWidget * palette,
+	QWidget * parent
+)
 	: QGraphicsView(parent)
 {
 	window = mw;
@@ -35,7 +39,7 @@ LevelView::LevelView(MainWindow * mw, QWidget * parent)
 	
 	setSceneRect(QRect(0, 0, 1, 1));
 	
-	mainLayer = new MeshLayer(scene(), this);
+	mainLayer = new MeshLayer(scene(), palette, this);
 	connect(mainLayer, SIGNAL(statusTextChanged(QString)),
 		window, SLOT(setStatusText(QString)));
 	
@@ -45,6 +49,8 @@ LevelView::LevelView(MainWindow * mw, QWidget * parent)
 	connect(bgItem, SIGNAL(clicked()),
 		mainLayer, SLOT(backgroundClicked()));
 	scene()->addItem(bgItem);
+	
+	isDragging = false;
 }
 
 LevelView::~LevelView()

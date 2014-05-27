@@ -15,6 +15,8 @@ class MeshTriangle;
 class MeshTriangleEdge;
 class MeshLayer;
 
+class ColorPaletteWidget;
+
 class BackgroundItem;
 
 class LevelView : public QGraphicsView
@@ -22,7 +24,11 @@ class LevelView : public QGraphicsView
 	Q_OBJECT;
 	
 public:
-	LevelView(MainWindow * mw, QWidget * parent = nullptr);
+	LevelView(
+		MainWindow * mw,
+		ColorPaletteWidget * palette,
+		QWidget * parent = nullptr
+	);
 	virtual ~LevelView();
 	
 	// void saveLevel(const QString & path) const;

@@ -21,7 +21,7 @@ private slots:
 	void setColor(QColor color);
 
 signals:
-	void choiceChanged();
+	void colorChanged(QColor color);
 	
 private:
 	QHash<QPair<int, int>, ColorBox*> boxes;

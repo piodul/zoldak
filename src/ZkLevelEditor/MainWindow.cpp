@@ -13,9 +13,8 @@ using namespace Zk::LevelEditor;
 MainWindow::MainWindow(QWidget * parent)
 	: QMainWindow(parent)
 {
-	levelView = new LevelView(this);
-	
 	paletteWidget = new ColorPaletteWidget(4, 4);
+	levelView = new LevelView(this, paletteWidget);
 	
 	QVBoxLayout * rightLayout = new QVBoxLayout();
 	rightLayout->addWidget(paletteWidget);

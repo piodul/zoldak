@@ -4,6 +4,7 @@
 #include "MeshTriangle.h"
 #include "MeshTriangleNode.h"
 #include "MeshTriangleEdge.h"
+#include "ColorPaletteWidget.h"
 #include "EditState.h"
 
 #include <SFML/Graphics.hpp>
@@ -16,8 +17,12 @@
 
 using namespace Zk::LevelEditor;
 
-MeshLayer::MeshLayer(QGraphicsScene * scene, QObject * parent)
-	: QObject(parent), scene(scene)
+MeshLayer::MeshLayer(
+	QGraphicsScene * scene,
+	ColorPaletteWidget * palette,
+	QObject * parent
+)
+	: QObject(parent), scene(scene), palette(palette)
 {
 	// MeshTriangleNode * na = createNode(QPoint(0, 0));
 	// MeshTriangleNode * nb = createNode(QPoint(0, 200));
@@ -123,6 +128,47 @@ void MeshLayer::toCommonLevelLayer(Common::LevelLayer & ll) const
 	ll.setTriangleDescriptions(tds);
 }
 
+EditState MeshLayer::getState() const
+{
+	return editState;
+}
+
+QColor MeshLayer::getSelectedColor() const
+{
+	return palette->getSelectedColor();
+}
+
+void MeshLayer::setState(EditState es)
+{
+	//Sprzątanie dla poprzedniego stanu
+	switch (editState)
+	{
+	case EditState::IDLE:
+	case EditState::TRIANGLE_PAINTING:
+		break;
+		
+	case EditState::MAKE_TRIANGLE_SELECTED_1:
+	case EditState::MAKE_TRIANGLE_SELECTED_2:
+		for (auto & n : nodesToConnect)
+			n = nullptr;
+		break;
+	}
+	
+	editState = es;
+	switch (es)
+	{
+	case EditState::IDLE:
+	case EditState::TRIANGLE_PAINTING:
+		break;
+		
+	case EditState::MAKE_TRIANGLE_SELECTED_1:
+	case EditState::MAKE_TRIANGLE_SELECTED_2:
+		qDebug() << "WARNING: Attempted to set an invalid state!";
+		editState = EditState::IDLE;
+		break;
+	}
+}
+
 void MeshLayer::triangleNodeClicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event)
 {
 	qDebug() << "MTN clicked";
@@ -149,10 +195,13 @@ void MeshLayer::triangleNodeClicked(MeshTriangleNode * mtn, const QGraphicsScene
 			nodesToConnect[0]->setMarked(false);
 			nodesToConnect[1]->setMarked(false);
 			
-			for (int i : { 0, 1, 2 })
-				nodesToConnect[i] = nullptr;
+			for (auto & n : nodesToConnect)
+				n = nullptr;
 			
 			editState = EditState::IDLE;
+			break;
+			
+		default:
 			break;
 		}
 	}
@@ -251,6 +300,7 @@ MeshTriangle * MeshLayer::createTriangle(
 )
 {
 	MeshTriangle * mt = new MeshTriangle(this, verts, edges);
+	mt->setColors({ getSelectedColor(), getSelectedColor(), getSelectedColor() });
 	
 	connect(mt, SIGNAL(destroyed(MeshTriangle*)),
 		this, SLOT(triangleDestroyed(MeshTriangle*)));

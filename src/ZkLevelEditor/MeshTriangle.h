@@ -34,6 +34,8 @@ public:
 	
 	const std::array<MeshTriangleNode*, 3> & getLinkedNodes() const;
 	const std::array<MeshTriangleEdge*, 3> & getLinkedEdges() const;
+	const std::array<QColor, 3> & getColors() const;
+	void setColors(const std::array<QColor, 3> & colors);
 	
 signals:
 	void destroyed(MeshTriangle * me);
@@ -44,12 +46,17 @@ public slots:
 protected:
 	virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent * event) override;
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
 
 private:
 	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 3> verts;
 	std::array<MeshTriangleEdge*, 3> edges;
 	std::array<QColor, 3> vColors;
+	
+	QColor swappedColor;
+	int swappedColorID;
 };
 
 }}

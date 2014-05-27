@@ -15,12 +15,18 @@ class MeshTriangle;
 class MeshTriangleNode;
 class MeshTriangleEdge;
 
+class ColorPaletteWidget;
+
 class MeshLayer : public QObject
 {
 	Q_OBJECT;
 	
 public:
-	MeshLayer(QGraphicsScene * scane, QObject * parent = nullptr);
+	MeshLayer(
+		QGraphicsScene * scene,
+		ColorPaletteWidget * palette,
+		QObject * parent = nullptr
+	);
 	virtual ~MeshLayer();
 	
 	//Ustawia czy daną warstwę można edytować
@@ -37,8 +43,14 @@ public:
 	bool fromCommonLevelLayer(const Common::LevelLayer & ll);
 	void toCommonLevelLayer(Common::LevelLayer & ll) const;
 	
+	EditState getState() const;
+	QColor getSelectedColor() const;
+	
 signals:
 	void statusTextChanged(QString txt);
+	
+public slots:
+	void setState(EditState es);
 	
 private slots:
 	void triangleNodeClicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event);
@@ -71,6 +83,7 @@ private:
 	QList<MeshTriangleEdge*> edges;
 	
 	QGraphicsScene * scene;
+	ColorPaletteWidget * palette;
 	bool isActive;
 	
 	EditState editState;

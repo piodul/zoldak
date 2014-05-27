@@ -19,7 +19,7 @@ ColorPaletteWidget::ColorPaletteWidget(int columns, int rows, QWidget * parent)
 			connect(cb, SIGNAL(colorSelected(QColor)),
 				this, SLOT(setColor(QColor)));
 			
-			connect(this, SIGNAL(choiceChanged()),
+			connect(this, SIGNAL(colorChanged(QColor)),
 				cb, SLOT(deselect()),
 				Qt::DirectConnection);
 			
@@ -46,5 +46,5 @@ QColor ColorPaletteWidget::getSelectedColor() const
 void ColorPaletteWidget::setColor(QColor color)
 {
 	this->color = color;
-	emit choiceChanged();
+	emit colorChanged(color);
 }

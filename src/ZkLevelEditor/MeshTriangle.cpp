@@ -8,6 +8,8 @@
 #include <QtOpenGL>
 #include <QDebug>
 
+#include <algorithm>
+
 using namespace Zk::LevelEditor;
 
 MeshTriangle::MeshTriangle(
@@ -23,6 +25,8 @@ MeshTriangle::MeshTriangle(
 	this->edges = edges;
 	
 	vColors = { Qt::black, Qt::black, Qt::black };
+	
+	swappedColorID = -1;
 	
 	for (MeshTriangleNode * vert : verts)
 	{
@@ -42,6 +46,8 @@ MeshTriangle::MeshTriangle(
 		connect(this, SIGNAL(destroyed(MeshTriangle*)),
 			edge, SLOT(remTriangleLink(MeshTriangle*)));
 	}
+	
+	setAcceptHoverEvents(true);
 	
 	updatePosition(nullptr, QPointF());
 	
@@ -83,7 +89,7 @@ void MeshTriangle::paint(
 	int id = 0;
 	for (MeshTriangleNode * vert : verts)
 	{
-		QColor color = vColors[id];
+		QColor color = (id != swappedColorID) ? vColors[id] : swappedColor;
 		QPointF pos = vert->pos();
 		glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 		glVertex2f(pos.x(), pos.y());
@@ -115,6 +121,17 @@ const std::array<MeshTriangleEdge*, 3> & MeshTriangle::getLinkedEdges() const
 	return edges;
 }
 
+const std::array<QColor, 3> & MeshTriangle::getColors() const
+{
+	return vColors;
+}
+
+void MeshTriangle::setColors(const std::array<QColor, 3> & colors)
+{
+	vColors = colors;
+	update();
+}
+
 void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
 	prepareGeometryChange();
@@ -130,8 +147,39 @@ void MeshTriangle::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	if (event->modifiers() & Qt::ControlModifier)
+	{
+		event->accept();
 		delete this; //Zastanowić się czy to dobry pomysł
+	}
 	else
+	{
+		//Czasami dziwnym trafem udaje się kliknąć przed hoverem
+		if (swappedColorID != -1)
+			vColors[swappedColorID]  = swappedColor;
 		QGraphicsObject::mousePressEvent(event);
+	}
 	qDebug() << "Clicked!";
+}
+
+void MeshTriangle::hoverMoveEvent(QGraphicsSceneHoverEvent * event)
+{
+	auto range = { 0, 1, 2 };
+	swappedColorID = *std::min_element(
+		range.begin(), range.end(),
+		[&](int a, int b) -> bool
+		{
+			return  QVector2D(verts[a]->pos() - event->pos()).lengthSquared() <
+					QVector2D(verts[b]->pos() - event->pos()).lengthSquared();
+		}
+	);
+	swappedColor = parentLayer->getSelectedColor();
+	update();
+	event->accept();
+}
+
+void MeshTriangle::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
+{
+	swappedColorID = -1;
+	update();
+	event->accept();
 }
