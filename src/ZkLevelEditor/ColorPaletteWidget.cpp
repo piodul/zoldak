@@ -14,28 +14,54 @@ ColorPaletteWidget::ColorPaletteWidget(int columns, int rows, QWidget * parent)
 	{
 		for (int x = 0; x < columns; x++)
 		{
-			ColorBox * cb = new ColorBox();
-			
-			connect(cb, SIGNAL(colorSelected(QColor)),
-				this, SLOT(setColor(QColor)));
-			
-			connect(this, SIGNAL(colorChanged(QColor)),
-				cb, SLOT(deselect()),
-				Qt::DirectConnection);
+			ColorBox * cb = createColorBox();
 			
 			layout->addWidget(cb, x, y);
-			boxes[QPair<int, int>(x, y)] = cb;
+			boxes << cb;
 		}
 	}
 	
 	setLayout(layout);
 	
-	boxes[QPair<int, int>(0, 0)]->select();
+	boxes[0]->select();
 }
 
 ColorPaletteWidget::~ColorPaletteWidget()
 {
 	
+}
+
+void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
+{
+	clear();
+	
+	QGridLayout * layout = new QGridLayout();
+	
+	for (int y = 0; y < (int)(colors.size() + 3) / 4; y++)
+	{
+		for (int x = 0; x < 3; x++)
+		{
+			int id = y * 4 + x;
+			ColorBox * cb = createColorBox();
+			
+			if (id < (int)colors.size())
+				cb->setColor(colors[id]);
+			
+			layout->addWidget(cb, x, y);
+			boxes << cb;
+		}
+	}
+	
+	delete this->layout();
+	setLayout(layout);
+}
+
+void ColorPaletteWidget::toColorList(std::vector<QColor> & colors) const
+{
+	colors.clear();
+	
+	for (const ColorBox * cb : boxes)
+		colors.push_back(cb->getColor());
 }
 
 QColor ColorPaletteWidget::getSelectedColor() const
@@ -47,4 +73,26 @@ void ColorPaletteWidget::setColor(QColor color)
 {
 	this->color = color;
 	emit colorChanged(color);
+}
+
+void ColorPaletteWidget::clear()
+{
+	QLayoutItem * item;
+	while ((item = layout()->takeAt(0)) != nullptr)
+		delete item;
+	boxes.clear();
+}
+
+ColorBox * ColorPaletteWidget::createColorBox()
+{
+	ColorBox * cb = new ColorBox();
+	
+	connect(cb, SIGNAL(colorSelected(QColor)),
+		this, SLOT(setColor(QColor)));
+	
+	connect(this, SIGNAL(colorChanged(QColor)),
+		cb, SLOT(deselect()),
+		Qt::DirectConnection);
+	
+	return cb;
 }

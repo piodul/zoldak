@@ -15,6 +15,9 @@ public:
 	ColorPaletteWidget(int columns, int rows, QWidget * parent = nullptr);
 	virtual ~ColorPaletteWidget();
 	
+	void fromColorList(const std::vector<QColor> & colors);
+	void toColorList(std::vector<QColor> & colors) const;
+	
 	QColor getSelectedColor() const;
 	
 private slots:
@@ -24,7 +27,11 @@ signals:
 	void colorChanged(QColor color);
 	
 private:
-	QHash<QPair<int, int>, ColorBox*> boxes;
+	void clear();
+	
+	ColorBox * createColorBox();
+	
+	QList<ColorBox*> boxes;
 	QColor color;
 	
 };

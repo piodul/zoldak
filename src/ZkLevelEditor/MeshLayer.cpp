@@ -80,13 +80,16 @@ bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
 	
 	const std::vector<Common::triangleDesc_t> & tds = ll.getTriangleDescriptions();
 	for (const Common::triangleDesc_t & td : tds)
-		formTriangle(
+	{
+		MeshTriangle * mt = formTriangle(
 			{
 				nodes[td.vert[0]],
 				nodes[td.vert[1]],
 				nodes[td.vert[2]]
 			}
 		);
+		mt->setColors(td.color);
+	}
 	
 	return true;
 }
@@ -118,9 +121,12 @@ void MeshLayer::toCommonLevelLayer(Common::LevelLayer & ll) const
 		const std::array<MeshTriangleNode*, 3> & mtns = mt->getLinkedNodes();
 		tds.push_back(
 			{
-				nodeIndexes[mtns[0]],
-				nodeIndexes[mtns[1]],
-				nodeIndexes[mtns[2]]
+				{
+					nodeIndexes[mtns[0]],
+					nodeIndexes[mtns[1]],
+					nodeIndexes[mtns[2]]
+				},
+				mt->getColors()
 			}
 		);
 	}

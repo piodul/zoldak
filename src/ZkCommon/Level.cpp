@@ -7,6 +7,9 @@
 
 using namespace Zk::Common;
 
+//TODO: Trzeba zamienić std::vectory na QVectory -
+//- będzie łatwiej wczytywać/zapisywać
+
 LevelLayer::LevelLayer()
 {
 	
@@ -36,24 +39,24 @@ void LevelLayer::constructMesh(sf::VertexArray & varr) const
 	}
 }
 
-void LevelLayer::setVertices(const std::vector<sf::Vertex> & verts)
-{
-	this->verts = verts;
-}
-
 const std::vector<sf::Vertex> & LevelLayer::getVertices() const
 {
 	return verts;
 }
 
-void LevelLayer::setTriangleDescriptions(const std::vector<triangleDesc_t> & descs)
-{
-	this->descs = descs;
-}
-
 const std::vector<triangleDesc_t> & LevelLayer::getTriangleDescriptions() const
 {
 	return descs;
+}
+
+void LevelLayer::setVertices(const std::vector<sf::Vertex> & verts)
+{
+	this->verts = verts;
+}
+
+void LevelLayer::setTriangleDescriptions(const std::vector<triangleDesc_t> & descs)
+{
+	this->descs = descs;
 }
 
 void LevelLayer::calculateTexCoords()
@@ -75,6 +78,7 @@ Level::~Level()
 void Level::clear()
 {
 	layers.clear();
+	palette.clear();
 }
 
 void Level::setLayers(const std::vector<LevelLayer*> & layers)
@@ -82,9 +86,19 @@ void Level::setLayers(const std::vector<LevelLayer*> & layers)
 	this->layers = layers;
 }
 
+void Level::setPalette(const std::vector<QColor> & colors)
+{
+	this->palette = colors;
+}
+
 const std::vector<LevelLayer*> & Level::getLayers() const
 {
 	return layers;
+}
+
+const std::vector<QColor> & Level::getPalette() const
+{
+	return palette;
 }
 
 QDataStream & Zk::Common::operator<<(QDataStream & ds, const triangleDesc_t & td)
@@ -92,6 +106,10 @@ QDataStream & Zk::Common::operator<<(QDataStream & ds, const triangleDesc_t & td
 	ds << td.vert[0];
 	ds << td.vert[1];
 	ds << td.vert[2];
+	
+	ds << td.color[0];
+	ds << td.color[1];
+	ds << td.color[2];
 	
 	return ds;
 }
@@ -101,6 +119,10 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, triangleDesc_t & td)
 	ds >> td.vert[0];
 	ds >> td.vert[1];
 	ds >> td.vert[2];
+	
+	ds >> td.color[0];
+	ds >> td.color[1];
+	ds >> td.color[2];
 	
 	return ds;
 }
@@ -149,6 +171,10 @@ QDataStream & Zk::Common::operator<<(QDataStream & ds, const Level & l)
 	for (const LevelLayer * ll : l.layers)
 		ds << *ll;
 	
+	ds << (qint16)l.palette.size();
+	for (const QColor & color : l.palette)
+		ds << color;
+	
 	return ds;
 }
 
@@ -162,6 +188,16 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, Level & l)
 		LevelLayer * ll = new LevelLayer();
 		ds >> *ll;
 		l.layers.push_back(ll);
+	}
+	
+	qint16 ncolors;
+	ds >> ncolors;
+	l.palette.reserve((int)ncolors);
+	for (int i = 0; i < ncolors; i++)
+	{
+		QColor color;
+		ds >> color;
+		l.palette.push_back(color);
 	}
 	
 	return ds;
