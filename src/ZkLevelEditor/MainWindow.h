@@ -2,6 +2,8 @@
 
 #include <QtWidgets>
 
+#include "ColorPaletteWidget.h"
+
 namespace Zk {
 namespace LevelEditor {
 
@@ -23,8 +25,8 @@ public slots:
 
 private:
 	LevelView * levelView;
+	ColorPaletteWidget * paletteWidget;
 	
-	QPushButton * exitButton;
 	QLabel * statusLabel;
 };
 

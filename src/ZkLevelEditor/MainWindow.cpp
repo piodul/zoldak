@@ -2,6 +2,7 @@
 
 #include "MainWindow.h"
 #include "LevelView.h"
+#include "ColorPaletteWidget.h"
 
 #include <QtCore>
 #include <QtGui>
@@ -14,11 +15,15 @@ MainWindow::MainWindow(QWidget * parent)
 {
 	levelView = new LevelView(this);
 	
-	exitButton = new QPushButton("&Exit");
+	paletteWidget = new ColorPaletteWidget(4, 4);
+	
+	QVBoxLayout * rightLayout = new QVBoxLayout();
+	rightLayout->addWidget(paletteWidget);
+	rightLayout->addStretch();
 	
 	QHBoxLayout * mainLayout = new QHBoxLayout();
 	mainLayout->addWidget(levelView);
-	mainLayout->addWidget(exitButton);
+	mainLayout->addLayout(rightLayout);
 	
 	QWidget * centralWidget = new QWidget();
 	centralWidget->setLayout(mainLayout);

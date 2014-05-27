@@ -1,5 +1,7 @@
 set(SOURCES
 	BackgroundItem.cpp
+	ColorBox.cpp
+	ColorPaletteWidget.cpp
 	main.cpp
 	MainWindow.cpp
 	LevelView.cpp
