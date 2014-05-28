@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Level.h"
+#include "LibraryCast.h"
 
 #include <QtCore>
 #include <QtGui>
@@ -33,9 +34,13 @@ void LevelLayer::constructMesh(sf::VertexArray & varr) const
 	
 	for (const triangleDesc_t & td : descs)
 	{
-		varr.append(verts[td.vert[0]]);
-		varr.append(verts[td.vert[1]]);
-		varr.append(verts[td.vert[2]]);
+		for (int i : { 0, 1, 2 })
+		{
+			sf::Vertex vert = verts[td.vert[i]];
+			QColor c = td.color[i];
+			vert.color = lib_cast<sf::Color>(c);
+			varr.append(vert);
+		}
 	}
 }
 
