@@ -1,6 +1,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
+#include <Box2D/Box2D.h>
 #include "../ManyMouse/manymouse.h"
 
 #include <QtWidgets>
@@ -11,8 +12,10 @@
 
 using namespace Zk::Game;
 
+GameSystem * GameSystem::instance = nullptr;
+
 GameSystem::GameSystem(int argc, char ** argv)
-	: app(argc, argv)
+	: app(argc, argv), physicsSystem()
 {
 	renderWindow.create(
 		sf::VideoMode(800, 600),
@@ -22,8 +25,7 @@ GameSystem::GameSystem(int argc, char ** argv)
 	
 	renderWindow.setVerticalSyncEnabled(true);
 	
-	texture.loadFromFile("../data/suspended_bg.png");
-	sprite.setTexture(texture, true);
+	instance = this;
 }
 
 GameSystem::~GameSystem()
@@ -42,6 +44,7 @@ int GameSystem::exec()
 	
 	while (renderWindow.isOpen())
 	{
+		//Wykonaj Qt-ową część programu
 		app.sendPostedEvents();
 		app.processEvents(
 			QEventLoop::AllEvents,
@@ -50,6 +53,7 @@ int GameSystem::exec()
 		
 		sf::Time frameStart = beat.getElapsedTime();
 		
+		//Eventy SFML-a
 		sf::Event event;
 		while (renderWindow.pollEvent(event))
 		{
@@ -57,13 +61,11 @@ int GameSystem::exec()
 				renderWindow.close();
 		}
 		
+		//Eventy ManyMouse'a
 		inputSystem.pollInput();
 		
+		//Update & render
 		renderWindow.clear(sf::Color::Black);
-		
-		sf::Vector3i mouseState = mdh.getAbsolutePosition();
-		sprite.setPosition(mouseState.x, mouseState.y);
-		renderWindow.draw(sprite);
 		
 		renderWindow.display();
 		
@@ -71,8 +73,15 @@ int GameSystem::exec()
 		static const sf::Int32 millisPerFrame = 1000 / 60;
 		timeForEvents = millisPerFrame - (frameEnd - frameStart).asMilliseconds();
 		
+		//Mój komputer wymaga tej funkcji, aby vsync działał poprawnie
+		//Przy okazji robi kimę
 		glFinish();
 	}
 	
 	return 0;
+}
+
+InputSystem & GameSystem::getInputSystem()
+{
+	return inputSystem;
 }

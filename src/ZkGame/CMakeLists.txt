@@ -1,5 +1,8 @@
 set(SOURCES
 	main.cpp
+	Entity.cpp
+	PlayerEntity.cpp
+	Physics.cpp
 	Game.cpp
 	GameSystem.cpp
 	InputSystem.cpp

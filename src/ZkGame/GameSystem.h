@@ -3,11 +3,17 @@
 #include <QtWidgets>
 
 #include <SFML/Graphics.hpp>
+#include <Box2D/Box2D.h>
+
+#include <list>
 
 #include "InputSystem.h"
+#include "Physics.h"
 
 namespace Zk {
 namespace Game {
+
+class Entity;
 
 class GameSystem
 {
@@ -17,14 +23,21 @@ public:
 	
 	int exec();
 	
+	InputSystem & getInputSystem();
+	
+	inline static GameSystem * getInstance()
+	{ return instance; }
+	
 private:
-	sf::RenderWindow renderWindow;
-	sf::Texture texture;
-	sf::Sprite sprite;
+	InputSystem inputSystem;
+	PhysicsSystem physicsSystem;
 	
 	QApplication app;
+	sf::RenderWindow renderWindow;
 	
-	InputSystem inputSystem;
+	std::list<Entity*> entities;
+	
+	static GameSystem * instance;
 };
 
 }}
