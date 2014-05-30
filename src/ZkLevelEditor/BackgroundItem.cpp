@@ -1,3 +1,5 @@
+#include "../ZkCommon/Constants.h"
+
 #include "BackgroundItem.h"
 #include "LevelView.h"
 
@@ -38,6 +40,7 @@ void BackgroundItem::paint(
 )
 {
 	painter->setBrush(QBrush(QColor(200, 200, 200)));
+	painter->setPen(QPen(QColor(), 0.0));
 	painter->drawRect(sceneRect);
 }
 

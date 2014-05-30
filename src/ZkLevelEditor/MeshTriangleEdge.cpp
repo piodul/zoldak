@@ -1,3 +1,5 @@
+#include "../ZkCommon/Constants.h"
+
 #include "MeshTriangleEdge.h"
 #include "MeshTriangleNode.h"
 #include "MeshLayer.h"
@@ -6,6 +8,7 @@
 #include <QtGui>
 #include <QDebug>
 
+using namespace Zk::Common;
 using namespace Zk::LevelEditor;
 
 MeshTriangleEdge::MeshTriangleEdge(
@@ -95,12 +98,12 @@ void MeshTriangleEdge::refreshLook()
 	if (canExtrude())
 	{
 		pen.setColor(QColor(0, 127, 255));
-		pen.setWidth(8);
+		pen.setWidthF(8.0 * Constants::METERS_PER_PIXEL);
 	}
 	else
 	{
 		pen.setColor(QColor(127, 127, 127));
-		pen.setWidth(2);
+		pen.setWidthF(2.0 * Constants::METERS_PER_PIXEL);
 	}
 	
 	setPen(pen);

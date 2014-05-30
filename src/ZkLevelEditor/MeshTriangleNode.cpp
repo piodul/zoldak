@@ -1,3 +1,5 @@
+#include "../ZkCommon/Constants.h"
+
 #include "MeshTriangleNode.h"
 #include "MeshLayer.h"
 
@@ -5,6 +7,7 @@
 #include <QtGui>
 #include <QDebug>
 
+using namespace Zk::Common;
 using namespace Zk::LevelEditor;
 
 MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
@@ -122,10 +125,15 @@ QVariant MeshTriangleNode::itemChange(
 void MeshTriangleNode::refreshLook()
 {
 	if (marked)
-		setPen(QPen(QBrush(Qt::blue), 3.0));
+		setPen(QPen(QBrush(Qt::blue), 3.0 * Constants::METERS_PER_PIXEL));
 	else
-		setPen(QPen(QBrush(Qt::white), 2.0));
+		setPen(QPen(QBrush(Qt::white), 2.0 * Constants::METERS_PER_PIXEL));
 	
 	setBrush(QBrush(QColor(0, 0, 0)));
-	setRect(QRect(-8, -8, 16, 16));
+	setRect(QRectF(
+		-8.0 * Constants::METERS_PER_PIXEL,
+		-8.0 * Constants::METERS_PER_PIXEL,
+		16.0 * Constants::METERS_PER_PIXEL,
+		16.0 * Constants::METERS_PER_PIXEL
+	));
 }

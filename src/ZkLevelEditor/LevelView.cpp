@@ -1,3 +1,4 @@
+#include "../ZkCommon/Constants.h"
 #include "../ZkCommon/Level.h"
 
 #include "MainWindow.h"
@@ -13,6 +14,7 @@
 #include <QGLWidget>
 #include <QDebug>
 
+using namespace Zk::Common;
 using namespace Zk::LevelEditor;
 
 LevelView::LevelView(
@@ -49,6 +51,8 @@ LevelView::LevelView(
 	connect(bgItem, SIGNAL(clicked()),
 		mainLayer, SLOT(backgroundClicked()));
 	scene()->addItem(bgItem);
+	
+	scale(Constants::PIXELS_PER_METER, Constants::PIXELS_PER_METER);
 	
 	isDragging = false;
 }
@@ -93,7 +97,8 @@ void LevelView::mouseMoveEvent(QMouseEvent * event)
 {
 	if (isDragging)
 	{
-		QPoint delta = event->pos() - oldMousePos;
+		QPointF delta =
+			QPointF(event->pos() - oldMousePos) * Constants::METERS_PER_PIXEL;
 		//translate(delta.x(), delta.y());
 		setSceneRect(sceneRect().translated(-delta));
 		bgItem->updateSceneView();
