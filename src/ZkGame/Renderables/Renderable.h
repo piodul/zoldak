@@ -8,7 +8,7 @@ namespace Game {
 class Renderable
 {
 public:
-	virtual ~Renderable() = 0;
+	virtual ~Renderable() {};
 	
 	virtual void paint(sf::RenderTarget * rt) = 0;
 };

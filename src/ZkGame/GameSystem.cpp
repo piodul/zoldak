@@ -7,15 +7,27 @@
 #include <QtWidgets>
 #include <QtGui>
 
+#include <list>
+#include <memory>
+
+#include "../ZkCommon/Level.h"
+
 #include "GameSystem.h"
 #include "InputSystem.h"
+#include "Entities/Entity.h"
+#include "Entities/CrateEntity.h"
+#include "Entities/LevelMeshEntity.h"
+#include "Entities/MouseTrackEntity.h"
+#include "Renderables/Renderable.h"
+#include "Camera.h"
 
 using namespace Zk::Game;
+using namespace Zk::Common;
 
 GameSystem * GameSystem::instance = nullptr;
 
 GameSystem::GameSystem(int argc, char ** argv)
-	: app(argc, argv), physicsSystem()
+	: physicsSystem(), app(argc, argv)
 {
 	renderWindow.create(
 		sf::VideoMode(800, 600),
@@ -26,6 +38,32 @@ GameSystem::GameSystem(int argc, char ** argv)
 	renderWindow.setVerticalSyncEnabled(true);
 	
 	instance = this;
+	
+	Level l;
+	QFile f("../bin/box.zvl");
+	if (!f.open(QIODevice::ReadOnly))
+		qDebug() << "Failed to open level";
+	else
+	{
+		QDataStream ds(&f);
+		ds >> l;
+	}
+	
+	entities.push_back(
+		std::make_shared<LevelMeshEntity>(
+			l.getLayers()[0]
+		)
+	);
+	
+	std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
+		inputSystem.getMouseDeviceHandle(0)
+	);
+	entities.push_back(ent);
+	
+	auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, 0.f));
+	entities.push_back(crate);
+	
+	camera = new SplitScreenCamera({ ent });
 }
 
 GameSystem::~GameSystem()
@@ -42,16 +80,22 @@ int GameSystem::exec()
 	
 	MouseDeviceHandle mdh = inputSystem.getMouseDeviceHandle(0);
 	
+	//renderWindow.setFramerateLimit(60);
+	
 	while (renderWindow.isOpen())
 	{
 		//Wykonaj Qt-ową część programu
+		sf::Time frameStart = beat.getElapsedTime();
+		
 		app.sendPostedEvents();
 		app.processEvents(
 			QEventLoop::AllEvents,
 			timeForEvents
 		);
 		
-		sf::Time frameStart = beat.getElapsedTime();
+		sf::Time qtLoopFinished = beat.getElapsedTime();
+		
+		//qDebug() << (qtLoopFinished - frameStart).asMilliseconds();
 		
 		//Eventy SFML-a
 		sf::Event event;
@@ -64,24 +108,60 @@ int GameSystem::exec()
 		//Eventy ManyMouse'a
 		inputSystem.pollInput();
 		
-		//Update & render
+		//Fizyka
+		physicsSystem.simulate(1.0 / 60.0);
+		
+		//Update
+		for (std::shared_ptr<Entity> ent : entities)
+			ent->update(1.0 / 60.0);
+		
+		//Render
 		renderWindow.clear(sf::Color::Black);
+		
+		camera->setupViews();
+		std::vector<sf::View> views = camera->getViews();
+		
+		for (sf::View view : views)
+		{
+			renderWindow.setView(view);
+			for (std::shared_ptr<Entity> ent : entities)
+			{
+				Renderable * r = ent->getRenderable();
+				if (r)
+					r->paint(&renderWindow);
+			}
+		}
 		
 		renderWindow.display();
 		
+		//Wprawdzie SFML posiada mechanizmy pozwalające na ograniczenie
+		//framerate, lecz robi to trochę nieudolnie i pojawiają się lagi.
+		//Nie wynikają one prawdopodobnie z niekompetencji programisty,
+		//lecz z dużej ziarnistości sleep-a.
+		//Użycie glFinish z drugiej strony daje perfekcyjną synchronizację,
+		//lecz powoduje loop-spinning i zżera u mnie 20% CPU.
+		//Moje rozwiązanie łączy obydwa podejścia: po zakończeniu pętli
+		//wątek zasypia i budzi się 1-2ms przed odpaleniem glFinish,
+		//które czeka na odświeżenie ekranu.
+		//Nie rozwiązuje to jednak fundamentalnego problemu - wszystko
+		//się popsuje gdy monitor będzie miał inną częstotliwość odświeżania
+		//niż 60Hz. To jest do poprawienia.
+		glFlush();
+		
 		sf::Time frameEnd = beat.getElapsedTime();
 		static const sf::Int32 millisPerFrame = 1000 / 60;
-		timeForEvents = millisPerFrame - (frameEnd - frameStart).asMilliseconds();
+		timeForEvents =
+			millisPerFrame - (qtLoopFinished - frameStart).asMilliseconds();
+		
+		//Śpimy, bo glFinish() robi aktywne czekanie
+		int timeToSleep = millisPerFrame - (frameEnd - frameStart).asMilliseconds();
+		timeToSleep = std::max(timeToSleep - 2, 0);
+		QThread::currentThread()->msleep(timeToSleep);
 		
 		//Mój komputer wymaga tej funkcji, aby vsync działał poprawnie
-		//Przy okazji robi kimę
+		//Zasraniec robi aktywne czekanie, though
 		glFinish();
 	}
 	
 	return 0;
-}
-
-InputSystem & GameSystem::getInputSystem()
-{
-	return inputSystem;
 }

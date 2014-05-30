@@ -41,6 +41,10 @@ public:
 	~PhysicsSystem();
 	
 	void registerListener(CollisionListener * pl);
+	inline b2World & getWorld()
+	{ return world; }
+	
+	void simulate(double step);
 	
 private:
 	b2World world;

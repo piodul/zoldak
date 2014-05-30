@@ -6,6 +6,7 @@
 #include <Box2D/Box2D.h>
 
 #include <list>
+#include <memory>
 
 #include "InputSystem.h"
 #include "Physics.h"
@@ -14,6 +15,7 @@ namespace Zk {
 namespace Game {
 
 class Entity;
+class Camera;
 
 class GameSystem
 {
@@ -23,7 +25,10 @@ public:
 	
 	int exec();
 	
-	InputSystem & getInputSystem();
+	inline InputSystem & getInputSystem()
+	{ return inputSystem; }
+	inline PhysicsSystem & getPhysicsSystem()
+	{ return physicsSystem; }
 	
 	inline static GameSystem * getInstance()
 	{ return instance; }
@@ -35,7 +40,9 @@ private:
 	QApplication app;
 	sf::RenderWindow renderWindow;
 	
-	std::list<Entity*> entities;
+	std::list<std::shared_ptr<Entity>> entities;
+	
+	Camera * camera;
 	
 	static GameSystem * instance;
 };

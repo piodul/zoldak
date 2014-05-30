@@ -1,3 +1,4 @@
+#include "../ZkCommon/Constants.h"
 #include "../ZkCommon/Level.h"
 
 #include "MeshLayer.h"
@@ -15,6 +16,7 @@
 
 #include <algorithm>
 
+using namespace Zk::Common;
 using namespace Zk::LevelEditor;
 
 MeshLayer::MeshLayer(
@@ -390,7 +392,7 @@ MeshTriangle * MeshLayer::formTriangle(std::array<MeshTriangleNode*, 3> verts)
 
 MeshTriangle * MeshLayer::createFullTriangle(const QPointF & pos)
 {
-	QPointF offPos(0.0, 128.0);
+	QPointF offPos(0.0, 128.0 * Constants::METERS_PER_PIXEL);
 	QTransform transform = QTransform().rotate(120.0);
 	
 	MeshTriangleNode * na = createNode(pos + offPos);

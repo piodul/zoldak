@@ -26,7 +26,7 @@ bool BodyCollisionListener::interestedInEndContactEvent(b2Contact * contact)
 }
 
 PhysicsSystem::PhysicsSystem()
-	: world(b2Vec2(0.0, 0.0))
+	: world(b2Vec2(0.0, 9.8))
 {
 	
 }
@@ -34,4 +34,9 @@ PhysicsSystem::PhysicsSystem()
 PhysicsSystem::~PhysicsSystem()
 {
 	
+}
+
+void PhysicsSystem::simulate(double step)
+{
+	world.Step(step, 8, 3);
 }
