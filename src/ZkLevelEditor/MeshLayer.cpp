@@ -78,7 +78,7 @@ bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
 	
 	const std::vector<sf::Vertex> & vs = ll.getVertices();
 	for (const sf::Vertex & v : vs)
-		createNode(QPoint(v.position.x, v.position.y));
+		createNode(QPointF(v.position.x, v.position.y));
 	
 	const std::vector<Common::triangleDesc_t> & tds = ll.getTriangleDescriptions();
 	for (const Common::triangleDesc_t & td : tds)
