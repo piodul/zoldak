@@ -5,7 +5,6 @@
 #include "../../ZkCommon/LibraryCast.h"
 
 #include "CrateEntity.h"
-#include "../Renderables/Renderable.h"
 #include "../Renderables/BoxRenderable.h"
 #include "../GameSystem.h"
 
@@ -35,7 +34,7 @@ CrateEntity::CrateEntity(sf::Vector2f pos)
 	setBody(body);
 	
 	BoxRenderable * br = new BoxRenderable(
-		body, "../data/suspended_bg.png"
+		body, "../data/medkit.png"
 	);
 	setRenderable(br);
 }

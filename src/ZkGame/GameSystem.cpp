@@ -16,6 +16,7 @@
 #include "InputSystem.h"
 #include "Entities/Entity.h"
 #include "Entities/CrateEntity.h"
+#include "Entities/PlayerEntity.h"
 #include "Entities/LevelMeshEntity.h"
 #include "Entities/MouseTrackEntity.h"
 #include "Renderables/Renderable.h"
@@ -40,7 +41,7 @@ GameSystem::GameSystem(int argc, char ** argv)
 	instance = this;
 	
 	Level l;
-	QFile f("../bin/box.zvl");
+	QFile f("../bin/box2.zvl");
 	if (!f.open(QIODevice::ReadOnly))
 		qDebug() << "Failed to open level";
 	else
@@ -60,10 +61,18 @@ GameSystem::GameSystem(int argc, char ** argv)
 	);
 	entities.push_back(ent);
 	
-	auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, 0.f));
+	auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -2.f));
 	entities.push_back(crate);
 	
-	camera = new SplitScreenCamera({ ent });
+	auto crate2 = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -1.f));
+	entities.push_back(crate2);
+	auto crate3 = std::make_shared<CrateEntity>(sf::Vector2f(1.f, -1.f));
+	entities.push_back(crate3);
+	auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.f, -1.f));
+	player->registerMe();
+	entities.push_back(player);
+	
+	camera = new SplitScreenCamera({ player });
 }
 
 GameSystem::~GameSystem()
@@ -155,7 +164,7 @@ int GameSystem::exec()
 		
 		//Śpimy, bo glFinish() robi aktywne czekanie
 		int timeToSleep = millisPerFrame - (frameEnd - frameStart).asMilliseconds();
-		timeToSleep = std::max(timeToSleep - 2, 0);
+		timeToSleep = std::max(timeToSleep - 3, 0);
 		QThread::currentThread()->msleep(timeToSleep);
 		
 		//Mój komputer wymaga tej funkcji, aby vsync działał poprawnie

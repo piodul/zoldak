@@ -2,6 +2,8 @@
 
 #include <Box2D/Box2D.h>
 
+#include <memory>
+
 namespace Zk {
 namespace Game {
 
@@ -26,11 +28,31 @@ public:
 	virtual bool interestedInBeginContactEvent(b2Contact * contact) override final;
 	virtual bool interestedInEndContactEvent(b2Contact * contact) override final;
 	
+	inline void setFilteringBody(b2Body * fb)
+	{ filteringBody = fb; }
 	inline b2Body * getFilteringBody() const
 	{ return filteringBody; }
 	
 private:
 	b2Body * filteringBody;
+};
+
+//Do wewnętrznego użytku
+class ContactListener : public b2ContactListener
+{
+public:
+	ContactListener();
+	
+	virtual void BeginContact(b2Contact * contact) override;
+	virtual void EndContact(b2Contact * contact) override;
+	virtual void PreSolve(b2Contact * contact, const b2Manifold * oldManifold) override;
+	virtual void PostSolve(b2Contact * contact, const b2ContactImpulse * impulse) override;
+	
+	void registerListener(std::weak_ptr<CollisionListener> cl);
+	void discardOldListeners();
+	
+private:
+	std::vector<std::weak_ptr<CollisionListener>> collisionListeners;
 };
 
 //Wrapper na Box2D i jego system eventów
@@ -40,7 +62,7 @@ public:
 	PhysicsSystem();
 	~PhysicsSystem();
 	
-	void registerListener(CollisionListener * pl);
+	void registerListener(std::weak_ptr<CollisionListener> cl);
 	inline b2World & getWorld()
 	{ return world; }
 	
@@ -48,7 +70,7 @@ public:
 	
 private:
 	b2World world;
-	std::vector<CollisionListener*> collisionListeners;
+	ContactListener cl;
 };
 
 }}

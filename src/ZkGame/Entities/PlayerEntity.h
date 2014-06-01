@@ -3,23 +3,46 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include <memory>
+#include <vector>
+
 #include "Entity.h"
+#include "../Physics.h"
 
 namespace Zk {
 namespace Game {
 
 class Renderable;
 
-class PlayerEntity : public Entity
+class PlayerEntity :
+	public Entity,
+	public BodyCollisionListener,
+	public std::enable_shared_from_this<PlayerEntity>
 {
+	//Może przenieść do CollisionListener?
+	struct ContactInfo
+	{
+		b2Contact * original;
+		b2Vec2 normal;
+		
+		ContactInfo(b2Body * myBody, b2Contact * original);
+		
+		inline bool operator==(const ContactInfo & other) const
+		{ return original == other.original; }
+	};
 public:
-	PlayerEntity();
+	PlayerEntity(sf::Vector2f pos);
 	virtual ~PlayerEntity();
 	
+	void registerMe();
+	
+	virtual void onBeginContactEvent(b2Contact * contact) override;
+	virtual void onEndContactEvent(b2Contact * contact) override;
+	
 	virtual void update(double step);
-	
+
 private:
-	
+	std::vector<ContactInfo> contacts;
 };
 
 }}
