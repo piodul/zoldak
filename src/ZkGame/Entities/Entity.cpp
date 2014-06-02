@@ -13,6 +13,7 @@ Entity::Entity(Renderable * vr, b2Body * pr)
 {
 	visualRep = vr;
 	body = pr;
+	wannaDelete = false;
 }
 
 Entity::~Entity()
