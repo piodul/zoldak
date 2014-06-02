@@ -64,11 +64,11 @@ GameSystem::GameSystem(int argc, char ** argv)
 	auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -2.f));
 	entities.push_back(crate);
 	
-	auto crate2 = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -1.f));
+	auto crate2 = std::make_shared<CrateEntity>(sf::Vector2f(0.5f, -1.f));
 	entities.push_back(crate2);
-	auto crate3 = std::make_shared<CrateEntity>(sf::Vector2f(1.f, -1.f));
+	auto crate3 = std::make_shared<CrateEntity>(sf::Vector2f(1.5f, -1.f));
 	entities.push_back(crate3);
-	auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.f, -1.f));
+	auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
 	player->registerMe();
 	entities.push_back(player);
 	
@@ -142,6 +142,16 @@ int GameSystem::exec()
 		}
 		
 		renderWindow.display();
+		glFlush();
+		
+		//Wszystko się narysowało, więc możemy teraz pousuwać
+		//nieaktywne obiekty
+		entities.remove_if(
+			[](const std::shared_ptr<Entity> & ent) -> bool
+			{
+				return ent->wantsToBeDeleted();
+			}
+		);
 		
 		//Wprawdzie SFML posiada mechanizmy pozwalające na ograniczenie
 		//framerate, lecz robi to trochę nieudolnie i pojawiają się lagi.
@@ -155,7 +165,6 @@ int GameSystem::exec()
 		//Nie rozwiązuje to jednak fundamentalnego problemu - wszystko
 		//się popsuje gdy monitor będzie miał inną częstotliwość odświeżania
 		//niż 60Hz. To jest do poprawienia.
-		glFlush();
 		
 		sf::Time frameEnd = beat.getElapsedTime();
 		static const sf::Int32 millisPerFrame = 1000 / 60;
