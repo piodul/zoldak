@@ -169,3 +169,8 @@ EntityType PlayerEntity::getType() const
 {
 	return EntityType::PlayerEntity;
 }
+
+void PlayerEntity::takeDamage(double damage)
+{
+	
+}

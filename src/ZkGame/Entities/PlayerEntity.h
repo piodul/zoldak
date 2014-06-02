@@ -44,9 +44,16 @@ public:
 	
 	virtual void update(double step);
 	virtual EntityType getType() const override;
+	
+	inline double getHealth() const
+	{ return health; }
+	void takeDamage(double damage); //Lol @ nazwa parametru
 
 private:
 	std::vector<ContactInfo> contacts;
+	
+	double health;
+	
 	double jumpCooldown;
 };
 
