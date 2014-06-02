@@ -19,6 +19,7 @@ CrateEntity::CrateEntity(sf::Vector2f pos)
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = lib_cast<b2Vec2>(pos);
+	bodyDef.userData = (void*)this;
 	b2Body * body = world.CreateBody(&bodyDef);
 	
 	float radius = 0.5f;

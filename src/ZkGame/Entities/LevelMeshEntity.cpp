@@ -30,6 +30,7 @@ LevelMeshEntity::LevelMeshEntity(const LevelLayer * ll)
 	setRenderable(new MeshRenderable(varr));
 	
 	b2Body * body = createLevelLayerCollisionMesh(ll);
+	body->SetUserData((void*)this);
 	setBody(body);
 }
 
