@@ -14,10 +14,15 @@ class PhysicsEvent;
 class CollisionListener
 {
 public:
+	//Czy to jest potrzebne?
 	virtual bool interestedInBeginContactEvent(b2Contact * contact) = 0;
 	virtual bool interestedInEndContactEvent(b2Contact * contact) = 0;
+	virtual bool interestedInPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold) = 0;
+	virtual bool interestedInPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse) = 0;
 	virtual void onBeginContactEvent(b2Contact * contact) = 0;
 	virtual void onEndContactEvent(b2Contact * contact) = 0;
+	virtual void onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold) = 0;
+	virtual void onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse) = 0;
 };
 
 class BodyCollisionListener : public CollisionListener
@@ -27,6 +32,8 @@ public:
 	
 	virtual bool interestedInBeginContactEvent(b2Contact * contact) override final;
 	virtual bool interestedInEndContactEvent(b2Contact * contact) override final;
+	virtual bool interestedInPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold) override final;
+	virtual bool interestedInPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse) override final;
 	
 	inline void setFilteringBody(b2Body * fb)
 	{ filteringBody = fb; }

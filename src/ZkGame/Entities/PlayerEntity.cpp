@@ -93,6 +93,16 @@ void PlayerEntity::onEndContactEvent(b2Contact * contact)
 	qDebug() << "Player is being touched by" << contacts.size() << "touchers";
 }
 
+void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
+{
+	
+}
+
+void PlayerEntity::onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse)
+{
+	
+}
+
 void PlayerEntity::update(double step)
 {
 	jumpCooldown = std::max(0.0, jumpCooldown - step);

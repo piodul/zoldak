@@ -27,6 +27,16 @@ bool BodyCollisionListener::interestedInEndContactEvent(b2Contact * contact)
 	return contactContainsBody(contact, filteringBody);
 }
 
+bool BodyCollisionListener::interestedInPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
+{
+	return contactContainsBody(contact, filteringBody);
+}
+
+bool BodyCollisionListener::interestedInPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse)
+{
+	return contactContainsBody(contact, filteringBody);
+}
+
 ContactListener::ContactListener()
 {
 	
@@ -53,12 +63,22 @@ void ContactListener::EndContact(b2Contact * contact)
 
 void ContactListener::PreSolve(b2Contact * contact, const b2Manifold * oldManifold)
 {
-	
+	for (auto wcl : collisionListeners)
+	{
+		auto cl = wcl.lock();
+		if (cl->interestedInPreSolveEvent(contact, oldManifold))
+			cl->onPreSolveEvent(contact, oldManifold);
+	}
 }
 
 void ContactListener::PostSolve(b2Contact * contact, const b2ContactImpulse * impulse)
 {
-	
+	for (auto wcl : collisionListeners)
+	{
+		auto cl = wcl.lock();
+		if (cl->interestedInPostSolveEvent(contact, impulse))
+			cl->onPostSolveEvent(contact, impulse);
+	}
 }
 
 void ContactListener::registerListener(std::weak_ptr<CollisionListener> cl)
