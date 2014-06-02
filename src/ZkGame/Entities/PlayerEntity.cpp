@@ -14,6 +14,7 @@
 #include "../../ZkCommon/LibraryCast.h"
 
 #include "PlayerEntity.h"
+#include "CrateEntity.h"
 #include "../Renderables/BoxRenderable.h"
 #include "../GameSystem.h"
 
@@ -106,7 +107,15 @@ void PlayerEntity::onEndContactEvent(b2Contact * contact)
 
 void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
 {
-	
+	ContactInfo ci(getBody(), contact);
+	Entity * ent = (Entity*)ci.toucher->GetUserData();
+	if (ent->getType() == EntityType::CrateEntity)
+	{
+		CrateEntity * ceEnt = (CrateEntity*)ent;
+		ceEnt->pickUp();
+		contact->SetEnabled(false);
+		qDebug() << "pickup";
+	}
 }
 
 void PlayerEntity::onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse)
@@ -130,7 +139,9 @@ void PlayerEntity::update(double step)
 		b2Vec2 normal(0.f, 0.f);
 		for (const ContactInfo & ci : contacts)
 		{
-			if (ci.normal.y > 0.05f)
+			Entity * ent = (Entity*)ci.toucher->GetUserData();
+			
+			if (ent->getType() == EntityType::LevelMeshEntity && ci.normal.y > 0.05f)
 				normal += ci.normal;
 			else
 				qDebug() << lib_cast<QPointF>(ci.normal) << "is bad";

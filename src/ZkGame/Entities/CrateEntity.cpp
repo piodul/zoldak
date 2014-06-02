@@ -54,3 +54,8 @@ EntityType CrateEntity::getType() const
 {
 	return EntityType::CrateEntity;
 }
+
+void CrateEntity::pickUp()
+{
+	markForDeletion();
+}
