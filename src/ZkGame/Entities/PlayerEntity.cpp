@@ -63,6 +63,8 @@ PlayerEntity::PlayerEntity(sf::Vector2f pos) :
 		body, "../data/grenade-pack.png"
 	);
 	setRenderable(br);
+	
+	jumpCooldown = 0.0;
 }
 
 PlayerEntity::~PlayerEntity()
@@ -93,13 +95,15 @@ void PlayerEntity::onEndContactEvent(b2Contact * contact)
 
 void PlayerEntity::update(double step)
 {
+	jumpCooldown = std::max(0.0, jumpCooldown - step);
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		getBody()->ApplyForceToCenter(b2Vec2(-10.f, 0.f), true);
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		getBody()->ApplyForceToCenter(b2Vec2(10.f, 0.f), true);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && jumpCooldown == 0.f)
 	{
 		//Sprawdźmy, czy stoimy na twardym gruncie
 		b2Vec2 normal(0.f, 0.f);
@@ -115,14 +119,16 @@ void PlayerEntity::update(double step)
 		
 		if (normal.LengthSquared() > 0.f)
 		{
-			float scale = -3.5f / normal.Length();
+			float scale = -7.5f / normal.Length();
 			normal.x *= scale;
 			normal.y *= scale;
 			
-			//qDebug() << "Jump!";
+			qDebug() << "Jump!";
 			getBody()->ApplyLinearImpulse(
 				normal, b2Vec2(0.f, 0.f), true
 			);
+			
+			jumpCooldown = 0.25;
 		}
 	}
 }
