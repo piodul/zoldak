@@ -28,9 +28,15 @@ PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 	original->GetWorldManifold(&worldManifold);
 	
 	if (original->GetFixtureA()->GetBody() == myBody)
+	{
 		normal = worldManifold.normal;
+		toucher = original->GetFixtureB()->GetBody();
+	}
 	else
+	{
 		normal = -worldManifold.normal;
+		toucher = original->GetFixtureA()->GetBody();
+	}
 }
 
 PlayerEntity::PlayerEntity(sf::Vector2f pos) :
@@ -82,7 +88,11 @@ void PlayerEntity::registerMe()
 
 void PlayerEntity::onBeginContactEvent(b2Contact * contact)
 {
-	contacts.push_back(ContactInfo(getBody(), contact));
+	ContactInfo ci(getBody(), contact);
+	contacts.push_back(ci);
+	Entity * entToucher = (Entity*)ci.toucher->GetUserData();
+	qDebug() << "Toucher" << entToucher;
+	qDebug() << "Toucher type:" << (int)entToucher->getType();
 	qDebug() << "Player is being touched by" << contacts.size() << "touchers";
 }
 
