@@ -143,3 +143,8 @@ void PlayerEntity::update(double step)
 		}
 	}
 }
+
+EntityType PlayerEntity::getType() const
+{
+	return EntityType::PlayerEntity;
+}

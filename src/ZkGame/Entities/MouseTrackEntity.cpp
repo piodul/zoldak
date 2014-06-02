@@ -29,6 +29,11 @@ void MouseTrackEntity::update(double step)
 	currPos = (1.f - CONVERGE_TEMPO) * currPos + CONVERGE_TEMPO * target;
 }
 
+EntityType MouseTrackEntity::getType() const
+{
+	return EntityType::MouseTrackEntity;
+}
+
 sf::Vector2f MouseTrackEntity::getCenterPosition() const
 {
 	return currPos;

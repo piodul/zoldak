@@ -16,6 +16,7 @@ public:
 	virtual ~CrateEntity();
 	
 	virtual void update(double step);
+	virtual EntityType getType() const override;
 };
 
 }}

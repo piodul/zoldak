@@ -44,6 +44,11 @@ void LevelMeshEntity::update(double step)
 	
 }
 
+EntityType LevelMeshEntity::getType() const
+{
+	return EntityType::LevelMeshEntity;
+}
+
 static b2Body * createLevelLayerCollisionMesh(const LevelLayer * ll)
 {
 	//Ta funkcja zakłada, że wszystkie wierzchołki zewnętrzne mają stopień 2

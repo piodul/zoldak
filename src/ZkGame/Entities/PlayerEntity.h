@@ -42,6 +42,7 @@ public:
 	virtual void onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse) override;
 	
 	virtual void update(double step);
+	virtual EntityType getType() const override;
 
 private:
 	std::vector<ContactInfo> contacts;

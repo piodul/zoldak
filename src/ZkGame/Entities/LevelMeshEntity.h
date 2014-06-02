@@ -18,6 +18,7 @@ public:
 	virtual ~LevelMeshEntity();
 	
 	virtual void update(double step);
+	virtual EntityType getType() const override;
 	
 private:
 	const Common::LevelLayer * ll;

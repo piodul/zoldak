@@ -18,6 +18,8 @@ public:
 	virtual ~MouseTrackEntity();
 	
 	virtual void update(double step) override;
+	virtual EntityType getType() const override;
+	
 	virtual sf::Vector2f getCenterPosition() const override;
 	
 private:

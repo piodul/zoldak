@@ -49,3 +49,8 @@ void CrateEntity::update(double step)
 {
 	
 }
+
+EntityType CrateEntity::getType() const
+{
+	return EntityType::CrateEntity;
+}
