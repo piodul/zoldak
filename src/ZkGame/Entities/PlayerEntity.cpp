@@ -76,7 +76,7 @@ PlayerEntity::PlayerEntity(sf::Vector2f pos) :
 	
 	jumpCooldown = 0.0;
 	
-	health = 100.0;
+	health = 0.0;
 	grenadeCount = 3;
 }
 
@@ -120,6 +120,8 @@ void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 		ceEnt->pickUp();
 		contact->SetEnabled(false);
 		qDebug() << "pickup";
+		
+		health += 30.0;
 	}
 }
 

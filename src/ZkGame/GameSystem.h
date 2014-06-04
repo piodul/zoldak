@@ -17,6 +17,7 @@ namespace Zk {
 namespace Game {
 
 class Entity;
+class PlayerEntity;
 class Camera;
 
 class GameSystem
@@ -42,6 +43,8 @@ private:
 	PhysicsSystem physicsSystem;
 	TextureCache textureCache;
 	
+	//std::vector<std::weak<PlayerEntity>> players;
+	std::weak_ptr<PlayerEntity> player;
 	PlayerUI playerUI;
 	
 	QApplication app;

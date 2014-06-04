@@ -2,7 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+
 #include "Entities/PlayerEntity.h"
+#include "TextureCache.h"
 
 namespace Zk {
 namespace Game {
@@ -10,13 +13,19 @@ namespace Game {
 class PlayerUI
 {
 public:
-	PlayerUI();
+	PlayerUI(TextureCache & tc);
 	~PlayerUI();
 	
-	void paint(sf::RenderTarget * rt, sf::FloatRect area);
+	void paint(
+		sf::RenderTarget * rt,
+		std::weak_ptr<PlayerEntity> pe,
+		sf::FloatRect area
+	);
 	
 private:
 	sf::Font font;
+	sf::Texture * healthTexture;
+	sf::Texture * grenadeTexture;
 };
 
 }}

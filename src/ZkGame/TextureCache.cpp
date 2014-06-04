@@ -1,6 +1,8 @@
 #include <QString>
 #include <SFML/Graphics.hpp>
 
+#include <QDebug>
+
 #include <map>
 
 #include "TextureCache.h"
@@ -9,7 +11,7 @@ using namespace Zk::Game;
 
 TextureCache::TextureCache()
 {
-	
+	qDebug() << "TextureCache initialized";
 }
 
 TextureCache::~TextureCache()

@@ -29,7 +29,7 @@ using namespace Zk::Common;
 GameSystem * GameSystem::instance = nullptr;
 
 GameSystem::GameSystem(int argc, char ** argv)
-	: physicsSystem(), app(argc, argv)
+	: physicsSystem(), playerUI(textureCache), app(argc, argv)
 {
 	renderWindow.create(
 		sf::VideoMode(800, 600),
@@ -87,6 +87,8 @@ GameSystem::GameSystem(int argc, char ** argv)
 	auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
 	player->registerMe();
 	entities.push_back(player);
+	
+	this->player = player;
 	
 	camera = new SplitScreenCamera({ player });
 }
@@ -158,11 +160,19 @@ int GameSystem::exec()
 		}
 		
 		//Teraz rysujemy UI w specjalnym viewporcie
+		//for (sf::View view : views)
 		{
-			sf::View view;
+			sf::View view = views[0];
 			view.reset(sf::FloatRect(0.f, 0.f, 800.f, 600.f));
 			renderWindow.setView(view);
-			playerUI.paint(&renderWindow, sf::FloatRect());
+			
+			sf::FloatRect fr = view.getViewport();
+			fr.left *= 800.f;
+			fr.top *= 600.f;
+			fr.width *= 800.f;
+			fr.height *= 600.f;
+			
+			playerUI.paint(&renderWindow, player, fr);
 		}
 		
 		renderWindow.display();
