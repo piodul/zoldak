@@ -125,7 +125,7 @@ int GameSystem::exec()
 			ent->update(1.0 / 60.0);
 		
 		//Render
-		renderWindow.clear(sf::Color::Black);
+		renderWindow.clear(sf::Color::White);
 		
 		camera->setupViews();
 		std::vector<sf::View> views = camera->getViews();
