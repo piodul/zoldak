@@ -37,6 +37,21 @@ GameSystem::GameSystem(int argc, char ** argv)
 		sf::Style::Titlebar | sf::Style::Close
 	);
 	
+	//Ustaw ikonę okna
+	{
+		sf::Image wndIcon;
+		if (wndIcon.loadFromFile("../data/grenade.png"))
+		{	
+			sf::Vector2u iconSize = wndIcon.getSize();
+			
+			renderWindow.setIcon(
+				iconSize.x,
+				iconSize.y,
+				wndIcon.getPixelsPtr()
+			);
+		}
+	}
+	
 	renderWindow.setVerticalSyncEnabled(true);
 	
 	instance = this;
