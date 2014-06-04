@@ -3,3 +3,6 @@
 bin/
 build/
 extlib/
+
+*.blend1
+*.blend2
