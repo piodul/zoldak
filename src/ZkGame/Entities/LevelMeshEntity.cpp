@@ -77,7 +77,6 @@ static b2Body * createLevelLayerCollisionMesh(const LevelLayer * ll)
 	//Wywalamy wszystkie krawędzie poza zewnętrznymi
 	
 	//Ermagerd, remove_if nie działa dla map...
-	//Ale za to iteratory są nadal ważne po usunięciu elementu!
 	for (auto it = edges.begin(); it != edges.end();)
 	{
 		if (it->second != 1)
