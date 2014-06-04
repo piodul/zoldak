@@ -5,6 +5,7 @@ set(SOURCES
 	Game.cpp
 	GameSystem.cpp
 	InputSystem.cpp
+	TextureCache.cpp
 	Entities/Entity.cpp
 	Entities/CrateEntity.cpp
 	Entities/PlayerEntity.cpp

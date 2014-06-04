@@ -4,6 +4,9 @@
 #include "../../ZkCommon/Constants.h"
 #include "../../ZkCommon/LibraryCast.h"
 
+#include "../GameSystem.h"
+#include "../TextureCache.h"
+
 #include "BoxRenderable.h"
 #include "Renderable.h"
 
@@ -17,9 +20,8 @@ BoxRenderable::BoxRenderable(
 {
 	this->body = body;
 	
-	texture.loadFromFile(imgSrc);
-	texture.setSmooth(true);
-	sprite.setTexture(texture);
+	texture = GameSystem::getInstance()->getTextureCache().getTexture(imgSrc);
+	sprite.setTexture(*texture);
 	sprite.setOrigin(32.f, 32.f);
 	sprite.setScale(Constants::METERS_PER_PIXEL, Constants::METERS_PER_PIXEL);
 }

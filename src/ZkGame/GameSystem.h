@@ -10,6 +10,7 @@
 
 #include "InputSystem.h"
 #include "Physics.h"
+#include "TextureCache.h"
 
 namespace Zk {
 namespace Game {
@@ -29,6 +30,8 @@ public:
 	{ return inputSystem; }
 	inline PhysicsSystem & getPhysicsSystem()
 	{ return physicsSystem; }
+	inline TextureCache & getTextureCache()
+	{ return textureCache; }
 	
 	inline static GameSystem * getInstance()
 	{ return instance; }
@@ -36,6 +39,7 @@ public:
 private:
 	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;
+	TextureCache textureCache;
 	
 	QApplication app;
 	sf::RenderWindow renderWindow;
