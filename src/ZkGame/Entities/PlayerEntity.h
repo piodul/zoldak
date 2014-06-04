@@ -51,11 +51,15 @@ public:
 	inline double getHealth() const
 	{ return health; }
 	void takeDamage(double damage); //Lol @ nazwa parametru
+	
+	inline int getGrenadeCount() const
+	{ return grenadeCount; }
 
 private:
 	std::vector<ContactInfo> contacts;
 	
 	double health;
+	int grenadeCount;
 	
 	double jumpCooldown;
 };

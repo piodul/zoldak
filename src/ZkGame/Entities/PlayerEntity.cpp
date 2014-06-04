@@ -75,6 +75,9 @@ PlayerEntity::PlayerEntity(sf::Vector2f pos) :
 	setRenderable(br);
 	
 	jumpCooldown = 0.0;
+	
+	health = 100.0;
+	grenadeCount = 3;
 }
 
 PlayerEntity::~PlayerEntity()
