@@ -15,6 +15,10 @@ set(SOURCES
 	Renderables/MeshRenderable.cpp
 )
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	list(APPEND SOURCES win-res.rc)
+endif ()
+
 add_executable(ZkGame ${SOURCES})
 target_link_libraries(ZkGame
 	ZkCommon
