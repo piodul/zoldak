@@ -14,6 +14,7 @@
 
 #include "GameSystem.h"
 #include "InputSystem.h"
+#include "PlayerUI.h"
 #include "Entities/Entity.h"
 #include "Entities/CrateEntity.h"
 #include "Entities/PlayerEntity.h"
@@ -139,6 +140,14 @@ int GameSystem::exec()
 				if (r)
 					r->paint(&renderWindow);
 			}
+		}
+		
+		//Teraz rysujemy UI w specjalnym viewporcie
+		{
+			sf::View view;
+			view.reset(sf::FloatRect(0.f, 0.f, 800.f, 600.f));
+			renderWindow.setView(view);
+			playerUI.paint(&renderWindow, sf::FloatRect());
 		}
 		
 		renderWindow.display();

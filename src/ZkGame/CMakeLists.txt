@@ -1,6 +1,7 @@
 set(SOURCES
 	main.cpp
 	Camera.cpp
+	PlayerUI.cpp
 	Physics.cpp
 	Game.cpp
 	GameSystem.cpp

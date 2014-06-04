@@ -10,6 +10,7 @@
 
 #include "InputSystem.h"
 #include "Physics.h"
+#include "PlayerUI.h"
 #include "TextureCache.h"
 
 namespace Zk {
@@ -40,6 +41,8 @@ private:
 	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;
 	TextureCache textureCache;
+	
+	PlayerUI playerUI;
 	
 	QApplication app;
 	sf::RenderWindow renderWindow;
