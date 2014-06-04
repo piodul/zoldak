@@ -31,6 +31,9 @@ class PlayerEntity :
 		inline bool operator==(const ContactInfo & other) const
 		{ return original == other.original; }
 	};
+	
+	static constexpr double HORIZONTAL_VELOCITY_CAP = 5.0;
+	
 public:
 	PlayerEntity(sf::Vector2f pos);
 	virtual ~PlayerEntity();

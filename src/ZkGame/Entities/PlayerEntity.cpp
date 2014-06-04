@@ -2,6 +2,8 @@
 #include <SFML/Window.hpp>
 #include <Box2D/Box2D.h>
 
+#include <cmath>
+
 #include <algorithm>
 #include <memory>
 #include <utility>
@@ -125,44 +127,86 @@ void PlayerEntity::onPostSolveEvent(b2Contact * contact, const b2ContactImpulse 
 
 void PlayerEntity::update(double step)
 {
-	jumpCooldown = std::max(0.0, jumpCooldown - step);
+	const b2Vec2 runAcceleration(25.f, 0.f);
+	const b2Vec2 strafeAcceleration(10.f, 0.f);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		getBody()->ApplyForceToCenter(b2Vec2(-10.f, 0.f), true);
+	bool isStanding = false;
+	bool isRunning = false;
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		getBody()->ApplyForceToCenter(b2Vec2(10.f, 0.f), true);
+	b2Vec2 groundNormal(0.f, 0.f);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && jumpCooldown == 0.f)
+	//Sprawdźmy, czy stoimy na twardym gruncie
 	{
-		//Sprawdźmy, czy stoimy na twardym gruncie
-		b2Vec2 normal(0.f, 0.f);
 		for (const ContactInfo & ci : contacts)
 		{
 			Entity * ent = (Entity*)ci.toucher->GetUserData();
 			
 			if (ent->getType() == EntityType::LevelMeshEntity && ci.normal.y > 0.05f)
-				normal += ci.normal;
-			else
-				qDebug() << lib_cast<QPointF>(ci.normal) << "is bad";
+				groundNormal += ci.normal;
 		}
 		
-		qDebug() << lib_cast<QPointF>(normal);
+		qDebug() << lib_cast<QPointF>(groundNormal);
 		
-		if (normal.LengthSquared() > 0.f)
+		if (groundNormal.LengthSquared() > 0.f)
+			isStanding = true;
+	}
+	
+	jumpCooldown = std::max(0.0, jumpCooldown - step);
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_CAP)
+			getBody()->ApplyForceToCenter(
+				isStanding ? -runAcceleration : -strafeAcceleration,
+				true
+			);
+		
+		if (isStanding)
+			isRunning = !isRunning;
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_CAP)
+			getBody()->ApplyForceToCenter(
+				isStanding ? runAcceleration : strafeAcceleration,
+				true
+			);
+		
+		if (isStanding)
+			isRunning = !isRunning;
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && jumpCooldown == 0.f)
+	{
+		if (isStanding)
 		{
-			float scale = -7.5f / normal.Length();
-			normal.x *= scale;
-			normal.y *= scale;
+			float scale = -7.5f / groundNormal.Length();
+			groundNormal.x *= scale;
+			groundNormal.y *= scale;
 			
 			qDebug() << "Jump!";
 			getBody()->ApplyLinearImpulse(
-				normal, b2Vec2(0.f, 0.f), true
+				groundNormal, b2Vec2(0.f, 0.f), true
 			);
 			
 			jumpCooldown = 0.25;
+			isStanding = false;
 		}
 	}
+	
+	//Jeśli nie biegniemy i jesteśmy na ziemi, powinniśmy szybko spowolnić nasz bieg
+	if (isStanding && !isRunning)
+	{
+		b2Vec2 velocity = getBody()->GetLinearVelocity();
+		qDebug() << "Speed reset";
+		getBody()->SetLinearVelocity(b2Vec2(0.f, velocity.y));
+	}
+	
+	if (isStanding)
+		qDebug() << "I'm standing";
+	if (isRunning)
+		qDebug() << "I'm running";
 }
 
 EntityType PlayerEntity::getType() const
