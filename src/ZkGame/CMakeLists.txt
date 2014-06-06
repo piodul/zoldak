@@ -7,13 +7,19 @@ set(SOURCES
 	GameSystem.cpp
 	InputSystem.cpp
 	TextureCache.cpp
+	
 	Entities/Entity.cpp
 	Entities/CrateEntity.cpp
 	Entities/PlayerEntity.cpp
 	Entities/LevelMeshEntity.cpp
 	Entities/MouseTrackEntity.cpp
+	
 	Renderables/BoxRenderable.cpp
 	Renderables/MeshRenderable.cpp
+	
+	Lobby/LobbyWindow.cpp
+	Lobby/PlayTab.cpp
+	Lobby/GraphicsTab.cpp
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
