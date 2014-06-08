@@ -20,6 +20,13 @@ set(SOURCES
 	Lobby/LobbyWindow.cpp
 	Lobby/PlayTab.cpp
 	Lobby/GraphicsTab.cpp
+	Lobby/InputTab.cpp
+	Lobby/InputChoiceDialog.cpp
+	
+	Config/Config.cpp
+	Config/InputConfig.cpp
+	Config/PlayerAction.cpp
+	Config/InputAction.cpp
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
