@@ -97,9 +97,9 @@ void PlayerEntity::onBeginContactEvent(b2Contact * contact)
 	ContactInfo ci(getBody(), contact);
 	contacts.push_back(ci);
 	Entity * entToucher = (Entity*)ci.toucher->GetUserData();
-	qDebug() << "Toucher" << entToucher;
-	qDebug() << "Toucher type:" << (int)entToucher->getType();
-	qDebug() << "Player is being touched by" << contacts.size() << "touchers";
+	//qDebug() << "Toucher" << entToucher;
+	//qDebug() << "Toucher type:" << (int)entToucher->getType();
+	//qDebug() << "Player is being touched by" << contacts.size() << "touchers";
 }
 
 void PlayerEntity::onEndContactEvent(b2Contact * contact)
@@ -107,7 +107,7 @@ void PlayerEntity::onEndContactEvent(b2Contact * contact)
 	//using namespace std::rel_ops;
 	ContactInfo ci(getBody(), contact);
 	contacts.erase(std::find(contacts.begin(), contacts.end(), ci));
-	qDebug() << "Player is being touched by" << contacts.size() << "touchers";
+	//qDebug() << "Player is being touched by" << contacts.size() << "touchers";
 }
 
 void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
@@ -150,7 +150,7 @@ void PlayerEntity::update(double step)
 				groundNormal += ci.normal;
 		}
 		
-		qDebug() << lib_cast<QPointF>(groundNormal);
+		//qDebug() << lib_cast<QPointF>(groundNormal);
 		
 		if (groundNormal.LengthSquared() > 0.f)
 			isStanding = true;
@@ -190,7 +190,7 @@ void PlayerEntity::update(double step)
 			groundNormal.x *= scale;
 			groundNormal.y *= scale;
 			
-			qDebug() << "Jump!";
+			//qDebug() << "Jump!";
 			getBody()->ApplyLinearImpulse(
 				groundNormal, b2Vec2(0.f, 0.f), true
 			);
@@ -204,14 +204,14 @@ void PlayerEntity::update(double step)
 	if (isStanding && !isRunning)
 	{
 		b2Vec2 velocity = getBody()->GetLinearVelocity();
-		qDebug() << "Speed reset";
+		//qDebug() << "Speed reset";
 		getBody()->SetLinearVelocity(b2Vec2(0.f, velocity.y));
 	}
 	
-	if (isStanding)
-		qDebug() << "I'm standing";
-	if (isRunning)
-		qDebug() << "I'm running";
+	//if (isStanding)
+	//	qDebug() << "I'm standing";
+	//if (isRunning)
+	//	qDebug() << "I'm running";
 }
 
 EntityType PlayerEntity::getType() const
