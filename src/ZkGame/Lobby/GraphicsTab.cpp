@@ -5,12 +5,13 @@
 
 #include <vector>
 
+#include "../Config/Config.h"
 #include "GraphicsTab.h"
 
 using namespace Zk::Game;
 
-GraphicsTab::GraphicsTab(QWidget * parent)
-	: QWidget(parent)
+GraphicsTab::GraphicsTab(Config & config, QWidget * parent)
+	: QWidget(parent), config(config)
 {
 	QLabel * resolutionsLabel = new QLabel("Screen resolution:");
 	

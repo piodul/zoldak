@@ -2,6 +2,8 @@
 
 #include <QtWidgets>
 
+#include "../Config/Config.h"
+
 namespace Zk {
 namespace Game {
 
@@ -14,7 +16,7 @@ public:
 	virtual ~LobbyWindow();
 	
 private:
-	
+	Config config;
 };
 
 }}

@@ -8,7 +8,8 @@ using namespace Zk::Game;
 
 InputConfig::InputConfig()
 {
-	
+	for (int i = 0; i < (int)PlayerAction::NUM_ACTIONS; i++)
+		playerToInput[(PlayerAction)i] = InputAction();
 }
 
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputConfig & ic)

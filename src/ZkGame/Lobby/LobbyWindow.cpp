@@ -1,6 +1,8 @@
 #include <QtCore>
 #include <QtGui>
 
+#include "../Config/Config.h"
+
 #include "LobbyWindow.h"
 #include "PlayTab.h"
 #include "GraphicsTab.h"
@@ -12,9 +14,9 @@ LobbyWindow::LobbyWindow(QWidget * parent)
 	: QMainWindow(parent)
 {
 	QTabWidget * tabWidget = new QTabWidget();
-	tabWidget->addTab(new PlayTab(), "Game");
-	tabWidget->addTab(new GraphicsTab(), "Graphics");
-	tabWidget->addTab(new InputTab(), "Input");
+	tabWidget->addTab(new PlayTab(config), "Game");
+	tabWidget->addTab(new GraphicsTab(config), "Graphics");
+	tabWidget->addTab(new InputTab(config), "Input");
 	
 	setCentralWidget(tabWidget);
 }

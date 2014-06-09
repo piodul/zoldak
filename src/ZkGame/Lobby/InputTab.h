@@ -4,6 +4,8 @@
 
 #include <map>
 
+#include "../Config/Config.h"
+#include "../Config/InputConfig.h"
 #include "../Config/PlayerAction.h"
 #include "../Config/InputAction.h"
 
@@ -15,15 +17,20 @@ class InputTab : public QWidget
 	Q_OBJECT;
 	
 public:
-	InputTab(QWidget * parent = nullptr);
+	InputTab(Config & config, QWidget * parent = nullptr);
 	virtual ~InputTab();
 	
 private slots:
 	void changeInputBind(QTableWidgetItem * twi);
+	void changePlayer();
 	
 private:
+	void updateItems();
+	
+	QLabel * playerNumberLabel;
 	QTableWidget * keyBindsWidget;
-	std::map<PlayerAction, InputAction> keyBinds;
+	int displayedPlayerID;
+	Config & config;
 };
 
 }}

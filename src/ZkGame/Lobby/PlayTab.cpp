@@ -1,12 +1,14 @@
 #include <QtCore>
 #include <QtGui>
 
+#include "../Config/Config.h"
+
 #include "PlayTab.h"
 
 using namespace Zk::Game;
 
-PlayTab::PlayTab(QWidget * parent)
-	: QWidget(parent)
+PlayTab::PlayTab(Config & config, QWidget * parent)
+	: QWidget(parent), config(config)
 {
 	//Lewa strona:
 	//Lista poziomów + labelka

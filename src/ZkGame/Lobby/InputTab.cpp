@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <map>
 
+#include "../Config/Config.h"
 #include "../Config/InputAction.h"
 #include "../Config/PlayerAction.h"
 
@@ -13,32 +14,34 @@
 
 using namespace Zk::Game;
 
-InputTab::InputTab(QWidget * parent)
-	: QWidget(parent)
+InputTab::InputTab(Config & config, QWidget * parent)
+	: QWidget(parent), config(config)
 {
+	playerNumberLabel = new QLabel();
+	
 	keyBindsWidget = new QTableWidget((int)PlayerAction::NUM_ACTIONS, 2);
 	keyBindsWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	keyBindsWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	
-	for (int i = 0; i < (int)PlayerAction::NUM_ACTIONS; i++)
-	{
-		keyBindsWidget->setItem(
-			i, 0,
-			new QTableWidgetItem(playerActionToName((PlayerAction)i))
-		);
-		
-		keyBindsWidget->setItem(
-			i, 1,
-			new QTableWidgetItem(keyBinds[(PlayerAction)i].getName())
-		);
-	}
-	
 	connect(keyBindsWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
 			this, SLOT(changeInputBind(QTableWidgetItem*)));
 	
+	QPushButton * changePlayerButton = new QPushButton("Change player");
+	connect(changePlayerButton, SIGNAL(clicked()),
+			this, SLOT(changePlayer()));
+	
+	QHBoxLayout * bottomLayout = new QHBoxLayout();
+	bottomLayout->addWidget(changePlayerButton);
+	bottomLayout->addStretch();
+	
 	QVBoxLayout * mainLayout = new QVBoxLayout();
+	mainLayout->addWidget(playerNumberLabel);
 	mainLayout->addWidget(keyBindsWidget);
+	mainLayout->addLayout(bottomLayout);
 	this->setLayout(mainLayout);
+	
+	displayedPlayerID = 1;
+	changePlayer();
 }
 
 InputTab::~InputTab()
@@ -48,7 +51,38 @@ InputTab::~InputTab()
 
 void InputTab::changeInputBind(QTableWidgetItem * twi)
 {
+	InputAction & ia =
+		config.playerInputConfig[displayedPlayerID].playerToInput[(PlayerAction)twi->row()];
+	
 	PlayerAction pa = (PlayerAction)twi->row();
-	InputChoiceDialog::chooseInputAction(keyBinds[pa]);
-	keyBindsWidget->item((int)pa, 1)->setText(keyBinds[pa].getName());
+	InputChoiceDialog::chooseInputAction(ia);
+	keyBindsWidget->item((int)pa, 1)->setText(ia.getName());
+}
+
+void InputTab::changePlayer()
+{
+	displayedPlayerID = 1 - displayedPlayerID;
+	playerNumberLabel->setText(
+		QString("<b>Player #%1:</b>").arg(displayedPlayerID + 1)
+	);
+	updateItems();
+}
+
+void InputTab::updateItems()
+{
+	for (int i = 0; i < (int)PlayerAction::NUM_ACTIONS; i++)
+	{
+		InputAction ia =
+			config.playerInputConfig[displayedPlayerID].playerToInput[(PlayerAction)i];
+		
+		keyBindsWidget->setItem(
+			i, 0,
+			new QTableWidgetItem(playerActionToName((PlayerAction)i))
+		);
+		
+		keyBindsWidget->setItem(
+			i, 1,
+			new QTableWidgetItem(ia.getName())
+		);
+	}
 }
