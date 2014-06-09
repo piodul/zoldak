@@ -15,6 +15,8 @@ public:
 	LobbyWindow(QWidget * parent = nullptr);
 	virtual ~LobbyWindow();
 	
+	virtual void closeEvent(QCloseEvent * event) override;
+	
 private:
 	Config config;
 };

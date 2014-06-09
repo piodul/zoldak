@@ -15,6 +15,9 @@ public:
 	PlayTab(Config & config, QWidget * parent = nullptr);
 	virtual ~PlayTab();
 	
+private slots:
+	void startGame();
+	
 private:
 	QListView * levelListView;
 	QStringListModel * levelListModel;

@@ -2,6 +2,7 @@
 #include <QtGui>
 
 #include "../Config/Config.h"
+#include "../GameSystem.h"
 
 #include "PlayTab.h"
 
@@ -26,6 +27,8 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 	//Prawa strona:
 	//Opcje + przycisk rozpoczęcia gry
 	startGameButton = new QPushButton("Play!");
+	connect(startGameButton, SIGNAL(clicked()),
+			this, SLOT(startGame()));
 	
 	QHBoxLayout * mainLayout = new QHBoxLayout();
 	mainLayout->addLayout(leftLayout);
@@ -41,4 +44,9 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 PlayTab::~PlayTab()
 {
 	
+}
+
+void PlayTab::startGame()
+{
+	GameSystem::getInstance()->changeState(GameSystem::State::Game);
 }

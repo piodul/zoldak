@@ -2,6 +2,7 @@
 #include <QtGui>
 
 #include "../Config/Config.h"
+#include "../GameSystem.h"
 
 #include "LobbyWindow.h"
 #include "PlayTab.h"
@@ -24,4 +25,10 @@ LobbyWindow::LobbyWindow(QWidget * parent)
 LobbyWindow::~LobbyWindow()
 {
 	
+}
+
+void LobbyWindow::closeEvent(QCloseEvent * event)
+{
+	GameSystem::getInstance()->changeState(GameSystem::State::Quit);
+	event->accept();
 }

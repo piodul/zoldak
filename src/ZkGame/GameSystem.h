@@ -23,10 +23,18 @@ class Camera;
 class GameSystem
 {
 public:
+	enum class State : int
+	{
+		Lobby,
+		Game,
+		Quit
+	};
+	
 	GameSystem(int argc, char ** argv);
 	~GameSystem();
 	
 	int exec();
+	void changeState(State s);
 	
 	inline InputSystem & getInputSystem()
 	{ return inputSystem; }
@@ -39,6 +47,9 @@ public:
 	{ return instance; }
 	
 private:
+	void lobbyLoop();
+	void gameLoop();
+	
 	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;
 	TextureCache textureCache;
@@ -46,6 +57,8 @@ private:
 	//std::vector<std::weak<PlayerEntity>> players;
 	std::weak_ptr<PlayerEntity> player;
 	PlayerUI playerUI;
+	
+	State state;
 	
 	QApplication app;
 	sf::RenderWindow renderWindow;

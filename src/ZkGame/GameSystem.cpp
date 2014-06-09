@@ -12,6 +12,8 @@
 
 #include "../ZkCommon/Level.h"
 
+#include "Lobby/LobbyWindow.h"
+
 #include "GameSystem.h"
 #include "InputSystem.h"
 #include "PlayerUI.h"
@@ -30,6 +32,55 @@ GameSystem * GameSystem::instance = nullptr;
 
 GameSystem::GameSystem(int argc, char ** argv)
 	: physicsSystem(), playerUI(textureCache), app(argc, argv)
+{
+	state = State::Lobby;
+	instance = this;
+}
+
+GameSystem::~GameSystem()
+{
+	
+}
+
+int GameSystem::exec()
+{
+	while (state != State::Quit)
+	{
+		switch (state)
+		{
+		case State::Lobby:
+			lobbyLoop();
+			break;
+			
+		case State::Game:
+			gameLoop();
+			break;
+			
+		default:
+			//Impossibru
+			break;
+		}
+	}
+	
+	return 0;
+}
+
+void GameSystem::lobbyLoop()
+{
+	LobbyWindow lw;
+	lw.show();
+	
+	while (state == State::Lobby)
+	{
+		app.sendPostedEvents();
+		app.processEvents(
+			QEventLoop::WaitForMoreEvents,
+			250
+		);
+	}
+}
+
+void GameSystem::gameLoop()
 {
 	renderWindow.create(
 		sf::VideoMode(800, 600),
@@ -54,8 +105,6 @@ GameSystem::GameSystem(int argc, char ** argv)
 	
 	renderWindow.setVerticalSyncEnabled(true);
 	
-	instance = this;
-	
 	Level l;
 	QFile f("../bin/box2.zvl");
 	if (!f.open(QIODevice::ReadOnly))
@@ -72,34 +121,27 @@ GameSystem::GameSystem(int argc, char ** argv)
 		)
 	);
 	
-	std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
-		inputSystem.getMouseDeviceHandle(0)
-	);
-	entities.push_back(ent);
-	
-	auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -2.f));
-	entities.push_back(crate);
-	
-	auto crate2 = std::make_shared<CrateEntity>(sf::Vector2f(0.5f, -1.f));
-	entities.push_back(crate2);
-	auto crate3 = std::make_shared<CrateEntity>(sf::Vector2f(1.5f, -1.f));
-	entities.push_back(crate3);
-	auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
-	player->registerMe();
-	entities.push_back(player);
-	
-	this->player = player;
+	{
+		std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
+			inputSystem.getMouseDeviceHandle(0)
+		);
+		entities.push_back(ent);
+		
+		auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -2.f));
+		entities.push_back(crate);
+		
+		auto crate2 = std::make_shared<CrateEntity>(sf::Vector2f(0.5f, -1.f));
+		entities.push_back(crate2);
+		auto crate3 = std::make_shared<CrateEntity>(sf::Vector2f(1.5f, -1.f));
+		entities.push_back(crate3);
+		auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
+		player->registerMe();
+		entities.push_back(player);
+		this->player = player;
+	}
 	
 	camera = new SplitScreenCamera({ player });
-}
-
-GameSystem::~GameSystem()
-{
 	
-}
-
-int GameSystem::exec()
-{
 	sf::Vector2f position;
 	sf::Clock beat;
 	
@@ -109,7 +151,7 @@ int GameSystem::exec()
 	
 	//renderWindow.setFramerateLimit(60);
 	
-	while (renderWindow.isOpen())
+	while (state == State::Game)
 	{
 		//Wykonaj Qt-ową część programu
 		sf::Time frameStart = beat.getElapsedTime();
@@ -129,7 +171,10 @@ int GameSystem::exec()
 		while (renderWindow.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+			{
 				renderWindow.close();
+				state = State::Lobby;
+			}
 		}
 		
 		//Eventy ManyMouse'a
@@ -183,6 +228,8 @@ int GameSystem::exec()
 		entities.remove_if(
 			[](const std::shared_ptr<Entity> & ent) -> bool
 			{
+				if (ent->wantsToBeDeleted())
+					qDebug() << "Removing entity!";
 				return ent->wantsToBeDeleted();
 			}
 		);
@@ -214,6 +261,9 @@ int GameSystem::exec()
 		//Zasraniec robi aktywne czekanie, though
 		glFinish();
 	}
-	
-	return 0;
+}
+
+void GameSystem::changeState(State s)
+{
+	state = s;
 }
