@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QtCore>
+
 #include <array>
 #include <map>
 
@@ -13,9 +15,11 @@ class InputConfig
 {
 public:
 	InputConfig();
-	~InputConfig();
 	
-	std::array<std::map<InputAction, PlayerAction>, 2> ;
+	friend QDataStream & operator<<(QDataStream & ds, const InputConfig & ic);
+	friend QDataStream & operator>>(QDataStream & ds, InputConfig & ic);
+	
+	std::map<PlayerAction, InputAction> playerToInput;
 };
 
 }}

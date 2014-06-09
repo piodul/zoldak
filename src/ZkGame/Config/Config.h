@@ -1,19 +1,23 @@
 #pragma once
 
+#include <QtCore>
+
 #include <array>
+
+#include "InputConfig.h"
 
 namespace Zk {
 namespace Game {
-
-class InputConfig;
 
 class Config
 {
 public:
 	Config();
-	~Config();
 	
-	std::array<InputConfig*, 2> playerInputConfig;
+	friend QDataStream & operator<<(QDataStream & ds, const Config & c);
+	friend QDataStream & operator>>(QDataStream & ds, Config & c);
+	
+	std::array<InputConfig, 2> playerInputConfig;
 };
 
 }}

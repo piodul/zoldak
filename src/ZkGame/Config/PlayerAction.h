@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QtCore>
+
 #include <map>
 
 namespace Zk {

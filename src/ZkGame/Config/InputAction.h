@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QtCore>
+
 #include <SFML/Window.hpp>
 
 #include <map>
@@ -10,7 +12,7 @@ namespace Game {
 class InputAction
 {
 public:
-	enum class Type : short
+	enum class Type : char
 	{
 		Key,
 		MouseButton
@@ -55,5 +57,8 @@ private:
 		sf::Mouse::Button mouseButton;
 	};
 };
+
+QDataStream & operator<<(QDataStream & ds, const InputAction & ia);
+QDataStream & operator>>(QDataStream & ds, InputAction & ia);
 
 }}

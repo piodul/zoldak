@@ -1,5 +1,7 @@
 #include <SFML/Window.hpp>
 
+#include <QtCore>
+
 #include <map>
 
 #include "InputAction.h"
@@ -131,4 +133,31 @@ const char * InputAction::getName() const
 		return (it != mouseButtonToName.end())
 				? it->second : "[Unknown Mouse Button]";
 	}
+}
+
+QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputAction & ia)
+{
+	ds << (qint8)ia.getType();
+	if (ia.getType() == InputAction::Type::Key)
+		ds << (qint32)ia.getKey();
+	else
+		ds << (qint32)ia.getMouseButton();
+	
+	return ds;
+}
+
+QDataStream & Zk::Game::operator>>(QDataStream & ds, InputAction & ia)
+{
+	qint8 type;
+	qint32 param;
+	
+	ds >> type;
+	ds >> param;
+	
+	if ((InputAction::Type)type == InputAction::Type::Key)
+		ia = InputAction((sf::Keyboard::Key)param);
+	else
+		ia = InputAction((sf::Mouse::Button)param);
+	
+	return ds;
 }
