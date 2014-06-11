@@ -29,6 +29,8 @@ public:
 	
 	bool canExtrude() const;
 	
+	void setActivated(bool activated);
+	
 signals:
 	void clicked(MeshTriangleEdge * mte, const QGraphicsSceneMouseEvent*);
 	
@@ -48,6 +50,8 @@ private:
 	
 	std::array<MeshTriangleNode*, 2> ends;
 	QList<MeshTriangle*> linkedTriangles;
+	
+	bool isActive;
 };
 
 }}

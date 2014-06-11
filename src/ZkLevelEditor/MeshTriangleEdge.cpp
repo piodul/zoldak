@@ -31,6 +31,7 @@ MeshTriangleEdge::MeshTriangleEdge(
 			end, SLOT(remEdgeLink(MeshTriangleEdge*)));
 	}
 	
+	isActive = true;
 	refreshLook();
 }
 
@@ -60,6 +61,12 @@ bool MeshTriangleEdge::canExtrude() const
 	return getTriangleLinkCount() < 2;
 }
 
+void MeshTriangleEdge::setActivated(bool activated)
+{
+	isActive = activated;
+	refreshLook();
+}
+
 void MeshTriangleEdge::remTriangleLink(MeshTriangle * mt)
 {
 	qDebug() << "Edge ~/~ Triangle";
@@ -81,6 +88,10 @@ void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & po
 void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsLineItem::mousePressEvent(event);
+	
+	if (!isActive)
+		return;
+	
 	if (event->button() == Qt::LeftButton)
 		emit clicked(this, event);
 }
@@ -88,14 +99,15 @@ void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 void MeshTriangleEdge::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
 	//Nie przepuszczamy menu kontekstowego niżej
-	event->accept();
+	if (isActive)
+		event->accept();
 }
 
 void MeshTriangleEdge::refreshLook()
 {
 	//TODO: Zrobić ztych magicznych liczb stałe
 	QPen pen;
-	if (canExtrude())
+	if (isActive && canExtrude())
 	{
 		pen.setColor(QColor(0, 127, 255));
 		pen.setWidthF(8.0 * Constants::METERS_PER_PIXEL);

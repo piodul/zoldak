@@ -26,6 +26,7 @@ private slots:
 private:
 	LevelView * levelView;
 	ColorPaletteWidget * paletteWidget;
+	QListWidget * layerList;
 	
 	QLabel * statusLabel;
 };

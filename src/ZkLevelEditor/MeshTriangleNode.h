@@ -28,6 +28,8 @@ public:
 	
 	void setMarked(bool marked);
 	bool isMarked() const;
+	
+	void setActivated(bool activated);
 
 signals:
 	void clicked(MeshTriangleNode * mtn, const QGraphicsSceneMouseEvent * event);
@@ -51,6 +53,8 @@ private:
 	MeshLayer * parentLayer;
 	QList<MeshTriangle*> linkedTriangles;
 	QList<MeshTriangleEdge*> linkedEdges;
+	
+	bool isActive;
 	
 	bool marked;
 };

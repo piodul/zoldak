@@ -37,6 +37,8 @@ public:
 	const std::array<QColor, 3> & getColors() const;
 	void setColors(const std::array<QColor, 3> & colors);
 	
+	void setActivated(bool activated);
+	
 signals:
 	void destroyed(MeshTriangle * me);
 	
@@ -54,6 +56,8 @@ private:
 	std::array<MeshTriangleNode*, 3> verts;
 	std::array<MeshTriangleEdge*, 3> edges;
 	std::array<QColor, 3> vColors;
+	
+	bool isActive;
 	
 	QColor swappedColor;
 	int swappedColorID;

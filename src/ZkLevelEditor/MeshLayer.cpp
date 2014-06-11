@@ -43,6 +43,7 @@ MeshLayer::MeshLayer(
 	createFullTriangle(QPointF(0.0, 0.0));
 	
 	editState = EditState::IDLE;
+	setActivated(true);
 }
 
 MeshLayer::~MeshLayer()
@@ -52,8 +53,21 @@ MeshLayer::~MeshLayer()
 
 void MeshLayer::setActivated(bool activated)
 {
-	//TODO: Zaimplementować mechanizm włączania/wyłączania warstw
-	isActive = true;
+	if (isActive == activated)
+		return;
+	
+	isActive = activated;
+	
+	setState(EditState::IDLE);
+	
+	for (MeshTriangle * mt : triangles)
+		mt->setActivated(isActive);
+	
+	for (MeshTriangleEdge * mte : edges)
+		mte->setActivated(isActive);
+	
+	for (MeshTriangleNode * mtn : nodes)
+		mtn->setActivated(isActive);
 }
 
 void MeshLayer::clear()

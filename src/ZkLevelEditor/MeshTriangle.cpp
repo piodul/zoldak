@@ -1,3 +1,5 @@
+#include "../ZkCommon/Constants.h"
+
 #include "MeshTriangle.h"
 #include "MeshTriangleNode.h"
 #include "MeshTriangleEdge.h"
@@ -10,6 +12,7 @@
 
 #include <algorithm>
 
+using namespace Zk::Common;
 using namespace Zk::LevelEditor;
 
 MeshTriangle::MeshTriangle(
@@ -23,6 +26,8 @@ MeshTriangle::MeshTriangle(
 	parentLayer = ml;
 	this->verts = verts;
 	this->edges = edges;
+	
+	isActive = true;
 	
 	vColors = { Qt::black, Qt::black, Qt::black };
 	
@@ -90,6 +95,9 @@ void MeshTriangle::paint(
 	for (MeshTriangleNode * vert : verts)
 	{
 		QColor color = (id != swappedColorID) ? vColors[id] : swappedColor;
+		if (!isActive)
+			color = color.darker();
+		
 		QPointF pos = vert->pos();
 		glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 		glVertex2f(pos.x(), pos.y());
@@ -98,6 +106,29 @@ void MeshTriangle::paint(
 	glEnd();
 	
 	painter->endNativePainting();
+	
+	//Jeśli jesteśmy nieaktywni, to dodatkowo rysujemy na trójkącie "meszek"
+	if (!isActive)
+	{
+		QPointF vs[3] {
+			verts[0]->pos(), verts[1]->pos(), verts[2]->pos()
+		};
+		
+		QBrush sprayBrush(Qt::gray, Qt::Dense6Pattern);
+		
+		QTransform backTransform;
+		backTransform.scale(
+			Constants::METERS_PER_PIXEL,
+			Constants::METERS_PER_PIXEL
+		);
+		
+		//Comment the next line for lulz
+		sprayBrush.setTransform(backTransform);
+		
+		painter->setBrush(sprayBrush);
+		painter->setPen(Qt::transparent);
+		painter->drawPolygon(vs, 3);
+	}
 }
 
 QPainterPath MeshTriangle::shape() const
@@ -132,6 +163,12 @@ void MeshTriangle::setColors(const std::array<QColor, 3> & colors)
 	update();
 }
 
+void MeshTriangle::setActivated(bool activated)
+{
+	isActive = activated;
+	update();
+}
+
 void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 {
 	prepareGeometryChange();
@@ -141,11 +178,18 @@ void MeshTriangle::updatePosition(MeshTriangleNode * mtn, const QPointF & pos)
 void MeshTriangle::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
 	//Nie przepuszczamy menu kontekstowego niżej
-	event->accept();
+	if (isActive)
+		event->accept();
 }
 
 void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
+	if (!isActive)
+	{
+		event->ignore();
+		return;
+	}
+	
 	if (event->modifiers() & Qt::ControlModifier)
 	{
 		event->accept();
@@ -163,6 +207,9 @@ void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
 
 void MeshTriangle::hoverMoveEvent(QGraphicsSceneHoverEvent * event)
 {
+	if (!isActive)
+		return;
+	
 	auto range = { 0, 1, 2 };
 	swappedColorID = *std::min_element(
 		range.begin(), range.end(),
@@ -179,6 +226,9 @@ void MeshTriangle::hoverMoveEvent(QGraphicsSceneHoverEvent * event)
 
 void MeshTriangle::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
+	if (!isActive)
+		return;
+	
 	swappedColorID = -1;
 	update();
 	event->accept();

@@ -15,12 +15,10 @@ MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 {
 	parentLayer = ml;
 	
-	setFlag(QGraphicsItem::ItemIsSelectable, true);
-	setFlag(QGraphicsItem::ItemIsMovable, true);
-	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	setZValue(1.0);
 	
 	marked = false;
+	setActivated(true);
 	refreshLook();
 }
 
@@ -95,20 +93,37 @@ bool MeshTriangleNode::isMarked() const
 	return marked;
 }
 
+void MeshTriangleNode::setActivated(bool activated)
+{
+	isActive = activated;
+	
+	setFlag(QGraphicsItem::ItemIsSelectable, isActive);
+	setFlag(QGraphicsItem::ItemIsMovable, isActive);
+	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+	
+	refreshLook();
+}
+
 void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
+	if (!isActive)
+		return;
+	
 	QGraphicsEllipseItem::mousePressEvent(event);
 	emit clicked(this, event);
 }
 
 void MeshTriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
+	event->accept();
+	
+	if (!isActive)
+		return;
+	
 	QMenu menu;
 	qDebug() << "DUPA";
 	QAction * removeAction = menu.addAction("&Remove");
 	menu.exec(event->screenPos());
-	
-	event->accept();
 }
 
 QVariant MeshTriangleNode::itemChange(
@@ -124,10 +139,15 @@ QVariant MeshTriangleNode::itemChange(
 
 void MeshTriangleNode::refreshLook()
 {
-	if (marked)
-		setPen(QPen(QBrush(Qt::blue), 3.0 * Constants::METERS_PER_PIXEL));
+	if (isActive)
+	{
+		if (marked)
+			setPen(QPen(QBrush(Qt::blue), 3.0 * Constants::METERS_PER_PIXEL));
+		else
+			setPen(QPen(QBrush(Qt::white), 2.0 * Constants::METERS_PER_PIXEL));
+	}
 	else
-		setPen(QPen(QBrush(Qt::white), 2.0 * Constants::METERS_PER_PIXEL));
+		setPen(QPen(QBrush(Qt::gray), 1.0 * Constants::METERS_PER_PIXEL));
 	
 	setBrush(QBrush(QColor(0, 0, 0)));
 	setRect(QRectF(
