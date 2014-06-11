@@ -67,7 +67,7 @@ int GameSystem::exec()
 
 void GameSystem::lobbyLoop()
 {
-	LobbyWindow lw;
+	LobbyWindow lw(config);
 	lw.show();
 	
 	while (state == State::Lobby)
@@ -83,7 +83,8 @@ void GameSystem::lobbyLoop()
 void GameSystem::gameLoop()
 {
 	renderWindow.create(
-		sf::VideoMode(800, 600),
+		//sf::VideoMode(800, 600),
+		config.graphicsConfig.videoMode,
 		L"Żołdak",
 		sf::Style::Titlebar | sf::Style::Close
 	);

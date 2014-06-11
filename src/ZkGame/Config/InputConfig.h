@@ -22,4 +22,9 @@ public:
 	std::map<PlayerAction, InputAction> playerToInput;
 };
 
+//Oto wielka tajemnica: dlaczego dwie następne linijki mogę pominąć,
+//a w przypadku GraphicsConfig muszę explicite pisać na zwenątrz??
+// QDataStream & operator<<(QDataStream & ds, const InputConfig & ic);
+// QDataStream & operator>>(QDataStream & ds, InputConfig & ic);
+
 }}

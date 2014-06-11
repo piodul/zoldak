@@ -14,6 +14,10 @@ class GraphicsTab : public QWidget
 public:
 	GraphicsTab(Config & config, QWidget * parent = nullptr);
 	virtual ~GraphicsTab();
+
+private slots:
+	void changeResolution(int index);
+	void changeFullscreenOption(bool full);
 	
 private:
 	void populateResolutionsBox();

@@ -11,8 +11,8 @@
 
 using namespace Zk::Game;
 
-LobbyWindow::LobbyWindow(QWidget * parent)
-	: QMainWindow(parent)
+LobbyWindow::LobbyWindow(Config & config, QWidget * parent)
+	: QMainWindow(parent), config(config)
 {
 	QTabWidget * tabWidget = new QTabWidget();
 	tabWidget->addTab(new PlayTab(config), "Game");

@@ -8,6 +8,8 @@
 #include <list>
 #include <memory>
 
+#include "Config/Config.h"
+
 #include "InputSystem.h"
 #include "Physics.h"
 #include "PlayerUI.h"
@@ -42,6 +44,8 @@ public:
 	{ return physicsSystem; }
 	inline TextureCache & getTextureCache()
 	{ return textureCache; }
+	inline const Config & getConfig() const
+	{ return config; }
 	
 	inline static GameSystem * getInstance()
 	{ return instance; }
@@ -53,6 +57,8 @@ private:
 	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;
 	TextureCache textureCache;
+	
+	Config config;
 	
 	//std::vector<std::weak<PlayerEntity>> players;
 	std::weak_ptr<PlayerEntity> player;

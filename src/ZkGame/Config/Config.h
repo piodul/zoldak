@@ -4,6 +4,7 @@
 
 #include <array>
 
+#include "GraphicsConfig.h"
 #include "InputConfig.h"
 
 namespace Zk {
@@ -17,6 +18,7 @@ public:
 	friend QDataStream & operator<<(QDataStream & ds, const Config & c);
 	friend QDataStream & operator>>(QDataStream & ds, Config & c);
 	
+	GraphicsConfig graphicsConfig;
 	std::array<InputConfig, 2> playerInputConfig;
 };
 

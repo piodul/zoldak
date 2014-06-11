@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../Config/Config.h"
+#include "../Config/GraphicsConfig.h"
 #include "GraphicsTab.h"
 
 using namespace Zk::Game;
@@ -18,8 +19,15 @@ GraphicsTab::GraphicsTab(Config & config, QWidget * parent)
 	resolutionsBox = new QComboBox();
 	resolutionsBox->setEditable(false);
 	populateResolutionsBox();
+	connect(resolutionsBox, SIGNAL(currentIndexChanged(int)),
+			this, SLOT(changeResolution(int)));
 	
 	fullscreenBox = new QCheckBox("Fullscreen mode");
+	fullscreenBox->setCheckState(
+		config.graphicsConfig.fullscreen ? Qt::Checked : Qt::Unchecked
+	);
+	connect(fullscreenBox, SIGNAL(toggled(bool)),
+			this, SLOT(changeFullscreenOption(bool)));
 	
 	QVBoxLayout * mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(resolutionsLabel);
@@ -33,6 +41,17 @@ GraphicsTab::GraphicsTab(Config & config, QWidget * parent)
 GraphicsTab::~GraphicsTab()
 {
 	
+}
+
+void GraphicsTab::changeResolution(int index)
+{
+	const std::vector<sf::VideoMode> & modes = sf::VideoMode::getFullscreenModes();
+	config.graphicsConfig.videoMode = modes[index];
+}
+
+void GraphicsTab::changeFullscreenOption(bool full)
+{
+	config.graphicsConfig.fullscreen = full;
 }
 
 void GraphicsTab::populateResolutionsBox()
@@ -51,5 +70,14 @@ void GraphicsTab::populateResolutionsBox()
 		};
 		
 		resolutionsBox->addItem(itemText, values);
+	}
+	
+	for (int i = 0; i < resolutionsBox->count(); i++)
+	{
+		if (config.graphicsConfig.videoMode == modes[i])
+		{
+			resolutionsBox->setCurrentIndex(i);
+			break;
+		}
 	}
 }

@@ -24,6 +24,7 @@ set(SOURCES
 	Lobby/InputChoiceDialog.cpp
 	
 	Config/Config.cpp
+	Config/GraphicsConfig.cpp
 	Config/InputConfig.cpp
 	Config/PlayerAction.cpp
 	Config/InputAction.cpp
