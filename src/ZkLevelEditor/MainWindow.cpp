@@ -15,9 +15,11 @@ MainWindow::MainWindow(QWidget * parent)
 {
 	paletteWidget = new ColorPaletteWidget(4, 4);
 	levelView = new LevelView(this, paletteWidget);
+	layerList = new QListWidget();
 	
 	QVBoxLayout * rightLayout = new QVBoxLayout();
 	rightLayout->addWidget(paletteWidget);
+	//rightLayout->addWidget(layerList);
 	rightLayout->addStretch();
 	
 	QHBoxLayout * mainLayout = new QHBoxLayout();
