@@ -27,6 +27,7 @@ void ColorBox::select()
 void ColorBox::setColor(QColor color)
 {
 	this->color = color;
+	update();
 }
 
 QColor ColorBox::getColor() const

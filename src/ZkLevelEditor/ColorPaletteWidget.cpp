@@ -16,7 +16,7 @@ ColorPaletteWidget::ColorPaletteWidget(int columns, int rows, QWidget * parent)
 		{
 			ColorBox * cb = createColorBox();
 			
-			layout->addWidget(cb, x, y);
+			layout->addWidget(cb, y, x);
 			boxes << cb;
 		}
 	}
@@ -39,7 +39,7 @@ void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
 	
 	for (int y = 0; y < (int)(colors.size() + 3) / 4; y++)
 	{
-		for (int x = 0; x < 3; x++)
+		for (int x = 0; x < 4; x++)
 		{
 			int id = y * 4 + x;
 			ColorBox * cb = createColorBox();
@@ -47,7 +47,7 @@ void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
 			if (id < (int)colors.size())
 				cb->setColor(colors[id]);
 			
-			layout->addWidget(cb, x, y);
+			layout->addWidget(cb, y, x);
 			boxes << cb;
 		}
 	}
@@ -77,9 +77,9 @@ void ColorPaletteWidget::setColor(QColor color)
 
 void ColorPaletteWidget::clear()
 {
-	QLayoutItem * item;
-	while ((item = layout()->takeAt(0)) != nullptr)
-		delete item;
+	for (ColorBox * cb : boxes)
+		delete cb;
+	
 	boxes.clear();
 }
 
