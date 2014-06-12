@@ -20,6 +20,8 @@ MeshTriangleEdge::MeshTriangleEdge(
 {
 	this->ends = ends;
 	
+	parentLayer = ml;
+	
 	for (MeshTriangleNode * end : ends)
 	{
 		end->addEdgeLink(this);
@@ -120,4 +122,7 @@ void MeshTriangleEdge::refreshLook()
 	
 	setPen(pen);
 	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
+	
+	double z = (isActive ? (double)parentLayer->getIndex() : 0.0);
+	setZValue(z + 0.1);
 }

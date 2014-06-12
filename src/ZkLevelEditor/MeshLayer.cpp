@@ -22,6 +22,7 @@ using namespace Zk::LevelEditor;
 MeshLayer::MeshLayer(
 	QGraphicsScene * scene,
 	ColorPaletteWidget * palette,
+	int index,
 	QObject * parent
 )
 	: QObject(parent), scene(scene), palette(palette)
@@ -40,10 +41,11 @@ MeshLayer::MeshLayer(
 	// nb->setColor(QColor(0, 255, 0));
 	// nc->setColor(QColor(0, 0, 255));
 	
-	createFullTriangle(QPointF(0.0, 0.0));
+	//createFullTriangle(QPointF(0.0, 0.0));
+	this->index = index;
 	
 	editState = EditState::IDLE;
-	setActivated(true);
+	setActivated(false);
 }
 
 MeshLayer::~MeshLayer()
@@ -53,9 +55,6 @@ MeshLayer::~MeshLayer()
 
 void MeshLayer::setActivated(bool activated)
 {
-	if (isActive == activated)
-		return;
-	
 	isActive = activated;
 	
 	setState(EditState::IDLE);
@@ -106,6 +105,10 @@ bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
 		);
 		mt->setColors(td.color);
 	}
+	
+	//W ten sposób ustawiamy aktywność we wszystkich elementach warstwy
+	if (!isActive)
+		setActivated(false);
 	
 	return true;
 }
@@ -158,6 +161,11 @@ EditState MeshLayer::getState() const
 QColor MeshLayer::getSelectedColor() const
 {
 	return palette->getSelectedColor();
+}
+
+int MeshLayer::getIndex() const
+{
+	return index;
 }
 
 void MeshLayer::setState(EditState es)

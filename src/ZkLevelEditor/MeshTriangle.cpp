@@ -56,7 +56,7 @@ MeshTriangle::MeshTriangle(
 	
 	updatePosition(nullptr, QPointF());
 	
-	setZValue(-1.0);
+	refreshLook();
 }
 
 MeshTriangle::~MeshTriangle()
@@ -166,6 +166,7 @@ void MeshTriangle::setColors(const std::array<QColor, 3> & colors)
 void MeshTriangle::setActivated(bool activated)
 {
 	isActive = activated;
+	refreshLook();
 	update();
 }
 
@@ -232,4 +233,10 @@ void MeshTriangle::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 	swappedColorID = -1;
 	update();
 	event->accept();
+}
+
+void MeshTriangle::refreshLook()
+{
+	double z = (isActive ? (double)parentLayer->getIndex() : 0.0);
+	setZValue(z);
 }

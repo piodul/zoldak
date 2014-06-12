@@ -45,7 +45,7 @@ protected:
 	
 private:
 	MainWindow * window;
-	MeshLayer * mainLayer;
+	QList<MeshLayer*> layers;
 	BackgroundItem * bgItem;
 	
 	bool isDragging;

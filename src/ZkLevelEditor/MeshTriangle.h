@@ -52,6 +52,8 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
 
 private:
+	void refreshLook();
+	
 	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 3> verts;
 	std::array<MeshTriangleEdge*, 3> edges;

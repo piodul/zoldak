@@ -41,16 +41,20 @@ LevelView::LevelView(
 	
 	setSceneRect(QRect(0, 0, 1, 1));
 	
-	mainLayer = new MeshLayer(scene(), palette, this);
-	connect(mainLayer, SIGNAL(statusTextChanged(QString)),
-		window, SLOT(setStatusText(QString)));
-	
 	bgItem = new BackgroundItem(this);
-	connect(bgItem, SIGNAL(contextMenuOpened(const QPoint&, const QPointF&)),
-		mainLayer, SLOT(contextMenu(const QPoint&, const QPointF&)));
-	connect(bgItem, SIGNAL(clicked()),
-		mainLayer, SLOT(backgroundClicked()));
 	scene()->addItem(bgItem);
+	
+	layers << new MeshLayer(scene(), palette, 0, this);
+	
+	for (MeshLayer * ml : layers)
+	{
+		connect(ml, SIGNAL(statusTextChanged(QString)),
+				window, SLOT(setStatusText(QString)));
+		connect(bgItem, SIGNAL(contextMenuOpened(const QPoint&, const QPointF&)),
+				ml, SLOT(contextMenu(const QPoint&, const QPointF&)));
+		connect(bgItem, SIGNAL(clicked()),
+				ml, SLOT(backgroundClicked()));
+	}
 	
 	scale(Constants::PIXELS_PER_METER, Constants::PIXELS_PER_METER);
 	
@@ -66,17 +70,24 @@ bool LevelView::fromCommonLevel(const Common::Level & l)
 {
 	const std::vector<Common::LevelLayer*> & lls = l.getLayers();
 	
-	//Na razie ładujemy tylko jedną warstwę
-	return mainLayer->fromCommonLevelLayer(*lls[0]);
+	for (int i = 0; i < (int)lls.size(); i++)
+		layers[i]->fromCommonLevelLayer(*lls[i]);
+	
+	return true;
 }
 
 void LevelView::toCommonLevel(Common::Level & l) const
 {
+	//Śliskie - nie wiadomo kto ma usunąć warstwy
 	l.clear();
 	
 	std::vector<Common::LevelLayer*> lls;
-	lls.push_back(new Common::LevelLayer());
-	mainLayer->toCommonLevelLayer(*lls[0]);
+	
+	for (int i = 0; i < layers.size(); i++)
+	{
+		lls.push_back(new Common::LevelLayer());
+		layers[i]->toCommonLevelLayer(*lls[i]);
+	}
 	
 	l.setLayers(lls);
 }

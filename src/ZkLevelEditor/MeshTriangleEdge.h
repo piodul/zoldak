@@ -48,6 +48,7 @@ protected:
 private:
 	void refreshLook();
 	
+	MeshLayer * parentLayer;
 	std::array<MeshTriangleNode*, 2> ends;
 	QList<MeshTriangle*> linkedTriangles;
 	

@@ -25,6 +25,7 @@ public:
 	MeshLayer(
 		QGraphicsScene * scene,
 		ColorPaletteWidget * palette,
+		int index,
 		QObject * parent = nullptr
 	);
 	virtual ~MeshLayer();
@@ -45,6 +46,7 @@ public:
 	
 	EditState getState() const;
 	QColor getSelectedColor() const;
+	int getIndex() const;
 	
 signals:
 	void statusTextChanged(QString txt);
@@ -88,6 +90,8 @@ private:
 	
 	EditState editState;
 	std::array<MeshTriangleNode*, 3> nodesToConnect;
+	
+	int index;
 };
 
 }}

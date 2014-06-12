@@ -15,7 +15,7 @@ MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 {
 	parentLayer = ml;
 	
-	setZValue(1.0);
+	//setZValue(1.0);
 	
 	marked = false;
 	setActivated(true);
@@ -156,4 +156,7 @@ void MeshTriangleNode::refreshLook()
 		16.0 * Constants::METERS_PER_PIXEL,
 		16.0 * Constants::METERS_PER_PIXEL
 	));
+	
+	double z = (isActive ? (double)parentLayer->getIndex() : 0.0);
+	setZValue(z + 0.2);
 }
