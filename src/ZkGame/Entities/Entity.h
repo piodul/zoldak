@@ -11,11 +11,12 @@ class Renderable;
 enum class EntityType : int
 {
 	Unknown = 0,
-	PlayerEntity = 1,
-	CrateEntity = 2,
-	HealthPackEntity = 3,
-	LevelMeshEntity = 4,
-	MouseTrackEntity = 5
+	PlayerEntity,
+	CrateEntity,
+	HealthPackEntity,
+	LevelMeshEntity,
+	SpawnerMeshEntity,
+	MouseTrackEntity
 };
 
 class Entity

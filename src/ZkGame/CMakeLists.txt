@@ -12,6 +12,7 @@ set(SOURCES
 	Entities/CrateEntity.cpp
 	Entities/PlayerEntity.cpp
 	Entities/LevelMeshEntity.cpp
+	Entities/SpawnerMeshEntity.cpp
 	Entities/MouseTrackEntity.cpp
 	
 	Renderables/BoxRenderable.cpp
