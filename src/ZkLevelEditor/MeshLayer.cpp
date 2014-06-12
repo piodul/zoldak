@@ -45,7 +45,7 @@ MeshLayer::MeshLayer(
 	this->index = index;
 	
 	editState = EditState::IDLE;
-	setActivated(false);
+	setActivated(true);
 }
 
 MeshLayer::~MeshLayer()
@@ -299,13 +299,16 @@ void MeshLayer::backgroundClicked()
 
 void MeshLayer::contextMenu(const QPoint & pos, const QPointF & scenePos)
 {
-	QMenu menu;
-	qDebug() << "DUPA";
-	QAction * createTriangleAction = menu.addAction("&New triangle");
-	QAction * choice = menu.exec(pos);
-	
-	if (choice == createTriangleAction)
-		createFullTriangle(scenePos);
+	if (isActive)
+	{
+		QMenu menu;
+		qDebug() << "DUPA";
+		QAction * createTriangleAction = menu.addAction("&New triangle");
+		QAction * choice = menu.exec(pos);
+		
+		if (choice == createTriangleAction)
+			createFullTriangle(scenePos);
+	}
 }
 
 MeshTriangleNode * MeshLayer::createNode(const QPointF & pos)
