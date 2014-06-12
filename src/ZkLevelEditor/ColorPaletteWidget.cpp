@@ -4,26 +4,38 @@
 #include <QtCore>
 #include <QtGui>
 
+#include <vector>
+
 using namespace Zk::LevelEditor;
 
-ColorPaletteWidget::ColorPaletteWidget(int columns, int rows, QWidget * parent)
+static const int NUM_COLUMNS = 4;
+static const int MINIMUM_ROWS = 2;
+
+ColorPaletteWidget::ColorPaletteWidget(int rows, QWidget * parent)
 	: QWidget(parent)
 {
-	QGridLayout * layout = new QGridLayout();
-	for (int y = 0; y < rows; y++)
-	{
-		for (int x = 0; x < columns; x++)
-		{
-			ColorBox * cb = createColorBox();
-			
-			layout->addWidget(cb, y, x);
-			boxes << cb;
-		}
-	}
+	moreButton = new QPushButton("More");
+	lessButton = new QPushButton("Less");
+	
+	numRows = 0;
+	
+	QVBoxLayout * layout = new QVBoxLayout();
+	QHBoxLayout * buttonsLayout = new QHBoxLayout();
+	buttonsLayout->addWidget(moreButton);
+	buttonsLayout->addWidget(lessButton);
+	layout->addLayout(buttonsLayout);
 	
 	setLayout(layout);
 	
-	boxes[0]->select();
+	connect(moreButton, SIGNAL(pressed()),
+			this, SLOT(addRow()));
+	connect(lessButton, SIGNAL(pressed()),
+			this, SLOT(removeRow()));
+	
+	setRowCount(rows);
+	
+	if (numRows > 0)
+		boxes[0]->select();
 }
 
 ColorPaletteWidget::~ColorPaletteWidget()
@@ -33,27 +45,15 @@ ColorPaletteWidget::~ColorPaletteWidget()
 
 void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
 {
-	clear();
+	int rows = (int)(colors.size() + NUM_COLUMNS - 1) / NUM_COLUMNS;
+	setRowCount(rows);
 	
-	QGridLayout * layout = new QGridLayout();
+	int i;
+	for (i = 0; i < (int)colors.size(); i++)
+		boxes[i]->setColor(colors[i]);
 	
-	for (int y = 0; y < (int)(colors.size() + 3) / 4; y++)
-	{
-		for (int x = 0; x < 4; x++)
-		{
-			int id = y * 4 + x;
-			ColorBox * cb = createColorBox();
-			
-			if (id < (int)colors.size())
-				cb->setColor(colors[id]);
-			
-			layout->addWidget(cb, y, x);
-			boxes << cb;
-		}
-	}
-	
-	delete this->layout();
-	setLayout(layout);
+	for (; i < boxes.size(); i++)
+		boxes[i]->setColor(QColor(Qt::black));
 }
 
 void ColorPaletteWidget::toColorList(std::vector<QColor> & colors) const
@@ -75,12 +75,52 @@ void ColorPaletteWidget::setColor(QColor color)
 	emit colorChanged(color);
 }
 
+void ColorPaletteWidget::addRow()
+{
+	QHBoxLayout * innerLayout = new QHBoxLayout();
+	for (int i = 0; i < NUM_COLUMNS; i++)
+	{
+		ColorBox * cb = createColorBox();
+		innerLayout->addWidget(cb);
+		boxes << cb;
+	}
+	
+	QVBoxLayout * layout = (QVBoxLayout*)this->layout();
+	layout->insertLayout(numRows, innerLayout);
+	
+	numRows++;
+}
+
+void ColorPaletteWidget::removeRow()
+{
+	if (numRows <= MINIMUM_ROWS)
+		return;
+	
+	//Usuwamy ostatni rządek z boxami
+	delete layout()->takeAt(numRows - 1);
+	
+	//Usuwamy boxy
+	for (int i = 0; i < NUM_COLUMNS; i++)
+		delete boxes.takeLast();
+	
+	numRows--;
+}
+
 void ColorPaletteWidget::clear()
 {
-	for (ColorBox * cb : boxes)
-		delete cb;
+	setRowCount(0);
+}
+
+void ColorPaletteWidget::setRowCount(int count)
+{
+	if (count < 0)
+		return;
 	
-	boxes.clear();
+	while (numRows < count)
+		addRow();
+	
+	while (numRows > count)
+		removeRow();
 }
 
 ColorBox * ColorPaletteWidget::createColorBox()
