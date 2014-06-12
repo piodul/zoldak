@@ -17,9 +17,15 @@ MainWindow::MainWindow(QWidget * parent)
 	levelView = new LevelView(this, paletteWidget);
 	layerList = new QListWidget();
 	
+	QSizePolicy layerListSizePolicy(
+		QSizePolicy::Maximum,
+		QSizePolicy::Preferred
+	);
+	layerList->setSizePolicy(layerListSizePolicy);
+	
 	QVBoxLayout * rightLayout = new QVBoxLayout();
-	rightLayout->addWidget(paletteWidget);
-	//rightLayout->addWidget(layerList);
+	rightLayout->addWidget(paletteWidget, 0, Qt::AlignCenter);
+	rightLayout->addWidget(layerList);
 	rightLayout->addStretch();
 	
 	QHBoxLayout * mainLayout = new QHBoxLayout();

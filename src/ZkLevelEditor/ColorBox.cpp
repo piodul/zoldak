@@ -10,6 +10,13 @@ ColorBox::ColorBox(QWidget * parent)
 	: QWidget(parent)
 {
 	selected = false;
+	
+	QSizePolicy sizePolicy(
+		QSizePolicy::Fixed,
+		QSizePolicy::Fixed
+	);
+	
+	setSizePolicy(sizePolicy);
 }
 
 ColorBox::~ColorBox()

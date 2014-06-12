@@ -14,6 +14,13 @@ static const int MINIMUM_ROWS = 2;
 ColorPaletteWidget::ColorPaletteWidget(int rows, QWidget * parent)
 	: QWidget(parent)
 {
+	QSizePolicy sizePolicy(
+		QSizePolicy::Fixed,
+		QSizePolicy::Fixed
+	);
+	
+	setSizePolicy(sizePolicy);
+	
 	moreButton = new QPushButton("More");
 	lessButton = new QPushButton("Less");
 	
