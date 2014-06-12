@@ -44,7 +44,10 @@ LevelView::LevelView(
 	bgItem = new BackgroundItem(this);
 	scene()->addItem(bgItem);
 	
-	layers << new MeshLayer(scene(), palette, 0, this);
+	for (int i = 0; i < (int)LayerType::MAX_LAYER; i++)
+		layers << new MeshLayer(scene(), palette, i, this);
+	
+	activateLayer(LayerType::MIDGROUND);
 	
 	for (MeshLayer * ml : layers)
 	{
@@ -92,6 +95,17 @@ void LevelView::toCommonLevel(Common::Level & l) const
 	l.setLayers(lls);
 }
 
+void LevelView::activateLayer(LayerType id)
+{
+	if ((int)id < 0 || (int)id >= layers.size())
+		return;
+	
+	for (MeshLayer * ml : layers)
+		ml->setActivated(false);
+	
+	layers[(int)id]->setActivated(true);
+}
+
 void LevelView::mousePressEvent(QMouseEvent * event)
 {
 	if (event->modifiers() & Qt::ShiftModifier)
@@ -134,18 +148,19 @@ void LevelView::mouseReleaseEvent(QMouseEvent * event)
 	QGraphicsView::mouseReleaseEvent(event);
 }
 
-
-// void LevelView::showContextMenu(const QPoint & pos)
-// {
-// 	QPoint globalPos = mapToGlobal(pos);
-	
-// 	QMenu menu;
-// 	QAction * addNewNode = menu.addAction("Add node");
-	
-// 	QAction * selectedAction = menu.exec(globalPos);
-// 	if (selectedAction != nullptr)
-// 	{
-// 		if (selectedAction == addNewNode)
-// 			createNode(mapToScene(pos));
-// 	}
-// }
+const char * Zk::LevelEditor::layerTypeToName(LayerType lt)
+{
+	switch (lt)
+	{
+	case LayerType::MEDKIT_SPAWN:	return "Medkit spawn";
+	case LayerType::GRENADES_SPAWN:	return "Grenades spawn";
+	case LayerType::PLAYER_A_SPAWN:	return "Player A spawn";
+	case LayerType::PLAYER_B_SPAWN:	return "Player B spawn";
+	case LayerType::PLAYER_A_FLAG:	return "Player A flag spawn";
+	case LayerType::PLAYER_B_FLAG:	return "Player B flag spawn";
+	case LayerType::FOREGROUND:		return "Foreground";
+	case LayerType::MIDGROUND:		return "Midground (collidable)";
+	case LayerType::BACKGROUND:		return "Background";
+	default:						return "???";
+	}
+}

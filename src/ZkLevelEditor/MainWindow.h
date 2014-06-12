@@ -22,6 +22,8 @@ private slots:
 	
 	void loadLevel();
 	void saveLevel();
+	
+	void changeActiveLayer(int id);
 
 private:
 	LevelView * levelView;

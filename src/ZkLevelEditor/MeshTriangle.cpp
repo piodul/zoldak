@@ -237,6 +237,6 @@ void MeshTriangle::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 
 void MeshTriangle::refreshLook()
 {
-	double z = (isActive ? (double)parentLayer->getIndex() : 0.0);
+	double z = (isActive ? 1024.0 : (double)-parentLayer->getIndex());
 	setZValue(z);
 }

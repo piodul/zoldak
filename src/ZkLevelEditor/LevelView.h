@@ -3,6 +3,7 @@
 #include <QtWidgets>
 #include <array>
 
+#include "../ZkCommon/Constants.h"
 #include "../ZkCommon/Level.h"
 
 namespace Zk {
@@ -37,6 +38,8 @@ public:
 	bool fromCommonLevel(const Common::Level & l);
 	void toCommonLevel(Common::Level & l) const;
 	
+	void activateLayer(Common::LayerType id);
+	
 protected:
 	virtual void mousePressEvent(QMouseEvent * event) override;
 	virtual void mouseMoveEvent(QMouseEvent * event) override;
@@ -51,5 +54,7 @@ private:
 	bool isDragging;
 	QPoint oldMousePos;
 };
+
+const char * layerTypeToName(Common::LayerType lt);
 
 }}

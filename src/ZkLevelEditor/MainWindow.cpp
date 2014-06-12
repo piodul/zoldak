@@ -1,3 +1,4 @@
+#include "../ZkCommon/Constants.h"
 #include "../ZkCommon/Level.h"
 
 #include "MainWindow.h"
@@ -8,6 +9,7 @@
 #include <QtGui>
 #include <QDebug>
 
+using namespace Zk::Common;
 using namespace Zk::LevelEditor;
 
 MainWindow::MainWindow(QWidget * parent)
@@ -22,6 +24,12 @@ MainWindow::MainWindow(QWidget * parent)
 		QSizePolicy::Preferred
 	);
 	layerList->setSizePolicy(layerListSizePolicy);
+	
+	for (int i = 0; i < (int)LayerType::MAX_LAYER; i++)
+		layerList->addItem(layerTypeToName((LayerType)i));
+	
+	connect(layerList, SIGNAL(currentRowChanged(int)),
+			this, SLOT(changeActiveLayer(int)));
 	
 	QVBoxLayout * rightLayout = new QVBoxLayout();
 	rightLayout->addWidget(paletteWidget, 0, Qt::AlignCenter);
@@ -84,7 +92,7 @@ void MainWindow::loadLevel()
 	
 	QDataStream ds(&f);
 	
-	Common::Level l;
+	Level l;
 	ds >> l;
 	levelView->fromCommonLevel(l);
 	paletteWidget->fromColorList(l.getPalette());
@@ -111,7 +119,7 @@ void MainWindow::saveLevel()
 		
 	QDataStream ds(&f);
 	
-	Common::Level l;
+	Level l;
 	levelView->toCommonLevel(l);
 	
 	std::vector<QColor> palette;
@@ -119,4 +127,9 @@ void MainWindow::saveLevel()
 	l.setPalette(palette);
 	
 	ds << l;
+}
+
+void MainWindow::changeActiveLayer(int id)
+{
+	levelView->activateLayer((LayerType)id);
 }

@@ -157,6 +157,6 @@ void MeshTriangleNode::refreshLook()
 		16.0 * Constants::METERS_PER_PIXEL
 	));
 	
-	double z = (isActive ? (double)parentLayer->getIndex() : 0.0);
+	double z = (isActive ? 1024.0 : (double)-parentLayer->getIndex());
 	setZValue(z + 0.2);
 }
