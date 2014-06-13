@@ -6,16 +6,22 @@
 #include <algorithm>
 
 #include "../ZkCommon/Constants.h"
+#include "Config/Config.h"
+#include "Config/GraphicsConfig.h"
 
 #include "Camera.h"
+#include "GameSystem.h"
 #include "Entities/Entity.h"
 
 using namespace Zk::Common;
 using namespace Zk::Game;
 
-//TODO: Udostępnić informacje o rozmiarze ekranu publicznie w innym miejscu
-static const double SCREEN_WIDTH = 800.0 * Constants::METERS_PER_PIXEL;
-static const double SCREEN_HEIGHT = 600.0 * Constants::METERS_PER_PIXEL;
+Camera::Camera()
+{
+	const sf::VideoMode & vm = GameSystem::getInstance()->getConfig().graphicsConfig.videoMode;
+	sf::Vector2f absScreenSize((float)vm.width, (float)vm.height);
+	relativeScreenSize = absScreenSize * (float)Constants::METERS_PER_PIXEL;
+}
 
 std::vector<sf::View> Camera::getViews() const
 {
@@ -44,6 +50,7 @@ SplitScreenCamera::SplitScreenCamera(
 SplitScreenCamera::SplitScreenCamera(
 	const std::vector<std::weak_ptr<Entity>> & entities
 )
+	: Camera()
 {
 	trackedEntities = entities;
 	alignment = Alignment::Horizontal;
@@ -73,10 +80,10 @@ void SplitScreenCamera::setupViews()
 			{
 			case Alignment::Horizontal:
 				view.reset(sf::FloatRect(
-					factor * (float)SCREEN_WIDTH,
+					factor * relativeScreenSize.x,
 					0.f,
-					(factor + step) * (float)SCREEN_WIDTH,
-					(float)SCREEN_HEIGHT
+					(factor + step) * relativeScreenSize.x,
+					relativeScreenSize.y
 				));
 				
 				view.setViewport(sf::FloatRect(factor, 0.f, factor + step, 1.f));
@@ -85,9 +92,9 @@ void SplitScreenCamera::setupViews()
 			case Alignment::Vertical:
 				view.reset(sf::FloatRect(
 					0.f,
-					factor * (float)SCREEN_HEIGHT,
-					(float)SCREEN_WIDTH,
-					(factor + step) * (float)SCREEN_HEIGHT
+					factor * relativeScreenSize.y,
+					relativeScreenSize.x,
+					(factor + step) * relativeScreenSize.y
 				));
 				
 				view.setViewport(sf::FloatRect(0.f, factor, 1.f, factor + step));
@@ -104,7 +111,7 @@ void SplitScreenCamera::setupViews()
 	else
 	{
 		view.reset(
-			sf::FloatRect(0.f, 0.f, (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT)
+			sf::FloatRect(0.f, 0.f, relativeScreenSize.x, relativeScreenSize.y)
 		);
 		
 		view.setViewport(

@@ -13,6 +13,7 @@ namespace Game {
 class Camera
 {
 public:
+	Camera();
 	virtual ~Camera() {};
 	
 	virtual void setupViews() = 0;
@@ -21,6 +22,7 @@ public:
 protected:
 	void discardInvalidEntities();
 	
+	sf::Vector2f relativeScreenSize;
 	std::vector<std::weak_ptr<Entity>> trackedEntities;
 	std::vector<sf::View> computedViews;
 };

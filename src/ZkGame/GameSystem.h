@@ -38,6 +38,8 @@ public:
 	int exec();
 	void changeState(State s);
 	
+	void addEntity(std::shared_ptr<Entity> ent);
+	
 	inline InputSystem & getInputSystem()
 	{ return inputSystem; }
 	inline PhysicsSystem & getPhysicsSystem()
@@ -52,7 +54,10 @@ public:
 	
 private:
 	void lobbyLoop();
+	
+	void initializeGameLoop();
 	void gameLoop();
+	void cleanupGameLoop();
 	
 	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;

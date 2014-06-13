@@ -12,6 +12,8 @@
 
 #include "../ZkCommon/Level.h"
 
+#include "Config/Config.h"
+#include "Config/GraphicsConfig.h"
 #include "Lobby/LobbyWindow.h"
 
 #include "GameSystem.h"
@@ -80,7 +82,7 @@ void GameSystem::lobbyLoop()
 	}
 }
 
-void GameSystem::gameLoop()
+void GameSystem::initializeGameLoop()
 {
 	renderWindow.create(
 		//sf::VideoMode(800, 600),
@@ -142,13 +144,16 @@ void GameSystem::gameLoop()
 	}
 	
 	camera = new SplitScreenCamera({ player });
+}
+
+void GameSystem::gameLoop()
+{
+	initializeGameLoop();
 	
 	sf::Vector2f position;
 	sf::Clock beat;
 	
 	int timeForEvents;
-	
-	MouseDeviceHandle mdh = inputSystem.getMouseDeviceHandle(0);
 	
 	//renderWindow.setFramerateLimit(60);
 	
@@ -209,14 +214,16 @@ void GameSystem::gameLoop()
 		//for (sf::View view : views)
 		{
 			sf::View view = views[0];
-			view.reset(sf::FloatRect(0.f, 0.f, 800.f, 600.f));
+			sf::VideoMode confVideoMode = config.graphicsConfig.videoMode;
+			sf::Vector2u viewSize(confVideoMode.width, confVideoMode.height);
+			view.reset(sf::FloatRect(0.f, 0.f, viewSize.x, viewSize.y));
 			renderWindow.setView(view);
 			
 			sf::FloatRect fr = view.getViewport();
-			fr.left *= 800.f;
-			fr.top *= 600.f;
-			fr.width *= 800.f;
-			fr.height *= 600.f;
+			fr.left *= (float)viewSize.x;
+			fr.top *= (float)viewSize.y;
+			fr.width *= (float)viewSize.x;
+			fr.height *= (float)viewSize.y;
 			
 			playerUI.paint(&renderWindow, player, fr);
 		}
@@ -262,6 +269,14 @@ void GameSystem::gameLoop()
 		//Zasraniec robi aktywne czekanie, though
 		glFinish();
 	}
+	
+	cleanupGameLoop();
+}
+
+void GameSystem::cleanupGameLoop()
+{
+	entities.clear();
+	delete camera;
 }
 
 void GameSystem::changeState(State s)
