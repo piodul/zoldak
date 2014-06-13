@@ -88,13 +88,15 @@ void ContactListener::registerListener(std::weak_ptr<CollisionListener> cl)
 
 void ContactListener::discardOldListeners()
 {
-	std::remove_if(
+	auto end = std::remove_if(
 		collisionListeners.begin(), collisionListeners.end(),
 		[](const std::weak_ptr<CollisionListener> & cl) -> bool
 		{
 			return cl.expired();
 		}
 	);
+	
+	collisionListeners.erase(end, collisionListeners.end());
 }
 
 PhysicsSystem::PhysicsSystem()
