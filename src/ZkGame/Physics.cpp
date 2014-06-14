@@ -46,6 +46,9 @@ void ContactListener::BeginContact(b2Contact * contact)
 {
 	for (auto wcl : collisionListeners)
 	{
+		if (wcl.expired())
+			continue;
+		
 		auto cl = wcl.lock();
 		if (cl->interestedInBeginContactEvent(contact))
 			cl->onBeginContactEvent(contact);
@@ -55,6 +58,9 @@ void ContactListener::EndContact(b2Contact * contact)
 {
 	for (auto wcl : collisionListeners)
 	{
+		if (wcl.expired())
+			continue;
+		
 		auto cl = wcl.lock();
 		if (cl->interestedInEndContactEvent(contact))
 			cl->onEndContactEvent(contact);
@@ -65,6 +71,9 @@ void ContactListener::PreSolve(b2Contact * contact, const b2Manifold * oldManifo
 {
 	for (auto wcl : collisionListeners)
 	{
+		if (wcl.expired())
+			continue;
+		
 		auto cl = wcl.lock();
 		if (cl->interestedInPreSolveEvent(contact, oldManifold))
 			cl->onPreSolveEvent(contact, oldManifold);
@@ -75,6 +84,9 @@ void ContactListener::PostSolve(b2Contact * contact, const b2ContactImpulse * im
 {
 	for (auto wcl : collisionListeners)
 	{
+		if (wcl.expired())
+			continue;
+		
 		auto cl = wcl.lock();
 		if (cl->interestedInPostSolveEvent(contact, impulse))
 			cl->onPostSolveEvent(contact, impulse);
