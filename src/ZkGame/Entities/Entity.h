@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include <memory>
+
 namespace Zk {
 namespace Game {
 
@@ -31,7 +33,7 @@ public:
 	
 	virtual sf::Vector2f getCenterPosition() const;
 	
-	Renderable * getRenderable() const
+	std::weak_ptr<Renderable> getRenderable() const
 	{ return visualRep; }
 	inline b2Body * getBody() const
 	{ return body; }
@@ -47,7 +49,7 @@ protected:
 	void markForDeletion();
 	
 private:
-	Renderable * visualRep;
+	std::shared_ptr<Renderable> visualRep;
 	b2Body * body;
 	
 	bool wannaDelete;

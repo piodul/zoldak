@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include <memory>
+
 #include "../../ZkCommon/LibraryCast.h"
 
 #include "Entity.h"
@@ -11,15 +13,13 @@ using namespace Zk::Game;
 
 Entity::Entity(Renderable * vr, b2Body * pr)
 {
-	visualRep = vr;
+	visualRep = std::shared_ptr<Renderable>(vr);
 	body = pr;
 	wannaDelete = false;
 }
 
 Entity::~Entity()
 {
-	delete visualRep;
-	
 	if (body)
 	{
 		b2World * world = body->GetWorld();
@@ -43,8 +43,7 @@ sf::Vector2f Entity::getCenterPosition() const
 
 void Entity::setRenderable(Renderable * r)
 {
-	delete visualRep;
-	visualRep = r;
+	visualRep = std::shared_ptr<Renderable>(r);
 }
 
 void Entity::setBody(b2Body * b)

@@ -128,20 +128,20 @@ void GameSystem::initializeGameLoop()
 		ds >> l;
 	}
 	
-	entities.push_back(
+	addEntity(
 		std::make_shared<LevelMeshEntity>(
 			l.getLayers()[(int)LayerType::MIDGROUND]
 		)
 	);
 	
-	entities.push_back(
+	addEntity(
 		std::make_shared<SpawnerMeshEntity>(
 			l.getLayers()[(int)LayerType::MEDKIT_SPAWN],
 			LayerType::MEDKIT_SPAWN
 		)
 	);
 	
-	entities.push_back(
+	addEntity(
 		std::make_shared<SpawnerMeshEntity>(
 			l.getLayers()[(int)LayerType::GRENADES_SPAWN],
 			LayerType::GRENADES_SPAWN
@@ -156,7 +156,7 @@ void GameSystem::initializeGameLoop()
 		
 		auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
 		player->registerMe();
-		entities.push_back(player);
+		addEntity(player);
 		
 		this->player = player;
 	}
@@ -212,6 +212,9 @@ void GameSystem::gameLoop()
 			ent->update(1.0 / 60.0);
 		
 		//Render
+		removeInactiveRenderables();
+		refreshZOrder();
+		
 		renderWindow.clear(sf::Color::White);
 		
 		camera->setupViews();
@@ -220,11 +223,10 @@ void GameSystem::gameLoop()
 		for (sf::View view : views)
 		{
 			renderWindow.setView(view);
-			for (std::shared_ptr<Entity> ent : entities)
+			for (auto p : renderables)
 			{
-				Renderable * r = ent->getRenderable();
-				if (r)
-					r->paint(&renderWindow);
+				auto ptr = p.second.lock();
+				ptr->paint(&renderWindow);
 			}
 		}
 		
@@ -251,14 +253,7 @@ void GameSystem::gameLoop()
 		
 		//Wszystko się narysowało, więc możemy teraz pousuwać
 		//nieaktywne obiekty
-		entities.remove_if(
-			[](const std::shared_ptr<Entity> & ent) -> bool
-			{
-				if (ent->wantsToBeDeleted())
-					qDebug() << "Removing entity!";
-				return ent->wantsToBeDeleted();
-			}
-		);
+		removeInactiveEntities();
 		
 		//Wprawdzie SFML posiada mechanizmy pozwalające na ograniczenie
 		//framerate, lecz robi to trochę nieudolnie i pojawiają się lagi.
@@ -291,6 +286,50 @@ void GameSystem::gameLoop()
 	cleanupGameLoop();
 }
 
+void GameSystem::removeInactiveEntities()
+{
+	entities.remove_if(
+		[](const std::shared_ptr<Entity> & ent) -> bool
+		{
+			if (ent->wantsToBeDeleted())
+				qDebug() << "Removing entity!";
+			return ent->wantsToBeDeleted();
+		}
+	);
+}
+
+void GameSystem::removeInactiveRenderables()
+{
+	for (auto it = renderables.begin(); it != renderables.end();)
+	{
+		if (it->second.expired())
+			renderables.erase(it++);
+		else
+			it++;
+	}
+}
+
+void GameSystem::refreshZOrder()
+{
+	std::vector<std::weak_ptr<Renderable>> renderablesToChange;
+	for (auto it = renderables.begin(); it != renderables.end();)
+	{
+		auto ptr = it->second.lock();
+		if (it->first != ptr->getZValue())
+		{
+			renderablesToChange.push_back(it->second);
+			renderables.erase(it++);
+		}
+		else
+			it++;
+	}
+	
+	for (std::weak_ptr<Renderable> r : renderablesToChange)
+		renderables.insert(
+			std::make_pair(r.lock()->getZValue(), r)
+		);
+}
+
 void GameSystem::cleanupGameLoop()
 {
 	entities.clear();
@@ -305,6 +344,14 @@ void GameSystem::changeState(State s)
 void GameSystem::addEntity(std::shared_ptr<Entity> ent)
 {
 	entities.push_back(ent);
+	
+	std::weak_ptr<Renderable> r = ent->getRenderable();
+	auto ptr = r.lock();
+	
+	if (ptr != nullptr)
+		renderables.insert(
+			std::make_pair(r.lock()->getZValue(), r)
+		);
 }
 
 std::string GameSystem::resourcePath(const std::string & src)

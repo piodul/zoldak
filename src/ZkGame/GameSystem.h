@@ -6,6 +6,7 @@
 #include <Box2D/Box2D.h>
 
 #include <list>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -20,6 +21,7 @@ namespace Zk {
 namespace Game {
 
 class Entity;
+class Renderable;
 class PlayerEntity;
 class Camera;
 
@@ -60,6 +62,9 @@ private:
 	
 	void initializeGameLoop();
 	void gameLoop();
+	void removeInactiveEntities();
+	void removeInactiveRenderables();
+	void refreshZOrder();
 	void cleanupGameLoop();
 	
 	QApplication app;
@@ -79,6 +84,7 @@ private:
 	sf::RenderWindow renderWindow;
 	
 	std::list<std::shared_ptr<Entity>> entities;
+	std::multimap<double, std::weak_ptr<Renderable>> renderables;
 	
 	Camera * camera;
 	
