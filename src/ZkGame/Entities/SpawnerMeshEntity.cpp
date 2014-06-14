@@ -6,13 +6,16 @@
 #include <algorithm>
 #include <limits>
 #include <map>
+#include <memory>
 #include <random>
 
+#include "../../ZkCommon/Constants.h"
 #include "../../ZkCommon/LibraryCast.h"
 #include "../../ZkCommon/Level.h"
 
-#include "SpawnerMeshEntity.h"
 #include "Entity.h"
+#include "SpawnerMeshEntity.h"
+#include "MedKitEntity.h"
 #include "../GameSystem.h"
 #include "../Renderables/Renderable.h"
 #include "../Renderables/MeshRenderable.h"
@@ -24,13 +27,21 @@ static sf::Vector2f randomPointInTriangle(std::array<sf::Vector2f, 3> verts);
 static sf::Vector2f randomPointInMesh(const sf::VertexArray & varr);
 static float triangleArea(std::array<sf::Vector2f, 3> verts);
 
-SpawnerMeshEntity::SpawnerMeshEntity(const LevelLayer * ll)
+SpawnerMeshEntity::SpawnerMeshEntity(const LevelLayer * ll, LayerType lt)
 	: Entity(nullptr, nullptr)
 {
 	this->ll = ll;
+	this->lt = lt;
 	
-	sf::VertexArray varr;
+	cooldown = 0.0;
+	
 	ll->constructMesh(varr);
+	
+	itemCount = 0;
+	if (lt == LayerType::MEDKIT_SPAWN)
+		maxItemCount = Constants::MAX_MEDKITS_ON_MAP;
+	else
+		maxItemCount = Constants::MAX_GRENADE_PACKS_ON_MAP;
 	
 	setRenderable(nullptr);
 	setBody(nullptr);
@@ -43,7 +54,18 @@ SpawnerMeshEntity::~SpawnerMeshEntity()
 
 void SpawnerMeshEntity::update(double step)
 {
+	cooldown = std::max(0.0, cooldown - step);
 	
+	if (cooldown == 0.0 && itemCount < maxItemCount)
+	{
+		sf::Vector2f pos = randomPointInMesh(varr);
+		GameSystem::getInstance()->addEntity(
+			std::make_shared<MedKitEntity>(pos, this)
+		);
+		
+		cooldown = COOLDOWN_IN_SECONDS;
+		itemCount++;
+	}
 }
 
 EntityType SpawnerMeshEntity::getType() const

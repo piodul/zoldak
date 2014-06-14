@@ -10,6 +10,7 @@
 #include <list>
 #include <memory>
 
+#include "../ZkCommon/Constants.h"
 #include "../ZkCommon/Level.h"
 
 #include "Config/Config.h"
@@ -23,6 +24,7 @@
 #include "Entities/CrateEntity.h"
 #include "Entities/PlayerEntity.h"
 #include "Entities/LevelMeshEntity.h"
+#include "Entities/SpawnerMeshEntity.h"
 #include "Entities/MouseTrackEntity.h"
 #include "Renderables/Renderable.h"
 #include "Camera.h"
@@ -109,7 +111,7 @@ void GameSystem::initializeGameLoop()
 	renderWindow.setVerticalSyncEnabled(true);
 	
 	Level l;
-	QFile f("../bin/box2.zvl");
+	QFile f("../bin/multilayer.zvl");
 	if (!f.open(QIODevice::ReadOnly))
 		qDebug() << "Failed to open level";
 	else
@@ -120,7 +122,14 @@ void GameSystem::initializeGameLoop()
 	
 	entities.push_back(
 		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[0]
+			l.getLayers()[(int)LayerType::MIDGROUND]
+		)
+	);
+	
+	entities.push_back(
+		std::make_shared<SpawnerMeshEntity>(
+			l.getLayers()[(int)LayerType::MEDKIT_SPAWN],
+			LayerType::MEDKIT_SPAWN
 		)
 	);
 	
@@ -130,16 +139,10 @@ void GameSystem::initializeGameLoop()
 		);
 		entities.push_back(ent);
 		
-		auto crate = std::make_shared<CrateEntity>(sf::Vector2f(0.f, -2.f));
-		entities.push_back(crate);
-		
-		auto crate2 = std::make_shared<CrateEntity>(sf::Vector2f(0.5f, -1.f));
-		entities.push_back(crate2);
-		auto crate3 = std::make_shared<CrateEntity>(sf::Vector2f(1.5f, -1.f));
-		entities.push_back(crate3);
 		auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
 		player->registerMe();
 		entities.push_back(player);
+		
 		this->player = player;
 	}
 	
@@ -282,4 +285,9 @@ void GameSystem::cleanupGameLoop()
 void GameSystem::changeState(State s)
 {
 	state = s;
+}
+
+void GameSystem::addEntity(std::shared_ptr<Entity> ent)
+{
+	entities.push_back(ent);
 }
