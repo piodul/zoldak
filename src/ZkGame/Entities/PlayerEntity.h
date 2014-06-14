@@ -35,6 +35,9 @@ class PlayerEntity :
 	static constexpr double HORIZONTAL_VELOCITY_CAP = 5.0;
 	
 public:
+	static constexpr double MAX_HP = 100.0;
+	static const int MAX_GRENADES = 5;
+	
 	PlayerEntity(sf::Vector2f pos);
 	virtual ~PlayerEntity();
 	
@@ -56,6 +59,9 @@ public:
 	{ return grenadeCount; }
 
 private:
+	void pickUpMedKit();
+	void pickUpGrenadePack();
+	
 	std::vector<ContactInfo> contacts;
 	
 	double health;

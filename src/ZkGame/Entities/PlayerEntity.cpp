@@ -119,9 +119,8 @@ void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 		MedKitEntity * ceEnt = (MedKitEntity*)ent;
 		ceEnt->pickUp();
 		contact->SetEnabled(false);
-		qDebug() << "pickup";
 		
-		health += 30.0;
+		pickUpMedKit();
 	}
 }
 
@@ -222,4 +221,17 @@ EntityType PlayerEntity::getType() const
 void PlayerEntity::takeDamage(double damage)
 {
 	
+}
+
+void PlayerEntity::pickUpMedKit()
+{
+	health += MedKitEntity::HP_PER_MEDKIT;
+	if (health > MAX_HP)
+		health = MAX_HP;
+}
+
+void PlayerEntity::pickUpGrenadePack()
+{
+	if (grenadeCount < MAX_GRENADES)
+		grenadeCount++;
 }
