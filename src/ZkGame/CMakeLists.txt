@@ -20,6 +20,9 @@ set(SOURCES
 	Renderables/BoxRenderable.cpp
 	Renderables/MeshRenderable.cpp
 	
+	Weapons/Weapon.cpp
+	Weapons/WeaponDef.cpp
+	
 	Lobby/LobbyWindow.cpp
 	Lobby/PlayTab.cpp
 	Lobby/GraphicsTab.cpp
