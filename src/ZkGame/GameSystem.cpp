@@ -283,3 +283,8 @@ void GameSystem::changeState(State s)
 {
 	state = s;
 }
+
+void GameSystem::addEntity(std::shared_ptr<Entity> ent)
+{
+	entities.push_back(ent);
+}

@@ -13,7 +13,7 @@ enum class EntityType : int
 	Unknown = 0,
 	PlayerEntity,
 	CrateEntity,
-	HealthPackEntity,
+	MedKitEntity,
 	LevelMeshEntity,
 	SpawnerMeshEntity,
 	MouseTrackEntity
