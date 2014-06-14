@@ -13,7 +13,7 @@ using namespace Zk::Common;
 using namespace Zk::Game;
 
 MedKitEntity::MedKitEntity(sf::Vector2f pos, SpawnerMeshEntity * spawner)
-	:	CrateEntity(pos, sf::Vector2f(0.5f, 0.5f), "../data/medkit.png"),
+	:	CrateEntity(pos, sf::Vector2f(0.25f, 0.25f), "../data/medkit.png"),
 		spawner(spawner)
 {
 	
