@@ -27,6 +27,8 @@
 #include "Entities/SpawnerMeshEntity.h"
 #include "Entities/MouseTrackEntity.h"
 #include "Renderables/Renderable.h"
+#include "Weapons/WeaponDef.h"
+#include "Weapons/Weapon.h"
 #include "Camera.h"
 
 using namespace Zk::Game;
@@ -174,15 +176,24 @@ void GameSystem::initializeGameLoop()
 		);
 		entities.push_back(ent);
 		
+		WeaponDef wd;
+		wd.damagePerShot = 5.0;
+		wd.muzzleVelocity = 25.0;
+		wd.refireTime = 0.1;
+		wd.reloadTime = 1.0;
+		wd.clipSize = 40;
+		
 		auto player = std::make_shared<PlayerEntity>(
 			sf::Vector2f(-1.5f, -1.f),
-			config.playerInputConfig[0]
+			config.playerInputConfig[0],
+			wd
 		);
 		player->registerMe();
 		
 		auto player2 = std::make_shared<PlayerEntity>(
 			sf::Vector2f(1.5f, -1.f),
-			config.playerInputConfig[1]
+			config.playerInputConfig[1],
+			wd
 		);
 		player2->registerMe();
 		

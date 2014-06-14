@@ -22,6 +22,8 @@
 #include "../Config/PlayerAction.h"
 #include "../Config/InputAction.h"
 #include "../Renderables/BoxRenderable.h"
+#include "../Weapons/WeaponDef.h"
+#include "../Weapons/Weapon.h"
 #include "../GameSystem.h"
 
 using namespace Zk::Common;
@@ -46,10 +48,15 @@ PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 	}
 }
 
-PlayerEntity::PlayerEntity(sf::Vector2f pos, const InputConfig & inputConfig) :
+PlayerEntity::PlayerEntity(
+	sf::Vector2f pos,
+	const InputConfig & inputConfig,
+	const WeaponDef & weaponDef
+) :
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
 	std::enable_shared_from_this<PlayerEntity>(),
+	weapon(weaponDef),
 	inputConfig(inputConfig)
 {
 	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
@@ -96,6 +103,8 @@ void PlayerEntity::registerMe()
 	GameSystem::getInstance()->getPhysicsSystem().registerListener(
 		shared_from_this()
 	);
+	
+	weapon.setOwner(shared_from_this());
 }
 
 void PlayerEntity::onBeginContactEvent(b2Contact * contact)
@@ -221,6 +230,8 @@ void PlayerEntity::update(double step)
 		//qDebug() << "Speed reset";
 		getBody()->SetLinearVelocity(b2Vec2(0.f, velocity.y));
 	}
+	
+	weapon.update(step, inputConfig.isActionTriggered(PlayerAction::Shoot));
 	
 	//if (isStanding)
 	//	qDebug() << "I'm standing";

@@ -1,9 +1,13 @@
 #pragma once
 
+#include <memory>
+
 #include "WeaponDef.h"
 
 namespace Zk {
 namespace Game {
+
+class PlayerEntity;
 
 class Weapon
 {
@@ -26,6 +30,9 @@ public:
 	///wystrzale, 1 - można strzelać.
 	double refireProgress() const;
 	
+	///Ustawia właściciela tej broni.
+	void setOwner(std::shared_ptr<PlayerEntity> owner);
+	
 private:
 	///Ilość sekund do całkowitego ochłodzenia.
 	double shotCooldown;
@@ -35,6 +42,9 @@ private:
 	
 	///Ilość amunicji w magazynku.
 	int ammoLeftInClip;
+	
+	///Właściciel broni.
+	std::weak_ptr<PlayerEntity> owner;
 	
 	///Definicja, na której bazuje ta broń.
 	WeaponDef weaponDef;

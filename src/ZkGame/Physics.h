@@ -28,6 +28,18 @@ public:
 class BodyCollisionListener : public CollisionListener
 {
 public:
+	struct ContactInfo
+	{
+		b2Contact * original;
+		b2Body * toucher;
+		b2Vec2 normal;
+		
+		ContactInfo(b2Body * myBody, b2Contact * original);
+		
+		inline bool operator==(const ContactInfo & other) const
+		{ return original == other.original; }
+	};
+	
 	BodyCollisionListener(b2Body * filteringBody);
 	
 	virtual bool interestedInBeginContactEvent(b2Contact * contact) override final;

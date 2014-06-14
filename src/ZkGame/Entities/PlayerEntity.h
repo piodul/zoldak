@@ -8,6 +8,8 @@
 
 #include "Entity.h"
 #include "../Config/InputConfig.h"
+#include "../Weapons/WeaponDef.h"
+#include "../Weapons/Weapon.h"
 #include "../Physics.h"
 
 namespace Zk {
@@ -20,26 +22,17 @@ class PlayerEntity :
 	public BodyCollisionListener,
 	public std::enable_shared_from_this<PlayerEntity>
 {
-	//Może przenieść do CollisionListener?
-	struct ContactInfo
-	{
-		b2Contact * original;
-		b2Body * toucher;
-		b2Vec2 normal;
-		
-		ContactInfo(b2Body * myBody, b2Contact * original);
-		
-		inline bool operator==(const ContactInfo & other) const
-		{ return original == other.original; }
-	};
-	
 	static constexpr double HORIZONTAL_VELOCITY_CAP = 5.0;
 	
 public:
 	static constexpr double MAX_HP = 100.0;
 	static const int MAX_GRENADES = 5;
 	
-	PlayerEntity(sf::Vector2f pos, const InputConfig & inputConfig);
+	PlayerEntity(
+		sf::Vector2f pos,
+		const InputConfig & inputConfig,
+		const WeaponDef & weaponDef
+	);
 	virtual ~PlayerEntity();
 	
 	void registerMe();
@@ -69,6 +62,7 @@ private:
 	int grenadeCount;
 	
 	double jumpCooldown;
+	Weapon weapon;
 	const InputConfig & inputConfig;
 };
 

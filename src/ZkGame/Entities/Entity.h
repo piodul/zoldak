@@ -19,7 +19,8 @@ enum class EntityType : int
 	GrenadePackEntity,
 	LevelMeshEntity,
 	SpawnerMeshEntity,
-	MouseTrackEntity
+	MouseTrackEntity,
+	BulletEntity
 };
 
 class Entity
