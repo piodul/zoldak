@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "../Config/InputConfig.h"
 #include "../Physics.h"
 
 namespace Zk {
@@ -38,7 +39,7 @@ public:
 	static constexpr double MAX_HP = 100.0;
 	static const int MAX_GRENADES = 5;
 	
-	PlayerEntity(sf::Vector2f pos);
+	PlayerEntity(sf::Vector2f pos, const InputConfig & inputConfig);
 	virtual ~PlayerEntity();
 	
 	void registerMe();
@@ -68,6 +69,7 @@ private:
 	int grenadeCount;
 	
 	double jumpCooldown;
+	const InputConfig & inputConfig;
 };
 
 }}

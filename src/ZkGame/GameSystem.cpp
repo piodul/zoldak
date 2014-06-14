@@ -174,7 +174,10 @@ void GameSystem::initializeGameLoop()
 		);
 		entities.push_back(ent);
 		
-		auto player = std::make_shared<PlayerEntity>(sf::Vector2f(-1.5f, -1.f));
+		auto player = std::make_shared<PlayerEntity>(
+			sf::Vector2f(-1.5f, -1.f),
+			config.playerInputConfig[0]
+		);
 		player->registerMe();
 		addEntity(player);
 		

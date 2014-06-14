@@ -48,6 +48,7 @@ public:
 	}
 	
 	const char * getName() const;
+	bool isTriggered() const;
 	
 private:
 	Type type;

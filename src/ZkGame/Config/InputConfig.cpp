@@ -12,6 +12,11 @@ InputConfig::InputConfig()
 		playerToInput[(PlayerAction)i] = InputAction();
 }
 
+bool InputConfig::isActionTriggered(PlayerAction pa) const
+{
+	return playerToInput.at(pa).isTriggered();
+}
+
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputConfig & ic)
 {
 	for (int i = 0; i < (int)PlayerAction::NUM_ACTIONS; i++)

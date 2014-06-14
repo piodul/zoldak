@@ -18,6 +18,9 @@
 #include "PlayerEntity.h"
 #include "MedKitEntity.h"
 #include "GrenadePackEntity.h"
+#include "../Config/InputConfig.h"
+#include "../Config/PlayerAction.h"
+#include "../Config/InputAction.h"
 #include "../Renderables/BoxRenderable.h"
 #include "../GameSystem.h"
 
@@ -43,10 +46,11 @@ PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 	}
 }
 
-PlayerEntity::PlayerEntity(sf::Vector2f pos) :
+PlayerEntity::PlayerEntity(sf::Vector2f pos, const InputConfig & inputConfig) :
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
-	std::enable_shared_from_this<PlayerEntity>()
+	std::enable_shared_from_this<PlayerEntity>(),
+	inputConfig(inputConfig)
 {
 	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
 	
@@ -167,7 +171,7 @@ void PlayerEntity::update(double step)
 	
 	jumpCooldown = std::max(0.0, jumpCooldown - step);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (inputConfig.isActionTriggered(PlayerAction::GoLeft))
 	{
 		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_CAP)
 			getBody()->ApplyForceToCenter(
@@ -179,7 +183,7 @@ void PlayerEntity::update(double step)
 			isRunning = !isRunning;
 	}
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (inputConfig.isActionTriggered(PlayerAction::GoRight))
 	{
 		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_CAP)
 			getBody()->ApplyForceToCenter(
@@ -191,7 +195,8 @@ void PlayerEntity::update(double step)
 			isRunning = !isRunning;
 	}
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && jumpCooldown == 0.f)
+	if (inputConfig.isActionTriggered(PlayerAction::Jump)
+		&& jumpCooldown == 0.f)
 	{
 		if (isStanding)
 		{

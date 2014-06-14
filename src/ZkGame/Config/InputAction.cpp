@@ -135,6 +135,14 @@ const char * InputAction::getName() const
 	}
 }
 
+bool InputAction::isTriggered() const
+{
+	if (type == Type::Key)
+		return sf::Keyboard::isKeyPressed(key);
+	else
+		return sf::Mouse::isButtonPressed(mouseButton);
+}
+
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputAction & ia)
 {
 	ds << (qint8)ia.getType();
