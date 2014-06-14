@@ -178,7 +178,7 @@ void GameSystem::initializeGameLoop()
 		this->player = player;
 	}
 	
-	camera = new SplitScreenCamera({ player });
+	camera = new SplitScreenCamera({ player, player });
 }
 
 void GameSystem::gameLoop()
@@ -248,17 +248,16 @@ void GameSystem::gameLoop()
 		}
 		
 		//Teraz rysujemy UI w specjalnym viewporcie
-		//for (sf::View view : views)
+		for (sf::View view : views)
 		{
-			sf::View view = views[0];
-			sf::VideoMode confVideoMode = config.graphicsConfig.videoMode;
-			sf::Vector2u viewSize(confVideoMode.width, confVideoMode.height);
+			sf::Vector2f viewSize =
+				view.getSize() * (float)Constants::PIXELS_PER_METER;
 			view.reset(sf::FloatRect(0.f, 0.f, viewSize.x, viewSize.y));
 			renderWindow.setView(view);
 			
 			sf::FloatRect fr = view.getViewport();
-			fr.left *= (float)viewSize.x;
-			fr.top *= (float)viewSize.y;
+			fr.left *= 0.f;
+			fr.top *= 0.f;
 			fr.width *= (float)viewSize.x;
 			fr.height *= (float)viewSize.y;
 			
