@@ -11,6 +11,7 @@ set(SOURCES
 	Entities/Entity.cpp
 	Entities/CrateEntity.cpp
 	Entities/MedKitEntity.cpp
+	Entities/GrenadePackEntity.cpp
 	Entities/PlayerEntity.cpp
 	Entities/LevelMeshEntity.cpp
 	Entities/SpawnerMeshEntity.cpp
