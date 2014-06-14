@@ -79,7 +79,7 @@ private:
 	Config config;
 	
 	//std::vector<std::weak<PlayerEntity>> players;
-	std::weak_ptr<PlayerEntity> player;
+	std::vector<std::weak_ptr<PlayerEntity>> players;
 	PlayerUI playerUI;
 	
 	State state;

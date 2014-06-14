@@ -179,12 +179,19 @@ void GameSystem::initializeGameLoop()
 			config.playerInputConfig[0]
 		);
 		player->registerMe();
-		addEntity(player);
 		
-		this->player = player;
+		auto player2 = std::make_shared<PlayerEntity>(
+			sf::Vector2f(1.5f, -1.f),
+			config.playerInputConfig[1]
+		);
+		player2->registerMe();
+		
+		addEntity(player);
+		addEntity(player2);
+		
+		this->players = { player, player2 };
+		camera = new SplitScreenCamera({ player, player2 });
 	}
-	
-	camera = new SplitScreenCamera({ player, player });
 }
 
 void GameSystem::gameLoop()
@@ -254,6 +261,7 @@ void GameSystem::gameLoop()
 		}
 		
 		//Teraz rysujemy UI w specjalnym viewporcie
+		int viewid = 0;
 		for (sf::View view : views)
 		{
 			sf::Vector2f viewSize =
@@ -267,7 +275,8 @@ void GameSystem::gameLoop()
 			fr.width *= (float)viewSize.x;
 			fr.height *= (float)viewSize.y;
 			
-			playerUI.paint(&renderWindow, player, fr);
+			playerUI.paint(&renderWindow, players[viewid], fr);
+			viewid++;
 		}
 		
 		renderWindow.display();
