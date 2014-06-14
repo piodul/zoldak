@@ -17,6 +17,7 @@
 
 #include "PlayerEntity.h"
 #include "MedKitEntity.h"
+#include "GrenadePackEntity.h"
 #include "../Renderables/BoxRenderable.h"
 #include "../GameSystem.h"
 
@@ -121,6 +122,14 @@ void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 		contact->SetEnabled(false);
 		
 		pickUpMedKit();
+	}
+	else if (ent->getType() == EntityType::GrenadePackEntity)
+	{
+		GrenadePackEntity * ceEnt = (GrenadePackEntity*)ent;
+		ceEnt->pickUp();
+		contact->SetEnabled(false);
+		
+		pickUpGrenadePack();
 	}
 }
 

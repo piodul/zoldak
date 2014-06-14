@@ -16,6 +16,7 @@
 #include "Entity.h"
 #include "SpawnerMeshEntity.h"
 #include "MedKitEntity.h"
+#include "GrenadePackEntity.h"
 #include "../GameSystem.h"
 #include "../Renderables/Renderable.h"
 #include "../Renderables/MeshRenderable.h"
@@ -59,9 +60,19 @@ void SpawnerMeshEntity::update(double step)
 	if (cooldown == 0.0 && itemCount < maxItemCount)
 	{
 		sf::Vector2f pos = randomPointInMesh(varr);
-		GameSystem::getInstance()->addEntity(
-			std::make_shared<MedKitEntity>(pos, this)
-		);
+		
+		if (lt == LayerType::MEDKIT_SPAWN)
+		{
+			GameSystem::getInstance()->addEntity(
+				std::make_shared<MedKitEntity>(pos, this)
+			);
+		}
+		else if (lt == LayerType::GRENADES_SPAWN)
+		{
+			GameSystem::getInstance()->addEntity(
+				std::make_shared<GrenadePackEntity>(pos, this)
+			);
+		}
 		
 		cooldown = COOLDOWN_IN_SECONDS;
 		itemCount++;

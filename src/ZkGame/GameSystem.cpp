@@ -133,6 +133,13 @@ void GameSystem::initializeGameLoop()
 		)
 	);
 	
+	entities.push_back(
+		std::make_shared<SpawnerMeshEntity>(
+			l.getLayers()[(int)LayerType::GRENADES_SPAWN],
+			LayerType::GRENADES_SPAWN
+		)
+	);
+	
 	{
 		std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
 			inputSystem.getMouseDeviceHandle(0)
