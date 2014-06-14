@@ -80,24 +80,24 @@ void SplitScreenCamera::setupViews()
 			{
 			case Alignment::Horizontal:
 				view.reset(sf::FloatRect(
-					factor * relativeScreenSize.x,
 					0.f,
-					(factor + step) * relativeScreenSize.x,
+					0.f,
+					step * relativeScreenSize.x,
 					relativeScreenSize.y
 				));
 				
-				view.setViewport(sf::FloatRect(factor, 0.f, factor + step, 1.f));
+				view.setViewport(sf::FloatRect(factor, 0.f, step, 1.f));
 				break;
 				
 			case Alignment::Vertical:
 				view.reset(sf::FloatRect(
 					0.f,
-					factor * relativeScreenSize.y,
+					0.f,
 					relativeScreenSize.x,
-					(factor + step) * relativeScreenSize.y
+					step * relativeScreenSize.y
 				));
 				
-				view.setViewport(sf::FloatRect(0.f, factor, 1.f, factor + step));
+				view.setViewport(sf::FloatRect(0.f, factor, 1.f, step));
 				break;
 			}
 			
