@@ -12,13 +12,10 @@ class Renderable;
 class CrateEntity : public Entity
 {
 public:
-	CrateEntity(sf::Vector2f pos);
+	CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSrc);
 	virtual ~CrateEntity();
 	
-	virtual void update(double step);
-	virtual EntityType getType() const override;
-	
-	void pickUp();
+	virtual void pickUp() = 0;
 };
 
 }}

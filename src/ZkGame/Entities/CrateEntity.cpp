@@ -11,7 +11,7 @@
 using namespace Zk::Common;
 using namespace Zk::Game;
 
-CrateEntity::CrateEntity(sf::Vector2f pos)
+CrateEntity::CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSrc)
 	: Entity(nullptr, nullptr)
 {
 	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
@@ -22,9 +22,8 @@ CrateEntity::CrateEntity(sf::Vector2f pos)
 	bodyDef.userData = (void*)this;
 	b2Body * body = world.CreateBody(&bodyDef);
 	
-	float radius = 0.5f;
 	b2PolygonShape polyShape;
-	polyShape.SetAsBox(radius, radius);
+	polyShape.SetAsBox(size.x, size.y);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &polyShape;
@@ -35,7 +34,7 @@ CrateEntity::CrateEntity(sf::Vector2f pos)
 	setBody(body);
 	
 	BoxRenderable * br = new BoxRenderable(
-		body, "../data/medkit.png"
+		body, imgSrc
 	);
 	setRenderable(br);
 }
@@ -43,19 +42,4 @@ CrateEntity::CrateEntity(sf::Vector2f pos)
 CrateEntity::~CrateEntity()
 {
 	
-}
-
-void CrateEntity::update(double step)
-{
-	
-}
-
-EntityType CrateEntity::getType() const
-{
-	return EntityType::CrateEntity;
-}
-
-void CrateEntity::pickUp()
-{
-	markForDeletion();
 }

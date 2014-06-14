@@ -14,6 +14,7 @@ enum class EntityType : int
 	PlayerEntity,
 	CrateEntity,
 	MedKitEntity,
+	GrenadePackEntity,
 	LevelMeshEntity,
 	SpawnerMeshEntity,
 	MouseTrackEntity
