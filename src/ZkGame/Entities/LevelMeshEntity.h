@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../../ZkCommon/Constants.h"
 #include "Entity.h"
 
 namespace Zk {
@@ -14,7 +15,7 @@ class Renderable;
 class LevelMeshEntity : public Entity
 {
 public:
-	LevelMeshEntity(const Common::LevelLayer * ll);
+	LevelMeshEntity(const Common::LevelLayer * ll, Common::LayerType lt);
 	virtual ~LevelMeshEntity();
 	
 	virtual void update(double step);
@@ -22,6 +23,7 @@ public:
 	
 private:
 	const Common::LevelLayer * ll;
+	Common::LayerType lt;
 };
 
 }}

@@ -5,6 +5,7 @@
 #include <limits>
 #include <map>
 
+#include "../../ZkCommon/Constants.h"
 #include "../../ZkCommon/LibraryCast.h"
 #include "../../ZkCommon/Level.h"
 
@@ -19,19 +20,25 @@ using namespace Zk::Game;
 
 static b2Body * createLevelLayerCollisionMesh(const LevelLayer * ll);
 
-LevelMeshEntity::LevelMeshEntity(const LevelLayer * ll)
+LevelMeshEntity::LevelMeshEntity(const LevelLayer * ll, LayerType lt)
 	: Entity(nullptr, nullptr)
 {
 	this->ll = ll;
+	this->lt = lt;
 	
 	sf::VertexArray varr;
 	ll->constructMesh(varr);
 	
-	setRenderable(new MeshRenderable(varr));
+	Renderable * r = new MeshRenderable(varr);
+	r->setZValue(-(double)lt);
+	setRenderable(r);
 	
-	b2Body * body = createLevelLayerCollisionMesh(ll);
-	body->SetUserData((void*)this);
-	setBody(body);
+	if (lt == LayerType::MIDGROUND)
+	{
+		b2Body * body = createLevelLayerCollisionMesh(ll);
+		body->SetUserData((void*)this);
+		setBody(body);
+	}
 }
 
 LevelMeshEntity::~LevelMeshEntity()

@@ -130,7 +130,22 @@ void GameSystem::initializeGameLoop()
 	
 	addEntity(
 		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::MIDGROUND]
+			l.getLayers()[(int)LayerType::FOREGROUND],
+			LayerType::FOREGROUND
+		)
+	);
+	
+	addEntity(
+		std::make_shared<LevelMeshEntity>(
+			l.getLayers()[(int)LayerType::MIDGROUND],
+			LayerType::MIDGROUND
+		)
+	);
+	
+	addEntity(
+		std::make_shared<LevelMeshEntity>(
+			l.getLayers()[(int)LayerType::BACKGROUND],
+			LayerType::BACKGROUND
 		)
 	);
 	

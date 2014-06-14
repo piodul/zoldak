@@ -73,6 +73,7 @@ PlayerEntity::PlayerEntity(sf::Vector2f pos) :
 	BoxRenderable * br = new BoxRenderable(
 		body, GameSystem::resourcePath("grenade-pack.png").c_str()
 	);
+	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
 	
 	jumpCooldown = 0.0;
