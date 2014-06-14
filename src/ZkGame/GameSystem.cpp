@@ -81,6 +81,8 @@ void GameSystem::lobbyLoop()
 			QEventLoop::WaitForMoreEvents,
 			250
 		);
+		
+		QThread::currentThread()->msleep(10);
 	}
 }
 
