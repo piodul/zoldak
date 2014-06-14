@@ -86,12 +86,18 @@ void GameSystem::lobbyLoop()
 
 void GameSystem::initializeGameLoop()
 {
-	renderWindow.create(
-		//sf::VideoMode(800, 600),
-		config.graphicsConfig.videoMode,
-		L"Żołdak",
-		sf::Style::Titlebar | sf::Style::Close
-	);
+	{
+		sf::Uint32 style = sf::Style::Titlebar | sf::Style::Close;
+		if (config.graphicsConfig.fullscreen)
+			style |= sf::Style::Fullscreen;
+		
+		renderWindow.create(
+			//sf::VideoMode(800, 600),
+			config.graphicsConfig.videoMode,
+			L"Żołdak",
+			style
+		);
+	}
 	
 	//Ustaw ikonę okna
 	{
