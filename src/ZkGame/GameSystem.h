@@ -67,6 +67,9 @@ private:
 	void refreshZOrder();
 	void cleanupGameLoop();
 	
+	void loadConfig();
+	void saveConfig() const;
+	
 	QApplication app;
 	
 	InputSystem inputSystem;

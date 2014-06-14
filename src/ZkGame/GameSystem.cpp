@@ -48,12 +48,15 @@ GameSystem::~GameSystem()
 
 int GameSystem::exec()
 {
+	loadConfig();
+	
 	while (state != State::Quit)
 	{
 		switch (state)
 		{
 		case State::Lobby:
 			lobbyLoop();
+			saveConfig();
 			break;
 			
 		case State::Game:
@@ -375,4 +378,30 @@ std::string GameSystem::resourcePath(const std::string & src)
 	QDir dir(QCoreApplication::applicationDirPath());
 	dir.cd("../data");
 	return dir.filePath(src.c_str()).toStdString();
+}
+
+void GameSystem::loadConfig()
+{
+	QFile f("zoldak-config");
+	if (!f.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "Warning: failed to load config!";
+		return;
+	}
+	
+	QDataStream ds(&f);
+	ds >> config;
+}
+
+void GameSystem::saveConfig() const
+{
+	QFile f("zoldak-config");
+	if (!f.open(QIODevice::WriteOnly))
+	{
+		qDebug() << "Warning: failed to save config!";
+		return;
+	}
+	
+	QDataStream ds(&f);
+	ds << config;
 }
