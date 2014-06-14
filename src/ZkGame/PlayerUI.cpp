@@ -13,9 +13,11 @@ using namespace Zk::Game;
 
 PlayerUI::PlayerUI(TextureCache & tc)
 {
-	font.loadFromFile("../data/SourceSansPro/SourceSansPro-Regular.otf");
-	healthTexture = tc.getTexture("../data/life.png");
-	grenadeTexture = tc.getTexture("../data/grenade.png");
+	font.loadFromFile(
+		GameSystem::resourcePath("../data/SourceSansPro/SourceSansPro-Regular.otf")
+	);
+	healthTexture = tc.getTexture(GameSystem::resourcePath("../data/life.png"));
+	grenadeTexture = tc.getTexture(GameSystem::resourcePath("../data/grenade.png"));
 }
 
 PlayerUI::~PlayerUI()

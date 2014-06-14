@@ -7,6 +7,7 @@
 
 #include <list>
 #include <memory>
+#include <string>
 
 #include "Config/Config.h"
 
@@ -40,6 +41,8 @@ public:
 	
 	void addEntity(std::shared_ptr<Entity> ent);
 	
+	static std::string resourcePath(const std::string & src);
+	
 	inline InputSystem & getInputSystem()
 	{ return inputSystem; }
 	inline PhysicsSystem & getPhysicsSystem()
@@ -59,6 +62,8 @@ private:
 	void gameLoop();
 	void cleanupGameLoop();
 	
+	QApplication app;
+	
 	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;
 	TextureCache textureCache;
@@ -71,7 +76,6 @@ private:
 	
 	State state;
 	
-	QApplication app;
 	sf::RenderWindow renderWindow;
 	
 	std::list<std::shared_ptr<Entity>> entities;

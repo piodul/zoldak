@@ -35,6 +35,11 @@ sf::Texture * TextureCache::getTexture(const char * src)
 	return texture;
 }
 
+sf::Texture * TextureCache::getTexture(const std::string & str)
+{
+	return getTexture(str.c_str());
+}
+
 void TextureCache::clear()
 {
 	for (auto it : cache)

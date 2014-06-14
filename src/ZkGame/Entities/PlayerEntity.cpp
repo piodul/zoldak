@@ -71,7 +71,7 @@ PlayerEntity::PlayerEntity(sf::Vector2f pos) :
 	setFilteringBody(body);
 	
 	BoxRenderable * br = new BoxRenderable(
-		body, "../data/grenade-pack.png"
+		body, GameSystem::resourcePath("grenade-pack.png").c_str()
 	);
 	setRenderable(br);
 	

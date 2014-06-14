@@ -13,7 +13,7 @@ using namespace Zk::Common;
 using namespace Zk::Game;
 
 GrenadePackEntity::GrenadePackEntity(sf::Vector2f pos, SpawnerMeshEntity * spawner)
-	:	CrateEntity(pos, sf::Vector2f(0.25f, 0.25f), "../data/grenade-pack.png"),
+	:	CrateEntity(pos, sf::Vector2f(0.25f, 0.25f), "grenade-pack.png"),
 		spawner(spawner)
 {
 	

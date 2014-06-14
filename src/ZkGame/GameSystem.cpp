@@ -35,7 +35,7 @@ using namespace Zk::Common;
 GameSystem * GameSystem::instance = nullptr;
 
 GameSystem::GameSystem(int argc, char ** argv)
-	: physicsSystem(), playerUI(textureCache), app(argc, argv)
+	: app(argc, argv), physicsSystem(), playerUI(textureCache)
 {
 	state = State::Lobby;
 	instance = this;
@@ -96,7 +96,9 @@ void GameSystem::initializeGameLoop()
 	//Ustaw ikonę okna
 	{
 		sf::Image wndIcon;
-		if (wndIcon.loadFromFile("../data/grenade.png"))
+		if (wndIcon.loadFromFile(
+			resourcePath("grenade.png"))
+		)
 		{	
 			sf::Vector2u iconSize = wndIcon.getSize();
 			
@@ -111,7 +113,7 @@ void GameSystem::initializeGameLoop()
 	renderWindow.setVerticalSyncEnabled(true);
 	
 	Level l;
-	QFile f("../bin/multilayer.zvl");
+	QFile f(resourcePath("../bin/multilayer.zvl").c_str());
 	if (!f.open(QIODevice::ReadOnly))
 		qDebug() << "Failed to open level";
 	else
@@ -297,4 +299,11 @@ void GameSystem::changeState(State s)
 void GameSystem::addEntity(std::shared_ptr<Entity> ent)
 {
 	entities.push_back(ent);
+}
+
+std::string GameSystem::resourcePath(const std::string & src)
+{
+	QDir dir(QCoreApplication::applicationDirPath());
+	dir.cd("../data");
+	return dir.filePath(src.c_str()).toStdString();
 }

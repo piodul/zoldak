@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <map>
+#include <string>
 
 namespace Zk {
 namespace Game {
@@ -16,6 +17,7 @@ public:
 	~TextureCache();
 	
 	sf::Texture * getTexture(const char * src);
+	sf::Texture * getTexture(const std::string & str);
 	void clear();
 	
 private:
