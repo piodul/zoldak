@@ -80,6 +80,16 @@ double Weapon::refireProgress() const
 	return 1.0 - (shotCooldown / weaponDef.refireTime);
 }
 
+int Weapon::getAmmoCount() const
+{
+	return ammoLeftInClip;
+}
+
+const WeaponDef & Weapon::getWeaponDef() const
+{
+	return weaponDef;
+}
+
 void Weapon::setOwner(std::shared_ptr<PlayerEntity> owner)
 {
 	this->owner = owner;

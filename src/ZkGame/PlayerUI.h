@@ -26,6 +26,7 @@ private:
 	sf::Font font;
 	sf::Texture * healthTexture;
 	sf::Texture * grenadeTexture;
+	sf::Texture * ammoTexture;
 };
 
 }}

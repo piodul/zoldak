@@ -51,6 +51,9 @@ public:
 	
 	inline int getGrenadeCount() const
 	{ return grenadeCount; }
+	
+	inline const Weapon & getWeapon() const
+	{ return weapon; }
 
 private:
 	void pickUpMedKit();

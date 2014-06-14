@@ -30,6 +30,12 @@ public:
 	///wystrzale, 1 - można strzelać.
 	double refireProgress() const;
 	
+	///Zwraca ilość amunicji w magazynku.
+	int getAmmoCount() const;
+	
+	///Zwraca definicję, na podstawie której ta broń została stworzona.
+	const WeaponDef & getWeaponDef() const;
+	
 	///Ustawia właściciela tej broni.
 	void setOwner(std::shared_ptr<PlayerEntity> owner);
 	
