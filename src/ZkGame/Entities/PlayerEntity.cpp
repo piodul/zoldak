@@ -89,7 +89,7 @@ PlayerEntity::PlayerEntity(
 	
 	jumpCooldown = 0.0;
 	
-	health = 0.0;
+	health = MAX_HP;
 	grenadeCount = 3;
 }
 
@@ -246,7 +246,8 @@ EntityType PlayerEntity::getType() const
 
 void PlayerEntity::takeDamage(double damage)
 {
-	
+	health = std::max(0.0, health - damage);
+	//TODO: Zabijać gracza w przypadku 0 HP
 }
 
 void PlayerEntity::pickUpMedKit()
