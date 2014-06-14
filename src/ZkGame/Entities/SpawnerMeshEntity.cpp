@@ -73,6 +73,11 @@ EntityType SpawnerMeshEntity::getType() const
 	return EntityType::SpawnerMeshEntity;
 }
 
+void SpawnerMeshEntity::entityPickedUp()
+{
+	itemCount--;
+}
+
 sf::Vector2f randomPointInTriangle(std::array<sf::Vector2f, 3> verts)
 {
 	static std::random_device rd;

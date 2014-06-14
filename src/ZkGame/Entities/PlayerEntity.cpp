@@ -16,7 +16,7 @@
 #include "../../ZkCommon/LibraryCast.h"
 
 #include "PlayerEntity.h"
-#include "CrateEntity.h"
+#include "MedKitEntity.h"
 #include "../Renderables/BoxRenderable.h"
 #include "../GameSystem.h"
 
@@ -114,9 +114,9 @@ void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 {
 	ContactInfo ci(getBody(), contact);
 	Entity * ent = (Entity*)ci.toucher->GetUserData();
-	if (ent->getType() == EntityType::CrateEntity)
+	if (ent->getType() == EntityType::MedKitEntity)
 	{
-		CrateEntity * ceEnt = (CrateEntity*)ent;
+		MedKitEntity * ceEnt = (MedKitEntity*)ent;
 		ceEnt->pickUp();
 		contact->SetEnabled(false);
 		qDebug() << "pickup";

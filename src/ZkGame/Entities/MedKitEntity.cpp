@@ -58,5 +58,6 @@ EntityType MedKitEntity::getType() const
 
 void MedKitEntity::pickUp()
 {
+	spawner->entityPickedUp();
 	markForDeletion();
 }
