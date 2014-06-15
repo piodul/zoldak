@@ -72,9 +72,10 @@ PlayerEntity::PlayerEntity(
 	bodyDef.userData = (void*)this;
 	b2Body * body = world.CreateBody(&bodyDef);
 	
-	float radius = 0.5f;
+	float bodyWidth = 24.f / 64.f;
+	float bodyHeight = 40.f / 64.f;
 	b2PolygonShape polyShape;
-	polyShape.SetAsBox(radius, radius);
+	polyShape.SetAsBox(bodyWidth, bodyHeight);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &polyShape;
@@ -86,8 +87,14 @@ PlayerEntity::PlayerEntity(
 	setBody(body);
 	setFilteringBody(body);
 	
+	std::string characterPath;
+	if (player.getID())
+		characterPath = "soldier-A.png";
+	else
+		characterPath = "soldier-B.png";
+	
 	BoxRenderable * br = new BoxRenderable(
-		body, GameSystem::resourcePath("grenade-pack.png").c_str()
+		body, GameSystem::resourcePath(characterPath).c_str()
 	);
 	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
