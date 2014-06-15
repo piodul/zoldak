@@ -22,7 +22,7 @@ public:
 	);
 	virtual ~CrosshairRenderable();
 	
-	virtual bool visibleToPlayer(std::weak_ptr<Player> player);
+	virtual bool visibleToPlayer(const Player & player);
 	
 private:
 	sf::Texture * texture;

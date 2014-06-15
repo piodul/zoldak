@@ -253,7 +253,8 @@ void Game::gameLoop()
 			for (auto p : renderables)
 			{
 				auto ptr = p.second.lock();
-				ptr->paint(&renderWindow);
+				if (ptr->visibleToPlayer(players[viewid]))
+					ptr->paint(&renderWindow);
 			}
 			
 			//Teraz rysujemy UI

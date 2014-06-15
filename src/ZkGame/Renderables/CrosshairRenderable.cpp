@@ -26,12 +26,7 @@ CrosshairRenderable::~CrosshairRenderable()
 	
 }
 
-bool CrosshairRenderable::visibleToPlayer(std::weak_ptr<Player> player)
+bool CrosshairRenderable::visibleToPlayer(const Player & player)
 {
-	auto ptr = player.lock();
-	
-	if (ptr != nullptr)
-		return this->player.lock() == ptr->getPlayerEntity().lock();
-	
-	return false;
+	return this->player.lock() == player.getPlayerEntity().lock();
 }

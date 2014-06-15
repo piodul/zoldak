@@ -19,7 +19,7 @@ public:
 	
 	virtual void paint(sf::RenderTarget * rt) = 0;
 	
-	virtual bool visibleToPlayer(std::weak_ptr<Player> player)
+	virtual bool visibleToPlayer(const Player & player)
 	{ return true; }
 	
 	inline double getZValue() const
