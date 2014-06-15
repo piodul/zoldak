@@ -143,6 +143,12 @@ void InputSystem::quitManyMouse()
 	manyMouseInitialized = false;
 }
 
+MouseDeviceHandle::MouseDeviceHandle()
+{
+	this->token = std::shared_ptr<int>();
+	this->info = nullptr;
+}
+
 MouseDeviceHandle::MouseDeviceHandle(
 	std::weak_ptr<int> token,
 	const mouseInfo_t * info

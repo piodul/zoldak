@@ -41,6 +41,7 @@ private:
 class MouseDeviceHandle
 {
 public:
+	MouseDeviceHandle();
 	MouseDeviceHandle(std::weak_ptr<int> token, const mouseInfo_t * info);
 	~MouseDeviceHandle();
 	
