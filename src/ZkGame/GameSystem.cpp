@@ -19,13 +19,16 @@
 
 #include "GameSystem.h"
 #include "InputSystem.h"
+#include "Player.h"
 #include "PlayerUI.h"
+#include "SpawnerMesh.h"
 #include "Entities/Entity.h"
 #include "Entities/CrateEntity.h"
 #include "Entities/PlayerEntity.h"
 #include "Entities/LevelMeshEntity.h"
 #include "Entities/SpawnerMeshEntity.h"
 #include "Entities/MouseTrackEntity.h"
+#include "Entities/PlayerTrackEntity.h"
 #include "Renderables/Renderable.h"
 #include "Weapons/WeaponDef.h"
 #include "Weapons/Weapon.h"
@@ -174,39 +177,62 @@ void GameSystem::initializeGameLoop()
 	);
 	
 	{
-		std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
-			inputSystem.getMouseDeviceHandle(0)
-		);
-		entities.push_back(ent);
-		
 		WeaponDef wd;
 		wd.damagePerShot = 5.0;
-		wd.muzzleVelocity = 25.0;
+		wd.muzzleVelocity = 100.0;
 		wd.refireTime = 0.1;
 		wd.reloadTime = 1.0;
 		wd.clipSize = 40;
 		
-		auto player = std::make_shared<PlayerEntity>(
-			sf::Vector2f(-1.5f, -1.f),
-			config.playerInputConfig[0],
-			inputSystem.getMouseDeviceHandle(0),
-			wd
-		);
-		player->registerMe();
+		players[0].setMouseDevice(inputSystem.getMouseDeviceHandle(0));
+		players[0].setSpawnerMesh(SpawnerMesh(
+			l.getLayers()[(int)LayerType::PLAYER_A_SPAWN]
+		));
+		players[0].setInputConfig(config.playerInputConfig[0]);
+		players[0].setWeaponDef(wd);
 		
-		auto player2 = std::make_shared<PlayerEntity>(
-			sf::Vector2f(1.5f, -1.f),
-			config.playerInputConfig[1],
-			inputSystem.getMouseDeviceHandle(1),
-			wd
-		);
-		player2->registerMe();
+		players[1].setMouseDevice(inputSystem.getMouseDeviceHandle(1));
+		players[1].setSpawnerMesh(SpawnerMesh(
+			l.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
+		));
+		players[1].setInputConfig(config.playerInputConfig[1]);
+		players[1].setWeaponDef(wd);
+	}
+	
+	auto track = std::make_shared<PlayerTrackEntity>(0);
+	auto track2 = std::make_shared<PlayerTrackEntity>(1);
+	entities.push_back(track);
+	entities.push_back(track2);
+	
+	camera = new SplitScreenCamera({ track, track2 });
+	
+	{
+		// std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
+		// 	inputSystem.getMouseDeviceHandle(0)
+		// );
+		// entities.push_back(ent);
 		
-		addEntity(player);
-		addEntity(player2);
+		// auto player = std::make_shared<PlayerEntity>(
+		// 	sf::Vector2f(-1.5f, -1.f),
+		// 	config.playerInputConfig[0],
+		// 	inputSystem.getMouseDeviceHandle(0),
+		// 	wd
+		// );
+		// player->registerMe();
 		
-		this->players = { player, player2 };
-		camera = new SplitScreenCamera({ player, player2 });
+		// auto player2 = std::make_shared<PlayerEntity>(
+		// 	sf::Vector2f(1.5f, -1.f),
+		// 	config.playerInputConfig[1],
+		// 	inputSystem.getMouseDeviceHandle(1),
+		// 	wd
+		// );
+		// player2->registerMe();
+		
+		// addEntity(player);
+		// addEntity(player2);
+		
+		// this->players = { player, player2 };
+		// camera = new SplitScreenCamera({ player, player2 });
 	}
 }
 
@@ -262,6 +288,9 @@ void GameSystem::gameLoop()
 		//Niektóre jednostki mogą chcieć skorzystać z widoków kamery
 		camera->setupViews();
 		
+		players[0].update(1.0 / 60.0);
+		players[1].update(1.0 / 60.0);
+		
 		//Update
 		for (std::shared_ptr<Entity> ent : entities)
 			ent->update(1.0 / 60.0);
@@ -299,7 +328,11 @@ void GameSystem::gameLoop()
 			fr.width *= (float)viewSize.x;
 			fr.height *= (float)viewSize.y;
 			
-			playerUI.paint(&renderWindow, players[viewid], fr);
+			playerUI.paint(
+				&renderWindow,
+				players[viewid].getPlayerEntity(),
+				fr
+			);
 			viewid++;
 		}
 		

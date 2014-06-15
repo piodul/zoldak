@@ -5,6 +5,7 @@
 #include "Entities/PlayerEntity.h"
 #include "Config/InputConfig.h"
 #include "SpawnerMesh.h"
+#include "GameSystem.h"
 
 using namespace Zk::Game;
 
@@ -52,6 +53,11 @@ void Player::update(double step)
 				mouseDevice,
 				weaponDef
 			);
+			
+			ptr->registerMe();
+			
+			GameSystem::getInstance()->addEntity(ptr);
+			entity = ptr;
 			
 			timeToRespawn = RESPAWN_TIME;
 		}

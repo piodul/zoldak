@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include <array>
 #include <list>
 #include <map>
 #include <memory>
@@ -14,6 +15,7 @@
 
 #include "InputSystem.h"
 #include "Physics.h"
+#include "Player.h"
 #include "PlayerUI.h"
 #include "TextureCache.h"
 
@@ -55,6 +57,8 @@ public:
 	{ return textureCache; }
 	inline const Config & getConfig() const
 	{ return config; }
+	inline std::array<Player, 2> & getPlayers()
+	{ return players; }
 	
 	inline static GameSystem * getInstance()
 	{ return instance; }
@@ -80,8 +84,7 @@ private:
 	
 	Config config;
 	
-	//std::vector<std::weak<PlayerEntity>> players;
-	std::vector<std::weak_ptr<PlayerEntity>> players;
+	std::array<Player, 2> players;
 	PlayerUI playerUI;
 	
 	State state;

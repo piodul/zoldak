@@ -42,6 +42,10 @@ void PlayerUI::paint(
 	// text.setColor(sf::Color::Blue);
 	// rt->draw(text);
 	auto p = pe.lock();
+	
+	if (p == nullptr)
+		return;
+	
 	double health = p->getHealth();
 	double healthFraction = health / 100.0;
 	int numGrenades = p->getGrenadeCount();

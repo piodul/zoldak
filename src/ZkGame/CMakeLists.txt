@@ -20,6 +20,7 @@ set(SOURCES
 	Entities/MouseTrackEntity.cpp
 	Entities/BulletEntity.cpp
 	Entities/CrosshairEntity.cpp
+	Entities/PlayerTrackEntity.cpp
 	
 	Renderables/BoxRenderable.cpp
 	Renderables/MeshRenderable.cpp

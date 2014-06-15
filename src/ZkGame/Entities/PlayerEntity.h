@@ -57,6 +57,9 @@ public:
 	
 	inline const Weapon & getWeapon() const
 	{ return weapon; }
+	
+	inline std::weak_ptr<CrosshairEntity> getCrosshairEntity() const
+	{ return crosshair; }
 
 private:
 	void pickUpMedKit();
