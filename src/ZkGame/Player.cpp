@@ -33,6 +33,11 @@ void Player::setWeaponDef(const WeaponDef & wd)
 	weaponDef = wd;
 }
 
+std::weak_ptr<PlayerEntity> Player::getPlayerEntity() const
+{
+	return entity;
+}
+
 void Player::update(double step)
 {
 	timeToRespawn = std::max(0.0, timeToRespawn - step);

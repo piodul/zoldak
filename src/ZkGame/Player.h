@@ -29,6 +29,9 @@ public:
 	///Ustawia definicję broni gracza.
 	void setWeaponDef(const WeaponDef & wd);
 	
+	///Zwraca związany z graczem PlayerEntity
+	std::weak_ptr<PlayerEntity> getPlayerEntity() const;
+	
 	///Aktualizuje logikę respawnu gracza.
 	void update(double step);
 	
