@@ -265,7 +265,9 @@ EntityType PlayerEntity::getType() const
 void PlayerEntity::takeDamage(double damage)
 {
 	health = std::max(0.0, health - damage);
-	//TODO: Zabijać gracza w przypadku 0 HP
+	
+	if (health == 0.0)
+		markForDeletion();
 }
 
 void PlayerEntity::pickUpMedKit()

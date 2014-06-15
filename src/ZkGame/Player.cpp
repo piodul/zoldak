@@ -41,11 +41,12 @@ std::weak_ptr<PlayerEntity> Player::getPlayerEntity() const
 
 void Player::update(double step)
 {
-	timeToRespawn = std::max(0.0, timeToRespawn - step);
-	if (timeToRespawn == 0.0)
+	auto ptr = entity.lock();
+	if (ptr == nullptr)
 	{
-		auto ptr = entity.lock();
-		if (ptr == nullptr)
+		timeToRespawn = std::max(0.0, timeToRespawn - step);
+		
+		if (timeToRespawn == 0.0)
 		{
 			ptr = std::make_shared<PlayerEntity>(
 				spawnerMesh.pickSpawnLocation(),
