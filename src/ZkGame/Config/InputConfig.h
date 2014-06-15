@@ -21,8 +21,9 @@ public:
 	friend QDataStream & operator>>(QDataStream & ds, InputConfig & ic);
 	
 	std::map<PlayerAction, InputAction> playerToInput;
+	MouseDeviceHandle mouseDevice;
 	
-	bool isActionTriggered(PlayerAction pa, MouseDeviceHandle mdh) const;
+	bool isActionTriggered(PlayerAction pa) const;
 };
 
 //Oto wielka tajemnica: dlaczego dwie następne linijki mogę pominąć,

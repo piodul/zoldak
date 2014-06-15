@@ -13,9 +13,9 @@ InputConfig::InputConfig()
 		playerToInput[(PlayerAction)i] = InputAction();
 }
 
-bool InputConfig::isActionTriggered(PlayerAction pa, MouseDeviceHandle mdh) const
+bool InputConfig::isActionTriggered(PlayerAction pa) const
 {
-	return playerToInput.at(pa).isTriggered(mdh);
+	return playerToInput.at(pa).isTriggered(mouseDevice);
 }
 
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputConfig & ic)

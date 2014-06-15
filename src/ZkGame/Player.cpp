@@ -19,11 +19,6 @@ Player::Player(int id)
 	numDeaths = 0;
 }
 
-void Player::setMouseDevice(MouseDeviceHandle md)
-{
-	mouseDevice = md;
-}
-
 void Player::setSpawnerMesh(const SpawnerMesh & sm)
 {
 	spawnerMesh = sm;
@@ -87,7 +82,6 @@ void Player::update(double step)
 				*this,
 				spawnerMesh.pickSpawnLocation(),
 				inputConfig,
-				mouseDevice,
 				weaponDef
 			);
 			

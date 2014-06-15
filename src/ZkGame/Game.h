@@ -37,8 +37,6 @@ public:
 	
 	sf::Vector2f getViewportDimensions() const;
 	
-	inline InputSystem & getInputSystem()
-	{ return inputSystem; }
 	inline PhysicsSystem & getPhysicsSystem()
 	{ return physicsSystem; }
 	inline std::array<Player, 2> & getPlayers()
@@ -59,7 +57,6 @@ private:
 	
 	sf::RenderWindow renderWindow;
 	
-	InputSystem inputSystem;
 	PhysicsSystem physicsSystem;
 	
 	std::list<std::shared_ptr<Entity>> entities;

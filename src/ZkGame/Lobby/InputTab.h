@@ -22,6 +22,8 @@ public:
 	
 private slots:
 	void changeInputBind(QTableWidgetItem * twi);
+	void changeMouseDevice();
+	void resetInputSystem();
 	void changePlayer();
 	
 private:

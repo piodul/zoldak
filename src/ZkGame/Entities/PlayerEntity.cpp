@@ -55,14 +55,12 @@ PlayerEntity::PlayerEntity(
 	Player & player,
 	sf::Vector2f pos,
 	const InputConfig & inputConfig,
-	MouseDeviceHandle mdh,
 	const WeaponDef & weaponDef
 ) :
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
 	std::enable_shared_from_this<PlayerEntity>(),
 	weapon(weaponDef, player),
-	mouseDevice(mdh),
 	inputConfig(inputConfig),
 	player(player)
 {
@@ -112,7 +110,7 @@ void PlayerEntity::registerMe()
 	);
 	
 	auto crosshair = std::make_shared<CrosshairEntity>(
-		shared_from_this(), mouseDevice
+		shared_from_this(), inputConfig.mouseDevice
 	);
 	
 	crosshair->registerMe();
@@ -193,7 +191,7 @@ void PlayerEntity::update(double step)
 	
 	jumpCooldown = std::max(0.0, jumpCooldown - step);
 	
-	if (inputConfig.isActionTriggered(PlayerAction::GoLeft, mouseDevice))
+	if (inputConfig.isActionTriggered(PlayerAction::GoLeft))
 	{
 		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_CAP)
 			getBody()->ApplyForceToCenter(
@@ -205,7 +203,7 @@ void PlayerEntity::update(double step)
 			isRunning = !isRunning;
 	}
 	
-	if (inputConfig.isActionTriggered(PlayerAction::GoRight, mouseDevice))
+	if (inputConfig.isActionTriggered(PlayerAction::GoRight))
 	{
 		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_CAP)
 			getBody()->ApplyForceToCenter(
@@ -217,7 +215,7 @@ void PlayerEntity::update(double step)
 			isRunning = !isRunning;
 	}
 	
-	if (inputConfig.isActionTriggered(PlayerAction::Jump, mouseDevice)
+	if (inputConfig.isActionTriggered(PlayerAction::Jump)
 		&& jumpCooldown == 0.f)
 	{
 		if (isStanding)
@@ -248,9 +246,7 @@ void PlayerEntity::update(double step)
 	sf::Vector2f direction =
 		crosshair.lock()->getCenterPosition() - getCenterPosition();
 	
-	weapon.update(step, direction, inputConfig.isActionTriggered(
-		PlayerAction::Shoot, mouseDevice
-	));
+	weapon.update(step, direction, inputConfig.isActionTriggered(PlayerAction::Shoot));
 	
 	//if (isStanding)
 	//	qDebug() << "I'm standing";

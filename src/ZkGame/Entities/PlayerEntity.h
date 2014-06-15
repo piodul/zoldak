@@ -35,7 +35,6 @@ public:
 		Player & player,
 		sf::Vector2f pos,
 		const InputConfig & inputConfig,
-		MouseDeviceHandle mdh,
 		const WeaponDef & weaponDef
 	);
 	virtual ~PlayerEntity();
@@ -74,7 +73,6 @@ private:
 	
 	double jumpCooldown;
 	Weapon weapon;
-	MouseDeviceHandle mouseDevice;
 	const InputConfig & inputConfig;
 	
 	Player & player;

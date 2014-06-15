@@ -202,5 +202,8 @@ sf::Vector3i MouseDeviceHandle::getRelativePosition() const
 
 bool MouseDeviceHandle::isButtonPressed(int btn) const
 {
+	if (token.expired())
+		return false;
+	
 	return (info->buttons & (1 << btn)) != 0;
 }

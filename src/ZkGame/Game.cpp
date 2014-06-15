@@ -172,14 +172,14 @@ void Game::initializeGameLoop()
 		wd.reloadTime = 3.0;
 		wd.clipSize = 30;
 		
-		players[0].setMouseDevice(inputSystem.getMouseDeviceHandle(0));
+		InputSystem & inputSystem = GameSystem::getInstance()->getInputSystem();
+		
 		players[0].setSpawnerMesh(SpawnerMesh(
 			l.getLayers()[(int)LayerType::PLAYER_A_SPAWN]
 		));
 		players[0].setInputConfig(config.playerInputConfig[0]);
 		players[0].setWeaponDef(wd);
 		
-		players[1].setMouseDevice(inputSystem.getMouseDeviceHandle(1));
 		players[1].setSpawnerMesh(SpawnerMesh(
 			l.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
 		));
@@ -235,7 +235,7 @@ void Game::gameLoop()
 		}
 		
 		//Eventy ManyMouse'a
-		inputSystem.pollInput();
+		GameSystem::getInstance()->getInputSystem().pollInput();
 		
 		//Fizyka
 		physicsSystem.simulate(1.0 / 60.0);

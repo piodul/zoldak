@@ -35,6 +35,7 @@ set(SOURCES
 	Lobby/GraphicsTab.cpp
 	Lobby/InputTab.cpp
 	Lobby/InputChoiceDialog.cpp
+	Lobby/MouseChoiceDialog.cpp
 	
 	Config/Config.cpp
 	Config/GraphicsConfig.cpp

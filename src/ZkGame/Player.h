@@ -21,9 +21,6 @@ class Player
 public:
 	Player(int id);
 	
-	///Ustawia uchwyt do myszki.
-	void setMouseDevice(MouseDeviceHandle md);
-	
 	///Ustawia SpawnerMesh gracza.
 	void setSpawnerMesh(const SpawnerMesh & sm);
 	
@@ -65,7 +62,6 @@ private:
 	
 	std::weak_ptr<PlayerEntity> entity;
 	SpawnerMesh spawnerMesh;
-	MouseDeviceHandle mouseDevice;
 	InputConfig inputConfig;
 	WeaponDef weaponDef;
 	PlayerUI ui;

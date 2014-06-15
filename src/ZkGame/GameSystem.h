@@ -42,6 +42,8 @@ public:
 	
 	static std::string resourcePath(const std::string & src);
 	
+	inline InputSystem & getInputSystem()
+	{ return inputSystem; }
 	inline TextureCache & getTextureCache()
 	{ return textureCache; }
 	inline const Config & getConfig() const
@@ -60,6 +62,8 @@ private:
 	void saveConfig() const;
 	
 	QApplication app;
+	
+	InputSystem inputSystem;
 	
 	TextureCache textureCache;
 	Config config;

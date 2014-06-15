@@ -9,7 +9,11 @@
 #include "../Config/InputAction.h"
 #include "../Config/PlayerAction.h"
 
+#include "../InputSystem.h"
+#include "../GameSystem.h"
+
 #include "InputChoiceDialog.h"
+#include "MouseChoiceDialog.h"
 #include "InputTab.h"
 
 using namespace Zk::Game;
@@ -30,8 +34,18 @@ InputTab::InputTab(Config & config, QWidget * parent)
 	connect(changePlayerButton, SIGNAL(clicked()),
 			this, SLOT(changePlayer()));
 	
+	QPushButton * changeMouseButton = new QPushButton("Change mouse");
+	connect(changeMouseButton, SIGNAL(clicked()),
+			this, SLOT(changeMouseDevice()));
+	
+	QPushButton * resetManyMouseButton = new QPushButton("Reset ManyMouse");
+	connect(resetManyMouseButton, SIGNAL(clicked()),
+			this, SLOT(resetInputSystem()));
+	
 	QHBoxLayout * bottomLayout = new QHBoxLayout();
 	bottomLayout->addWidget(changePlayerButton);
+	bottomLayout->addWidget(changeMouseButton);
+	bottomLayout->addWidget(resetManyMouseButton);
 	bottomLayout->addStretch();
 	
 	QVBoxLayout * mainLayout = new QVBoxLayout();
@@ -57,6 +71,18 @@ void InputTab::changeInputBind(QTableWidgetItem * twi)
 	PlayerAction pa = (PlayerAction)twi->row();
 	InputChoiceDialog::chooseInputAction(ia);
 	keyBindsWidget->item((int)pa, 1)->setText(ia.getName());
+}
+
+void InputTab::changeMouseDevice()
+{
+	MouseChoiceDialog::chooseMouse(
+		config.playerInputConfig[displayedPlayerID].mouseDevice
+	);
+}
+
+void InputTab::resetInputSystem()
+{
+	GameSystem::getInstance()->getInputSystem().resetMice();
 }
 
 void InputTab::changePlayer()
