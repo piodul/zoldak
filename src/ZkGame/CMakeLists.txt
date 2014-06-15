@@ -7,6 +7,7 @@ set(SOURCES
 	GameSystem.cpp
 	InputSystem.cpp
 	TextureCache.cpp
+	SpawnerMesh.cpp
 	
 	Entities/Entity.cpp
 	Entities/CrateEntity.cpp

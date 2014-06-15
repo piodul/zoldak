@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../SpawnerMesh.h"
+
 #include "../../ZkCommon/Constants.h"
 #include "Entity.h"
 
@@ -12,6 +14,7 @@ namespace Game {
 
 class Renderable;
 
+///Automatyczny spawner skrzynek z granatami lub medkitów.
 class SpawnerMeshEntity : public Entity
 {
 public:
@@ -24,12 +27,9 @@ public:
 	void entityPickedUp();
 	
 private:
-	void spawnEntity();
-	
 	static constexpr double COOLDOWN_IN_SECONDS = 5.0;
 	
-	const Common::LevelLayer * ll;
-	sf::VertexArray varr;
+	SpawnerMesh spawnerMesh;
 	Common::LayerType lt;
 	
 	double cooldown;
