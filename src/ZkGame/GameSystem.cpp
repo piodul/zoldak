@@ -178,11 +178,11 @@ void GameSystem::initializeGameLoop()
 	
 	{
 		WeaponDef wd;
-		wd.damagePerShot = 5.0;
+		wd.damagePerShot = 15.0;
 		wd.muzzleVelocity = 100.0;
-		wd.refireTime = 0.1;
-		wd.reloadTime = 1.0;
-		wd.clipSize = 40;
+		wd.refireTime = 0.05;
+		wd.reloadTime = 3.0;
+		wd.clipSize = 30;
 		
 		players[0].setMouseDevice(inputSystem.getMouseDeviceHandle(0));
 		players[0].setSpawnerMesh(SpawnerMesh(
