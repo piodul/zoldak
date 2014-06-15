@@ -191,3 +191,8 @@ sf::Vector3i MouseDeviceHandle::getRelativePosition() const
 	
 	return info->relativePos;
 }
+
+bool MouseDeviceHandle::isButtonPressed(int btn) const
+{
+	return (info->buttons & (1 << btn)) != 0;
+}

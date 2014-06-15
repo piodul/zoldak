@@ -5,6 +5,7 @@
 #include <map>
 
 #include "InputAction.h"
+#include "../InputSystem.h"
 
 using namespace Zk::Game;
 
@@ -120,6 +121,14 @@ static const std::map<sf::Mouse::Button, const char*> mouseButtonToName {
 	{ sf::Mouse::XButton2,		"[Mouse XButton2]" }
 };
 
+static const std::map<sf::Mouse::Button, int> mouseButtonSFMLToManyMouse {
+	{ sf::Mouse::Left,			0 },
+	{ sf::Mouse::Right,			1 },
+	{ sf::Mouse::Middle,		2 },
+	{ sf::Mouse::XButton1,		3 },
+	{ sf::Mouse::XButton2,		4 }
+};
+
 const char * InputAction::getName() const
 {
 	if (type == Type::Key)
@@ -135,12 +144,12 @@ const char * InputAction::getName() const
 	}
 }
 
-bool InputAction::isTriggered() const
+bool InputAction::isTriggered(MouseDeviceHandle mdh) const
 {
 	if (type == Type::Key)
 		return sf::Keyboard::isKeyPressed(key);
 	else
-		return sf::Mouse::isButtonPressed(mouseButton);
+		return mdh.isButtonPressed(mouseButtonSFMLToManyMouse.at(mouseButton));
 }
 
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputAction & ia)

@@ -6,6 +6,8 @@
 
 #include <map>
 
+#include "../InputSystem.h"
+
 namespace Zk {
 namespace Game {
 
@@ -48,7 +50,7 @@ public:
 	}
 	
 	const char * getName() const;
-	bool isTriggered() const;
+	bool isTriggered(MouseDeviceHandle mdh) const;
 	
 private:
 	Type type;

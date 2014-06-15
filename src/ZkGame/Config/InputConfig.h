@@ -7,6 +7,7 @@
 
 #include "PlayerAction.h"
 #include "InputAction.h"
+#include "../InputSystem.h"
 
 namespace Zk {
 namespace Game {
@@ -21,7 +22,7 @@ public:
 	
 	std::map<PlayerAction, InputAction> playerToInput;
 	
-	bool isActionTriggered(PlayerAction pa) const;
+	bool isActionTriggered(PlayerAction pa, MouseDeviceHandle mdh) const;
 };
 
 //Oto wielka tajemnica: dlaczego dwie następne linijki mogę pominąć,

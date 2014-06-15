@@ -113,8 +113,8 @@ void PlayerEntity::registerMe()
 	);
 	
 	crosshair->registerMe();
-	
 	GameSystem::getInstance()->addEntity(crosshair);
+	this->crosshair = crosshair;
 	
 	weapon.setOwner(shared_from_this());
 }
@@ -192,7 +192,7 @@ void PlayerEntity::update(double step)
 	
 	jumpCooldown = std::max(0.0, jumpCooldown - step);
 	
-	if (inputConfig.isActionTriggered(PlayerAction::GoLeft))
+	if (inputConfig.isActionTriggered(PlayerAction::GoLeft, mouseDevice))
 	{
 		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_CAP)
 			getBody()->ApplyForceToCenter(
@@ -204,7 +204,7 @@ void PlayerEntity::update(double step)
 			isRunning = !isRunning;
 	}
 	
-	if (inputConfig.isActionTriggered(PlayerAction::GoRight))
+	if (inputConfig.isActionTriggered(PlayerAction::GoRight, mouseDevice))
 	{
 		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_CAP)
 			getBody()->ApplyForceToCenter(
@@ -216,7 +216,7 @@ void PlayerEntity::update(double step)
 			isRunning = !isRunning;
 	}
 	
-	if (inputConfig.isActionTriggered(PlayerAction::Jump)
+	if (inputConfig.isActionTriggered(PlayerAction::Jump, mouseDevice)
 		&& jumpCooldown == 0.f)
 	{
 		if (isStanding)
@@ -243,7 +243,9 @@ void PlayerEntity::update(double step)
 		getBody()->SetLinearVelocity(b2Vec2(0.f, velocity.y));
 	}
 	
-	weapon.update(step, inputConfig.isActionTriggered(PlayerAction::Shoot));
+	weapon.update(step, inputConfig.isActionTriggered(
+		PlayerAction::Shoot, mouseDevice
+	));
 	
 	//if (isStanding)
 	//	qDebug() << "I'm standing";

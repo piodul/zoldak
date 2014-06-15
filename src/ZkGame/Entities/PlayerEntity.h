@@ -17,6 +17,7 @@ namespace Zk {
 namespace Game {
 
 class Renderable;
+class CrosshairEntity;
 
 class PlayerEntity :
 	public Entity,
@@ -70,6 +71,8 @@ private:
 	Weapon weapon;
 	MouseDeviceHandle mouseDevice;
 	const InputConfig & inputConfig;
+	
+	std::weak_ptr<CrosshairEntity> crosshair;
 };
 
 }}

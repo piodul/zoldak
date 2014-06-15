@@ -3,6 +3,7 @@
 #include "PlayerAction.h"
 #include "InputAction.h"
 #include "InputConfig.h"
+#include "../InputSystem.h"
 
 using namespace Zk::Game;
 
@@ -12,9 +13,9 @@ InputConfig::InputConfig()
 		playerToInput[(PlayerAction)i] = InputAction();
 }
 
-bool InputConfig::isActionTriggered(PlayerAction pa) const
+bool InputConfig::isActionTriggered(PlayerAction pa, MouseDeviceHandle mdh) const
 {
-	return playerToInput.at(pa).isTriggered();
+	return playerToInput.at(pa).isTriggered(mdh);
 }
 
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputConfig & ic)
