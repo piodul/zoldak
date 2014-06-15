@@ -23,6 +23,7 @@ set(SOURCES
 	
 	Renderables/BoxRenderable.cpp
 	Renderables/MeshRenderable.cpp
+	Renderables/SpriteRenderable.cpp
 	
 	Weapons/Weapon.cpp
 	Weapons/WeaponDef.cpp
