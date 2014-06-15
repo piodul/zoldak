@@ -240,7 +240,6 @@ void PlayerEntity::update(double step)
 			groundNormal.x *= scale;
 			groundNormal.y *= scale;
 
-			//qDebug() << "Jump!";
 			getBody()->ApplyLinearImpulse(
 				groundNormal, b2Vec2(0.f, 0.f), true
 			);

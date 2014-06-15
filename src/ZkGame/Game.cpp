@@ -199,8 +199,6 @@ void Game::gameLoop()
 
 		sf::Time qtLoopFinished = beat.getElapsedTime();
 
-		//qDebug() << (qtLoopFinished - frameStart).asMilliseconds();
-
 		//Eventy SFML-a
 		sf::Event event;
 		while (renderWindow.pollEvent(event))

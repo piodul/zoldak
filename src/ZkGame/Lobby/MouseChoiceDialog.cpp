@@ -46,7 +46,6 @@ bool MouseChoiceDialog::chooseMouse(MouseDeviceHandle & mdh)
 				if (mdh2.isButtonPressed(j))
 				{
 					mdh = mdh2;
-					qDebug() << "YAY!";
 					return true;
 				}
 			}

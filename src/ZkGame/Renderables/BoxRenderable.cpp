@@ -34,14 +34,10 @@ BoxRenderable::BoxRenderable(
 	sf::Vector2f imageSize =
 		sf::Vector2f(texture->getSize()) * (float)Constants::METERS_PER_PIXEL;
 
-	qDebug() << lib_cast<QPointF>(bodySize);
-
 	sf::Vector2f scalingFactor = sf::Vector2f(
 		bodySize.x / imageSize.x,
 		bodySize.y / imageSize.y
 	) * (float)Constants::METERS_PER_PIXEL;
-
-	qDebug() << lib_cast<QPointF>(scalingFactor);
 
 	sprite.setTexture(*texture);
 	sprite.setOrigin(sf::Vector2f(texture->getSize()) * 0.5f);
