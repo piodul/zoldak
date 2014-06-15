@@ -56,7 +56,7 @@ GrenadeEntity::GrenadeEntity(
 	body->CreateFixture(&fixtureDef);
 	
 	setBody(body);
-	//setFilteringBody(body);
+	setFilteringBody(body);
 	
 	BoxRenderable * br = new BoxRenderable(
 		body, GameSystem::resourcePath("grenade-particle.png").c_str()
