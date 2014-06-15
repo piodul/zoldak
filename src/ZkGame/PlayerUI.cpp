@@ -41,20 +41,40 @@ void PlayerUI::paint(
 	// text.setCharacterSize(24);
 	// text.setColor(sf::Color::Blue);
 	// rt->draw(text);
+	
+	double health;
+	double healthFraction;
+	double ammoFraction;
+	int numGrenades;
+	
 	auto p = pe.lock();
+	if (p != nullptr)
+	{
+		const Weapon & weapon = p->getWeapon();
+		
+		health = p->getHealth();
+		
+		if (weapon.getAmmoCount() > 0)
+			ammoFraction =
+				(double)weapon.getAmmoCount() /
+				(double)weapon.getWeaponDef().clipSize;
+		else
+			ammoFraction = weapon.reloadProgress();
+		
+		numGrenades = p->getGrenadeCount();
+	}
+	else
+	{
+		health = 0.0;
+		ammoFraction = 0.0;
+		numGrenades = 0;
+	}
 	
-	if (p == nullptr)
-		return;
-	
-	double health = p->getHealth();
-	double healthFraction = health / 100.0;
-	int numGrenades = p->getGrenadeCount();
+	healthFraction = health / 100.0;
 	
 	sf::Vector2u htSize = healthTexture->getSize();
 	sf::Vector2u gtSize = grenadeTexture->getSize();
 	sf::Vector2u atSize = ammoTexture->getSize();
-	
-	const Weapon & weapon = p->getWeapon();
 	
 	//Narysuj amunicję
 	sf::Sprite sprite;
@@ -66,13 +86,6 @@ void PlayerUI::paint(
 	rt->draw(sprite);
 	
 	//Pasek amunicji
-	double ammoFraction;
-	if (weapon.getAmmoCount() > 0)
-		ammoFraction =
-			(double)weapon.getAmmoCount() / (double)weapon.getWeaponDef().clipSize;
-	else
-		ammoFraction = weapon.reloadProgress();
-	
 	sf::RectangleShape rs;
 	rs.setPosition(sf::Vector2f(
 		area.left + htSize.x + 2.f,
