@@ -2,8 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+
 namespace Zk {
 namespace Game {
+
+class Player;
 
 class Renderable
 {
@@ -14,6 +18,9 @@ public:
 	virtual ~Renderable() {};
 	
 	virtual void paint(sf::RenderTarget * rt) = 0;
+	
+	virtual bool visibleToPlayer(std::weak_ptr<Player> player)
+	{ return true; }
 	
 	inline double getZValue() const
 	{ return z; }
