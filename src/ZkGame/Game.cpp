@@ -164,25 +164,15 @@ void Game::initializeGameLoop()
 	);
 	
 	{
-		WeaponDef wd;
-		wd.damagePerShot = 15.0;
-		wd.muzzleVelocity = 100.0;
-		wd.refireTime = 0.05;
-		wd.reloadTime = 3.0;
-		wd.clipSize = 30;
-		wd.particleType = WeaponDef::ParticleType::BULLET;
-		
 		players[0].setSpawnerMesh(SpawnerMesh(
 			level.getLayers()[(int)LayerType::PLAYER_A_SPAWN]
 		));
 		players[0].setInputConfig(config.playerInputConfig[0]);
-		players[0].setWeaponDef(wd);
 		
 		players[1].setSpawnerMesh(SpawnerMesh(
 			level.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
 		));
 		players[1].setInputConfig(config.playerInputConfig[1]);
-		players[1].setWeaponDef(wd);
 	}
 	
 	auto track = std::make_shared<PlayerTrackEntity>(0);

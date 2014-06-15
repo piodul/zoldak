@@ -27,9 +27,6 @@ public:
 	///Ustawia konfigurację klawiszy.
 	void setInputConfig(const InputConfig & ic);
 	
-	///Ustawia definicję broni gracza.
-	void setWeaponDef(const WeaponDef & wd);
-	
 	///Raportuje dokonanie zabójstwa przez gracza.
 	void reportKill();
 	
@@ -63,7 +60,6 @@ private:
 	std::weak_ptr<PlayerEntity> entity;
 	SpawnerMesh spawnerMesh;
 	InputConfig inputConfig;
-	WeaponDef weaponDef;
 	PlayerUI ui;
 	
 	int id;

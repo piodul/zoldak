@@ -32,6 +32,15 @@
 using namespace Zk::Common;
 using namespace Zk::Game;
 
+static const WeaponDef mainWeaponDef {
+	7.5,	//obrażenia od jednego strzału
+	100.0,	//prędkość wylotowa
+	0.05,	//czas do następnego wystrzału
+	3.0,	//czas przzeładowania
+	30,		//rozmiar magazynka
+	WeaponDef::ParticleType::BULLET
+};
+
 static const WeaponDef grenadeDef {
 	100.0,	//obrażenia od jednego strzału
 	10.0,	//prędkość wylotowa
@@ -63,13 +72,12 @@ PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 PlayerEntity::PlayerEntity(
 	Player & player,
 	sf::Vector2f pos,
-	const InputConfig & inputConfig,
-	const WeaponDef & weaponDef
+	const InputConfig & inputConfig
 ) :
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
 	std::enable_shared_from_this<PlayerEntity>(),
-	weapon(weaponDef, player),
+	weapon(mainWeaponDef, player),
 	grenadeWeapon(grenadeDef, player),
 	inputConfig(inputConfig),
 	player(player)

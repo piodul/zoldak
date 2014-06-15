@@ -34,8 +34,7 @@ public:
 	PlayerEntity(
 		Player & player,
 		sf::Vector2f pos,
-		const InputConfig & inputConfig,
-		const WeaponDef & weaponDef
+		const InputConfig & inputConfig
 	);
 	virtual ~PlayerEntity();
 	

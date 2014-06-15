@@ -29,11 +29,6 @@ void Player::setInputConfig(const InputConfig & ic)
 	inputConfig = ic;
 }
 
-void Player::setWeaponDef(const WeaponDef & wd)
-{
-	weaponDef = wd;
-}
-
 void Player::reportKill()
 {
 	numKills++;
@@ -81,8 +76,7 @@ void Player::update(double step)
 			ptr = std::make_shared<PlayerEntity>(
 				*this,
 				spawnerMesh.pickSpawnLocation(),
-				inputConfig,
-				weaponDef
+				inputConfig
 			);
 			
 			ptr->registerMe();
