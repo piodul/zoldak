@@ -9,6 +9,14 @@ using namespace Zk::Game;
 
 static const int TOKEN_NUMBER = 2 * 3 * 7;
 
+mouseInfo_t::mouseInfo_t()
+{
+	absolutePos = sf::Vector3i(0, 0, 0);
+	relativePos = sf::Vector3i(0, 0, 0);
+	buttons = 0;
+	connected = false;
+}
+
 InputSystem::InputSystem()
 {
 	manyMouseInitialized = false;

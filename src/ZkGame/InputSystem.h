@@ -11,6 +11,8 @@ class MouseDeviceHandle;
 
 struct mouseInfo_t
 {
+	mouseInfo_t();
+	
 	sf::Vector3i absolutePos;
 	sf::Vector3i relativePos;
 	int buttons;
