@@ -10,19 +10,19 @@
 namespace Zk {
 namespace Game {
 
+class Player;
+
 class PlayerUI
 {
 public:
-	PlayerUI(TextureCache & tc);
+	PlayerUI(Player & player, TextureCache & tc);
 	~PlayerUI();
 	
-	void paint(
-		sf::RenderTarget * rt,
-		std::weak_ptr<PlayerEntity> pe,
-		sf::FloatRect area
-	);
+	void paint(sf::RenderTarget * rt);
 	
 private:
+	Player & player;
+	
 	sf::Font font;
 	sf::Texture * healthTexture;
 	sf::Texture * grenadeTexture;

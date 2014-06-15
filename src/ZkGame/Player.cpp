@@ -9,8 +9,10 @@
 
 using namespace Zk::Game;
 
-Player::Player()
+Player::Player(int id, TextureCache & tc)
+	: ui(*this, tc)
 {
+	this->id = id;
 	timeToRespawn = 0.0;
 }
 
@@ -39,6 +41,11 @@ std::weak_ptr<PlayerEntity> Player::getPlayerEntity() const
 	return entity;
 }
 
+int Player::getID() const
+{
+	return id;
+}
+
 void Player::update(double step)
 {
 	auto ptr = entity.lock();
@@ -63,4 +70,9 @@ void Player::update(double step)
 			timeToRespawn = RESPAWN_TIME;
 		}
 	}
+}
+
+void Player::paintUI(sf::RenderTarget * rt)
+{
+	ui.paint(rt);
 }

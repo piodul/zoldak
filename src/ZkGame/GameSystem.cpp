@@ -39,8 +39,13 @@ using namespace Zk::Common;
 
 GameSystem * GameSystem::instance = nullptr;
 
-GameSystem::GameSystem(int argc, char ** argv)
-	: app(argc, argv), physicsSystem(), playerUI(textureCache)
+GameSystem::GameSystem(int argc, char ** argv) :
+	app(argc, argv),
+	physicsSystem(),
+	players{
+		Player(0, textureCache),
+		Player(1, textureCache)
+	}
 {
 	state = State::Lobby;
 	instance = this;
@@ -303,6 +308,7 @@ void GameSystem::gameLoop()
 		
 		std::vector<sf::View> views = camera->getViews();
 		
+		int viewid = 0;
 		for (sf::View view : views)
 		{
 			renderWindow.setView(view);
@@ -311,28 +317,10 @@ void GameSystem::gameLoop()
 				auto ptr = p.second.lock();
 				ptr->paint(&renderWindow);
 			}
-		}
-		
-		//Teraz rysujemy UI w specjalnym viewporcie
-		int viewid = 0;
-		for (sf::View view : views)
-		{
-			sf::Vector2f viewSize =
-				view.getSize() * (float)Constants::PIXELS_PER_METER;
-			view.reset(sf::FloatRect(0.f, 0.f, viewSize.x, viewSize.y));
-			renderWindow.setView(view);
 			
-			sf::FloatRect fr = view.getViewport();
-			fr.left *= 0.f;
-			fr.top *= 0.f;
-			fr.width *= (float)viewSize.x;
-			fr.height *= (float)viewSize.y;
+			//Teraz rysujemy UI
+			players[viewid].paintUI(&renderWindow);
 			
-			playerUI.paint(
-				&renderWindow,
-				players[viewid].getPlayerEntity(),
-				fr
-			);
 			viewid++;
 		}
 		

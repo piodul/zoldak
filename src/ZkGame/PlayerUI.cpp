@@ -3,18 +3,24 @@
 #include <QDebug>
 
 #include <memory>
+#include <vector>
+
+#include "../ZkCommon/Constants.h"
 
 #include "PlayerUI.h"
 #include "Entities/PlayerEntity.h"
 #include "GameSystem.h"
 #include "TextureCache.h"
+#include "Camera.h"
 
 #include "Weapons/Weapon.h"
 #include "Weapons/WeaponDef.h"
 
+using namespace Zk::Common;
 using namespace Zk::Game;
 
-PlayerUI::PlayerUI(TextureCache & tc)
+PlayerUI::PlayerUI(Player & player, TextureCache & tc)
+	: player(player)
 {
 	font.loadFromFile(
 		GameSystem::resourcePath("SourceSansPro/SourceSansPro-Regular.otf")
@@ -29,11 +35,7 @@ PlayerUI::~PlayerUI()
 	
 }
 
-void PlayerUI::paint(
-	sf::RenderTarget * rt,
-	std::weak_ptr<PlayerEntity> pe,
-	sf::FloatRect area
-)
+void PlayerUI::paint(sf::RenderTarget * rt)
 {
 	// sf::Text text;
 	// text.setFont(font);
@@ -41,6 +43,25 @@ void PlayerUI::paint(
 	// text.setCharacterSize(24);
 	// text.setColor(sf::Color::Blue);
 	// rt->draw(text);
+	
+	std::weak_ptr<PlayerEntity> pe = player.getPlayerEntity();
+	
+	Camera * cam =  GameSystem::getInstance()->getCamera();
+	sf::View view = cam->getViews()[player.getID()];
+	
+	//Modyfikujemy widok, gdyż potrzebne jest mierzenie
+	//długości/pozycji w pikselach
+	sf::Vector2f viewSize =
+		view.getSize() * (float)Constants::PIXELS_PER_METER;
+	view.reset(sf::FloatRect(0.f, 0.f, viewSize.x, viewSize.y));
+	
+	sf::FloatRect area = view.getViewport();
+	area.left *= 0.f;
+	area.top *= 0.f;
+	area.width *= (float)viewSize.x;
+	area.height *= (float)viewSize.y;
+	
+	rt->setView(view);
 	
 	double health;
 	double healthFraction;

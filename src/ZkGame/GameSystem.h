@@ -59,6 +59,8 @@ public:
 	{ return config; }
 	inline std::array<Player, 2> & getPlayers()
 	{ return players; }
+	inline Camera * getCamera()
+	{ return camera; }
 	
 	inline static GameSystem * getInstance()
 	{ return instance; }
@@ -85,7 +87,6 @@ private:
 	Config config;
 	
 	std::array<Player, 2> players;
-	PlayerUI playerUI;
 	
 	State state;
 	
