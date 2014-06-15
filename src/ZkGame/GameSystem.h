@@ -91,6 +91,8 @@ private:
 	
 	Camera * camera;
 	
+	bool hasFocus;
+	
 	static GameSystem * instance;
 };
 

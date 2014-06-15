@@ -41,6 +41,7 @@ GameSystem::GameSystem(int argc, char ** argv)
 {
 	state = State::Lobby;
 	instance = this;
+	hasFocus = false;
 }
 
 GameSystem::~GameSystem()
@@ -104,6 +105,8 @@ void GameSystem::initializeGameLoop()
 			L"Żołdak",
 			style
 		);
+		
+		renderWindow.setMouseCursorVisible(false);
 	}
 	
 	//Ustaw ikonę okna
@@ -240,6 +243,10 @@ void GameSystem::gameLoop()
 				renderWindow.close();
 				state = State::Lobby;
 			}
+			else if (event.type == sf::Event::GainedFocus)
+				hasFocus = true;
+			else if (event.type == sf::Event::LostFocus)
+				hasFocus = false;
 		}
 		
 		//Eventy ManyMouse'a
@@ -296,6 +303,22 @@ void GameSystem::gameLoop()
 		//Wszystko się narysowało, więc możemy teraz pousuwać
 		//nieaktywne obiekty
 		removeInactiveEntities();
+		
+		//Przesuwamy kursor myszy z powrotem na środek okienka, aby
+		//nie "wylazł" poza jego obszar.
+		//Jest to nie do końca ładny trik, gdyż okazjonalnie, przy
+		//szybkich ruchach myszki, kursor może wylecieć za okno.
+		//Nie ma to znaczenia, na szczęście, w trybie fullscreen.
+		//Różne systemy operacyjne udostępniają opcję ograniczenia
+		//ruchów kursora do obszaru okna, lecz w SFML-u ficzer ten
+		//jest dopiero w przygotowaniu:
+		//	https://github.com/LaurentGomila/SFML/issues/394
+		//	https://github.com/LaurentGomila/SFML/issues/394
+		if (hasFocus)
+			sf::Mouse::setPosition(
+				(sf::Vector2i)renderWindow.getSize() / 2,
+				renderWindow
+			);
 		
 		//Wprawdzie SFML posiada mechanizmy pozwalające na ograniczenie
 		//framerate, lecz robi to trochę nieudolnie i pojawiają się lagi.
