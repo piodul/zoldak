@@ -14,6 +14,8 @@ Player::Player(int id, TextureCache & tc)
 {
 	this->id = id;
 	timeToRespawn = 0.0;
+	numKills = 0;
+	numDeaths = 0;
 }
 
 void Player::setMouseDevice(MouseDeviceHandle md)
@@ -36,6 +38,16 @@ void Player::setWeaponDef(const WeaponDef & wd)
 	weaponDef = wd;
 }
 
+void Player::reportKill()
+{
+	numKills++;
+}
+
+void Player::reportDeath()
+{
+	numDeaths++;
+}
+
 std::weak_ptr<PlayerEntity> Player::getPlayerEntity() const
 {
 	return entity;
@@ -44,6 +56,21 @@ std::weak_ptr<PlayerEntity> Player::getPlayerEntity() const
 int Player::getID() const
 {
 	return id;
+}
+
+int Player::getKillCount() const
+{
+	return numKills;
+}
+
+int Player::getDeathCount() const
+{
+	return numDeaths;
+}
+
+double Player::getSecondsToRespawn() const
+{
+	return timeToRespawn;
 }
 
 void Player::update(double step)
@@ -56,6 +83,7 @@ void Player::update(double step)
 		if (timeToRespawn == 0.0)
 		{
 			ptr = std::make_shared<PlayerEntity>(
+				*this,
 				spawnerMesh.pickSpawnLocation(),
 				inputConfig,
 				mouseDevice,

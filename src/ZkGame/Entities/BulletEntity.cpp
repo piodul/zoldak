@@ -11,6 +11,7 @@
 #include "BulletEntity.h"
 #include "PlayerEntity.h"
 #include "../Renderables/BoxRenderable.h"
+#include "../Player.h"
 #include "../Physics.h"
 #include "../GameSystem.h"
 
@@ -20,14 +21,14 @@ using namespace Zk::Game;
 BulletEntity::BulletEntity(
 	sf::Vector2f pos,
 	sf::Vector2f velocity,
-	std::weak_ptr<PlayerEntity> owner,
+	Player & owner,
 	double damage
 ) :
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
-	std::enable_shared_from_this<BulletEntity>()
+	std::enable_shared_from_this<BulletEntity>(),
+	owner(owner)
 {
-	this->owner = owner;
 	this->damage = damage;
 	
 	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
@@ -89,19 +90,26 @@ void BulletEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 	if (ent->getType() == EntityType::PlayerEntity)
 	{
 		PlayerEntity * ceEnt = (PlayerEntity*)ent;
-		if (ceEnt == owner.lock().get())
+		if (ceEnt == owner.getPlayerEntity().lock().get())
 		{
 			//Samego siebie nie krzywdzimy
 			contact->SetEnabled(false);
 			return;
 		}
-		
-		ceEnt->takeDamage(damage);
+		else
+		{
+			//Innego gracza owszem
+			if (ceEnt->getHealth() > 0.0)
+			{
+				ceEnt->takeDamage(damage);
+				if (ceEnt->getHealth() == 0.0)
+					owner.reportKill();
+			}
+		}
 	}
 	
 	//Przy uderzeniu w cokolwiek innego niż gracz,
 	//który nas wystrzelił, giniemy
-	qDebug() << "BEEP";
 	markForDeletion();
 }
 

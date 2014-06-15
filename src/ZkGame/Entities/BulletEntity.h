@@ -23,7 +23,7 @@ public:
 	BulletEntity(
 		sf::Vector2f pos,
 		sf::Vector2f velocity,
-		std::weak_ptr<PlayerEntity> owner,
+		Player & owner,
 		double damage
 	);
 	virtual ~BulletEntity();
@@ -39,7 +39,7 @@ public:
 	virtual EntityType getType() const override;
 
 private:
-	std::weak_ptr<PlayerEntity> owner;
+	Player & owner;
 	double damage;
 };
 

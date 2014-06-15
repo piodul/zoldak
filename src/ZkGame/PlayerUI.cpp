@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 
+#include <QtCore>
 #include <QDebug>
 
 #include <memory>
@@ -156,5 +157,37 @@ void PlayerUI::paint(sf::RenderTarget * rt)
 			area.top + area.height - atSize.y - htSize.y - gtSize.y
 		));
 		rt->draw(sprite);
+	}
+	
+	//Narysuj punktację
+	QString pointsString =
+		QString("%1 - %2").arg(player.getKillCount()).arg(player.getDeathCount());
+	
+	sf::Text text;
+	text.setFont(font);
+	text.setString(pointsString.toStdString());
+	text.setCharacterSize(atSize.y + htSize.y + gtSize.y);
+	text.setColor(sf::Color::Blue);
+	text.setPosition(
+		area.left + htSize.x + 256.f,
+		area.top + area.height - atSize.y - htSize.y - gtSize.y
+	);
+	rt->draw(text);
+	
+	if (p == nullptr)
+	{
+		//Gracz nie żyje, więc wypisujemy ile zostało do respawnu
+		QString respawnString =
+			QString("Respawn in %1").arg(player.getSecondsToRespawn(), 0, 'f', 1);
+		
+		text.setCharacterSize(48);
+		text.setString(respawnString.toStdString());
+		sf::FloatRect rect = text.getLocalBounds();
+		text.setPosition(
+			area.left + (area.width - rect.width) / 2.f,
+			area.top + (area.height - rect.height) / 2.f
+		);
+		
+		rt->draw(text);
 	}
 }

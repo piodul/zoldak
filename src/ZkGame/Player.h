@@ -33,11 +33,26 @@ public:
 	///Ustawia definicję broni gracza.
 	void setWeaponDef(const WeaponDef & wd);
 	
-	///Zwraca związany z graczem PlayerEntity
+	///Raportuje dokonanie zabójstwa przez gracza.
+	void reportKill();
+	
+	///Raportuje śmierć gracza.
+	void reportDeath();
+	
+	///Zwraca związany z graczem PlayerEntity.
 	std::weak_ptr<PlayerEntity> getPlayerEntity() const;
 	
 	///Zwraca id gracza.
 	int getID() const;
+	
+	///Zwraca ilość zabójstw dokonanych przez gracza.
+	int getKillCount() const;
+	
+	///Zwraca ilość śmierci gracza.
+	int getDeathCount() const;
+	
+	///Zwraca ilość do respawnu, gdy gracz nie żyje.
+	double getSecondsToRespawn() const;
 	
 	///Aktualizuje logikę respawnu gracza.
 	void update(double step);
@@ -56,6 +71,7 @@ private:
 	PlayerUI ui;
 	
 	int id;
+	int numKills, numDeaths;
 	double timeToRespawn;
 };
 

@@ -10,17 +10,17 @@
 #include "../Entities/BulletEntity.h"
 #include "../Entities/PlayerEntity.h"
 
+#include "../Player.h"
 #include "../GameSystem.h"
 
 using namespace Zk::Game;
 
-Weapon::Weapon(const WeaponDef & wd)
-	: weaponDef(wd)
+Weapon::Weapon(const WeaponDef & wd, Player & owner)
+	: owner(owner), weaponDef(wd)
 {
 	shotCooldown = 0.0;
 	reloadCooldown = 0.0;
 	ammoLeftInClip = 0;
-	this->owner = owner;
 }
 
 void Weapon::update(double step, sf::Vector2f direction, bool triggered)
@@ -46,7 +46,7 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 			{
 				//Pew, pew!
 				
-				auto ptr = owner.lock();
+				auto ptr = owner.getPlayerEntity().lock();
 				
 				if (ptr != nullptr)
 				{
@@ -94,9 +94,4 @@ int Weapon::getAmmoCount() const
 const WeaponDef & Weapon::getWeaponDef() const
 {
 	return weaponDef;
-}
-
-void Weapon::setOwner(std::shared_ptr<PlayerEntity> owner)
-{
-	this->owner = owner;
 }

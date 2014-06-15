@@ -12,6 +12,7 @@
 #include "../Weapons/Weapon.h"
 #include "../InputSystem.h"
 #include "../Physics.h"
+#include "../Player.h"
 
 namespace Zk {
 namespace Game {
@@ -31,6 +32,7 @@ public:
 	static const int MAX_GRENADES = 5;
 	
 	PlayerEntity(
+		Player & player,
 		sf::Vector2f pos,
 		const InputConfig & inputConfig,
 		MouseDeviceHandle mdh,
@@ -75,6 +77,7 @@ private:
 	MouseDeviceHandle mouseDevice;
 	const InputConfig & inputConfig;
 	
+	Player & player;
 	std::weak_ptr<CrosshairEntity> crosshair;
 };
 

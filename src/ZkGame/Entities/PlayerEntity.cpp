@@ -51,6 +51,7 @@ PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 }
 
 PlayerEntity::PlayerEntity(
+	Player & player,
 	sf::Vector2f pos,
 	const InputConfig & inputConfig,
 	MouseDeviceHandle mdh,
@@ -59,9 +60,10 @@ PlayerEntity::PlayerEntity(
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
 	std::enable_shared_from_this<PlayerEntity>(),
-	weapon(weaponDef),
+	weapon(weaponDef, player),
 	mouseDevice(mdh),
-	inputConfig(inputConfig)
+	inputConfig(inputConfig),
+	player(player)
 {
 	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
 	
@@ -115,8 +117,6 @@ void PlayerEntity::registerMe()
 	crosshair->registerMe();
 	GameSystem::getInstance()->addEntity(crosshair);
 	this->crosshair = crosshair;
-	
-	weapon.setOwner(shared_from_this());
 }
 
 void PlayerEntity::onBeginContactEvent(b2Contact * contact)
@@ -264,10 +264,16 @@ EntityType PlayerEntity::getType() const
 
 void PlayerEntity::takeDamage(double damage)
 {
+	if (health == 0.0)
+		return;
+	
 	health = std::max(0.0, health - damage);
 	
 	if (health == 0.0)
+	{
+		player.reportDeath();
 		markForDeletion();
+	}
 }
 
 void PlayerEntity::pickUpMedKit()

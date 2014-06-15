@@ -6,6 +6,7 @@
 
 #include "Entity.h"
 #include "PlayerTrackEntity.h"
+#include "PlayerEntity.h"
 #include "CrosshairEntity.h"
 #include "../GameSystem.h"
 #include "../InputSystem.h"

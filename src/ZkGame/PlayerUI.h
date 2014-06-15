@@ -4,7 +4,6 @@
 
 #include <memory>
 
-#include "Entities/PlayerEntity.h"
 #include "TextureCache.h"
 
 namespace Zk {

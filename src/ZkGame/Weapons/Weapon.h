@@ -9,13 +9,13 @@
 namespace Zk {
 namespace Game {
 
-class PlayerEntity;
+class Player;
 
 class Weapon
 {
 public:
 	///Konstruuje nową broń na podstawie definicji.
-	Weapon(const WeaponDef & wd);
+	Weapon(const WeaponDef & wd, Player & owner);
 	
 	///Aktualizuje liczniki chłodzenia/przeładowywania,
 	///oraz wystrzeliwuje pocisk, gdy triggered oraz
@@ -38,9 +38,6 @@ public:
 	///Zwraca definicję, na podstawie której ta broń została stworzona.
 	const WeaponDef & getWeaponDef() const;
 	
-	///Ustawia właściciela tej broni.
-	void setOwner(std::shared_ptr<PlayerEntity> owner);
-	
 private:
 	///Ilość sekund do całkowitego ochłodzenia.
 	double shotCooldown;
@@ -52,7 +49,7 @@ private:
 	int ammoLeftInClip;
 	
 	///Właściciel broni.
-	std::weak_ptr<PlayerEntity> owner;
+	Player & owner;
 	
 	///Definicja, na której bazuje ta broń.
 	WeaponDef weaponDef;

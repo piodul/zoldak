@@ -67,7 +67,7 @@ void CrosshairEntity::update(double step)
 		if (relativePos.y < -radius.y)
 			relativePos.y = -radius.y;
 		
-		qDebug() << lib_cast<QPointF>(relativePos);
+		//qDebug() << lib_cast<QPointF>(relativePos);
 	}
 	else
 		markForDeletion();

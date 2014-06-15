@@ -6,6 +6,8 @@
 #include "../../ZkCommon/Constants.h"
 #include "../../ZkCommon/LibraryCast.h"
 
+#include "../Entities/Entity.h"
+
 #include "../GameSystem.h"
 #include "../TextureCache.h"
 
