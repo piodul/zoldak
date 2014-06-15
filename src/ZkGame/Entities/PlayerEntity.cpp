@@ -243,7 +243,11 @@ void PlayerEntity::update(double step)
 		getBody()->SetLinearVelocity(b2Vec2(0.f, velocity.y));
 	}
 	
-	weapon.update(step, inputConfig.isActionTriggered(
+	//Aktualizacja broni
+	sf::Vector2f direction =
+		crosshair.lock()->getCenterPosition() - getCenterPosition();
+	
+	weapon.update(step, direction, inputConfig.isActionTriggered(
 		PlayerAction::Shoot, mouseDevice
 	));
 	

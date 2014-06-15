@@ -1,3 +1,5 @@
+#include <SFML/Graphics.hpp>
+
 #include <QtCore>
 
 #include <algorithm>
@@ -21,7 +23,7 @@ Weapon::Weapon(const WeaponDef & wd)
 	this->owner = owner;
 }
 
-void Weapon::update(double step, bool triggered)
+void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 {
 	if (ammoLeftInClip == 0)
 	{
@@ -40,7 +42,7 @@ void Weapon::update(double step, bool triggered)
 		else
 		{
 			//Można strzelać
-			if (triggered)
+			if (triggered && direction != sf::Vector2f(0.f, 0.f))
 			{
 				//Pew, pew!
 				
@@ -48,9 +50,13 @@ void Weapon::update(double step, bool triggered)
 				
 				if (ptr != nullptr)
 				{
+					float scalingFactor =
+						weaponDef.muzzleVelocity /
+						sqrtf(direction.x * direction.x + direction.y * direction.y);
+					
 					auto be = std::make_shared<BulletEntity>(
 						ptr->getCenterPosition(),
-						sf::Vector2f(25.f, 0.f),
+						direction * scalingFactor,
 						owner,
 						weaponDef.damagePerShot
 					);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include <memory>
 
 #include "WeaponDef.h"
@@ -18,7 +20,7 @@ public:
 	///Aktualizuje liczniki chłodzenia/przeładowywania,
 	///oraz wystrzeliwuje pocisk, gdy triggered oraz
 	///broń jest gotowa do wystrzału.
-	void update(double step, bool triggered);
+	void update(double step, sf::Vector2f direction, bool triggered);
 	
 	///Zwraca wartość z przedziału [0, 1] oznaczającą
 	///postęp przeładowywania. 0 - początek
