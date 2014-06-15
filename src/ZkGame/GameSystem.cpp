@@ -102,7 +102,7 @@ void GameSystem::lobbyLoop()
 
 void GameSystem::gameLoop()
 {
-	Game game;
+	Game game(levelName);
 	game.run();
 }
 
@@ -113,6 +113,11 @@ void GameSystem::keepQtAlive(int timeForEvents)
 		QEventLoop::AllEvents,
 		timeForEvents
 	);
+}
+
+void GameSystem::setLevelName(QString name)
+{
+	levelName = name;
 }
 
 std::string GameSystem::resourcePath(const std::string & src)

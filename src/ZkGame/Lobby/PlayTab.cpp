@@ -15,20 +15,21 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 	//Lista poziomów + labelka
 	QLabel * levelListLabel = new QLabel("Choose a level:");
 	
-	levelListModel = new QStringListModel();
-	levelListView = new QListView();
-	levelListView->setModel(levelListModel);
-	levelListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	levelList = new QListWidget();
+	levelList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	connect(levelList, SIGNAL(itemClicked(QListWidgetItem*)),
+			this, SLOT(selectLevel(QListWidgetItem*)));
 	
 	QVBoxLayout * leftLayout = new QVBoxLayout();
 	leftLayout->addWidget(levelListLabel);
-	leftLayout->addWidget(levelListView);
+	leftLayout->addWidget(levelList);
 	
 	//Prawa strona:
 	//Opcje + przycisk rozpoczęcia gry
 	startGameButton = new QPushButton("Play!");
 	connect(startGameButton, SIGNAL(clicked()),
 			this, SLOT(startGame()));
+	startGameButton->setEnabled(false);
 	
 	QHBoxLayout * mainLayout = new QHBoxLayout();
 	mainLayout->addLayout(leftLayout);
@@ -36,9 +37,7 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 	
 	this->setLayout(mainLayout);
 	
-	QStringList sl;
-	sl << "One" << "Two" << "Three";
-	levelListModel->setStringList(sl);
+	populateLevelList();
 }
 
 PlayTab::~PlayTab()
@@ -48,5 +47,25 @@ PlayTab::~PlayTab()
 
 void PlayTab::startGame()
 {
+	GameSystem::getInstance()->setLevelName(QString("levels/") + levelName);
 	GameSystem::getInstance()->changeState(GameSystem::State::Game);
+}
+
+void PlayTab::selectLevel(QListWidgetItem * lwi)
+{
+	startGameButton->setEnabled(true);
+	levelName = lwi->text();
+}
+
+void PlayTab::populateLevelList()
+{
+	QDir levelsDir(GameSystem::resourcePath("levels/").c_str());
+	QStringList filters;
+	filters << "*.zvl";
+	QStringList levels = levelsDir.entryList(
+		filters, QDir::Files | QDir::Readable, QDir::Name
+	);
+	
+	for (const QString & s : levels)
+		levelList->addItem(s);
 }

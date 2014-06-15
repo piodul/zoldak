@@ -17,13 +17,15 @@ public:
 	
 private slots:
 	void startGame();
+	void selectLevel(QListWidgetItem * lwi);
 	
 private:
-	QListView * levelListView;
-	QStringListModel * levelListModel;
+	void populateLevelList();
 	
+	QListWidget * levelList;
 	QPushButton * startGameButton;
 	
+	QString levelName;
 	Config & config;
 };
 

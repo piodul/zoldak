@@ -39,6 +39,7 @@ public:
 	void changeState(State s);
 	
 	void keepQtAlive(int timeForEvents);
+	void setLevelName(QString name);
 	
 	static std::string resourcePath(const std::string & src);
 	
@@ -69,6 +70,7 @@ private:
 	Config config;
 	
 	State state;
+	QString levelName;
 	
 	static GameSystem * instance;
 };

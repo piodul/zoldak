@@ -40,7 +40,7 @@ using namespace Zk::Game;
 
 Game * Game::instance = nullptr;
 
-Game::Game() :
+Game::Game(QString levelName) :
 	physicsSystem(),
 	players{
 		Player(0),
@@ -49,6 +49,15 @@ Game::Game() :
 {
 	instance = this;
 	hasFocus = true;
+	
+	QFile f(GameSystem::resourcePath(levelName.toStdString()).c_str());
+	if (!f.open(QIODevice::ReadOnly))
+		qDebug() << "Failed to open level";
+	else
+	{
+		QDataStream ds(&f);
+		ds >> level;
+	}
 }
 
 Game::~Game()
@@ -119,47 +128,37 @@ void Game::initializeGameLoop()
 	
 	renderWindow.setVerticalSyncEnabled(true);
 	
-	Level l;
-	QFile f(GameSystem::resourcePath("../bin/multilayer.zvl").c_str());
-	if (!f.open(QIODevice::ReadOnly))
-		qDebug() << "Failed to open level";
-	else
-	{
-		QDataStream ds(&f);
-		ds >> l;
-	}
-	
 	addEntity(
 		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::FOREGROUND],
+			level.getLayers()[(int)LayerType::FOREGROUND],
 			LayerType::FOREGROUND
 		)
 	);
 	
 	addEntity(
 		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::MIDGROUND],
+			level.getLayers()[(int)LayerType::MIDGROUND],
 			LayerType::MIDGROUND
 		)
 	);
 	
 	addEntity(
 		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::BACKGROUND],
+			level.getLayers()[(int)LayerType::BACKGROUND],
 			LayerType::BACKGROUND
 		)
 	);
 	
 	addEntity(
 		std::make_shared<SpawnerMeshEntity>(
-			l.getLayers()[(int)LayerType::MEDKIT_SPAWN],
+			level.getLayers()[(int)LayerType::MEDKIT_SPAWN],
 			LayerType::MEDKIT_SPAWN
 		)
 	);
 	
 	addEntity(
 		std::make_shared<SpawnerMeshEntity>(
-			l.getLayers()[(int)LayerType::GRENADES_SPAWN],
+			level.getLayers()[(int)LayerType::GRENADES_SPAWN],
 			LayerType::GRENADES_SPAWN
 		)
 	);
@@ -172,16 +171,14 @@ void Game::initializeGameLoop()
 		wd.reloadTime = 3.0;
 		wd.clipSize = 30;
 		
-		InputSystem & inputSystem = GameSystem::getInstance()->getInputSystem();
-		
 		players[0].setSpawnerMesh(SpawnerMesh(
-			l.getLayers()[(int)LayerType::PLAYER_A_SPAWN]
+			level.getLayers()[(int)LayerType::PLAYER_A_SPAWN]
 		));
 		players[0].setInputConfig(config.playerInputConfig[0]);
 		players[0].setWeaponDef(wd);
 		
 		players[1].setSpawnerMesh(SpawnerMesh(
-			l.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
+			level.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
 		));
 		players[1].setInputConfig(config.playerInputConfig[1]);
 		players[1].setWeaponDef(wd);

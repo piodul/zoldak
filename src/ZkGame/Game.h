@@ -3,11 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include <QString>
+
 #include <array>
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
+
+#include "../ZkCommon/Level.h"
 
 #include "Config/Config.h"
 
@@ -29,7 +33,7 @@ class GameSystem;
 class Game
 {
 public:
-	Game();
+	Game(QString levelName);
 	~Game();
 	
 	void run();
@@ -67,6 +71,8 @@ private:
 	Camera * camera;
 	
 	bool hasFocus;
+	
+	Common::Level level;
 	
 	static Game * instance;
 };
