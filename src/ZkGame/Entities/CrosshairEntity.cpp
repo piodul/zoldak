@@ -5,6 +5,9 @@
 #include "../../ZkCommon/Constants.h"
 #include "../../ZkCommon/LibraryCast.h"
 
+#include "../Renderables/Renderable.h"
+#include "../Renderables/CrosshairRenderable.h"
+
 #include "Entity.h"
 #include "CrosshairEntity.h"
 #include "PlayerEntity.h"
@@ -22,6 +25,8 @@ CrosshairEntity::CrosshairEntity(
 {
 	this->owner = owner;
 	this->mouseDevice = mdh;
+	
+	setRenderable(new CrosshairRenderable(owner));
 }
 
 CrosshairEntity::~CrosshairEntity()
