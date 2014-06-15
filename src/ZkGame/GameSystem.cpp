@@ -421,6 +421,11 @@ void GameSystem::addEntity(std::shared_ptr<Entity> ent)
 		);
 }
 
+sf::Vector2f GameSystem::getViewportDimensions() const
+{
+	return camera->getViews()[0].getSize();
+}
+
 std::string GameSystem::resourcePath(const std::string & src)
 {
 	QDir dir(QCoreApplication::applicationDirPath());

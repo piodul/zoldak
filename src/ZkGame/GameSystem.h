@@ -43,6 +43,8 @@ public:
 	
 	void addEntity(std::shared_ptr<Entity> ent);
 	
+	sf::Vector2f getViewportDimensions() const;
+	
 	static std::string resourcePath(const std::string & src);
 	
 	inline InputSystem & getInputSystem()
