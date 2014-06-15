@@ -13,7 +13,9 @@ namespace Game {
 
 class PlayerEntity;
 
-class CrosshairEntity : public Entity
+class CrosshairEntity :
+	public Entity,
+	public std::enable_shared_from_this<CrosshairEntity>
 {
 public:
 	CrosshairEntity(
@@ -22,6 +24,8 @@ public:
 	);
 	virtual ~CrosshairEntity();
 	
+	void registerMe();
+	
 	virtual void update(double step);
 	
 	virtual sf::Vector2f getCenterPosition() const;
@@ -29,7 +33,7 @@ public:
 	virtual EntityType getType() const;
 	
 protected:
-	sf::Vector2f pos;
+	sf::Vector2f relativePos;
 	std::weak_ptr<PlayerEntity> owner;
 	MouseDeviceHandle mouseDevice;
 };

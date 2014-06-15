@@ -7,14 +7,16 @@
 #include "../Entities/Entity.h"
 #include "../Entities/PlayerEntity.h"
 
+#include "../GameSystem.h"
 #include "../Player.h"
 
 using namespace Zk::Game;
 
 CrosshairRenderable::CrosshairRenderable(
+	std::weak_ptr<Entity> entity,
 	std::weak_ptr<PlayerEntity> player
 )
-	: SpriteRenderable(player, "crosshair.png")
+	: SpriteRenderable(entity, GameSystem::resourcePath("crosshair.png").c_str())
 {
 	this->player = player;
 }

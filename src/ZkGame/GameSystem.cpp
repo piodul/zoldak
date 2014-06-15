@@ -189,6 +189,7 @@ void GameSystem::initializeGameLoop()
 		auto player = std::make_shared<PlayerEntity>(
 			sf::Vector2f(-1.5f, -1.f),
 			config.playerInputConfig[0],
+			inputSystem.getMouseDeviceHandle(0),
 			wd
 		);
 		player->registerMe();
@@ -196,6 +197,7 @@ void GameSystem::initializeGameLoop()
 		auto player2 = std::make_shared<PlayerEntity>(
 			sf::Vector2f(1.5f, -1.f),
 			config.playerInputConfig[1],
+			inputSystem.getMouseDeviceHandle(1),
 			wd
 		);
 		player2->registerMe();
@@ -257,6 +259,9 @@ void GameSystem::gameLoop()
 		//Fizyka
 		physicsSystem.simulate(1.0 / 60.0);
 		
+		//Niektóre jednostki mogą chcieć skorzystać z widoków kamery
+		camera->setupViews();
+		
 		//Update
 		for (std::shared_ptr<Entity> ent : entities)
 			ent->update(1.0 / 60.0);
@@ -267,7 +272,6 @@ void GameSystem::gameLoop()
 		
 		renderWindow.clear(sf::Color::White);
 		
-		camera->setupViews();
 		std::vector<sf::View> views = camera->getViews();
 		
 		for (sf::View view : views)

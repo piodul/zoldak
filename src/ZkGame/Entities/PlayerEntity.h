@@ -10,6 +10,7 @@
 #include "../Config/InputConfig.h"
 #include "../Weapons/WeaponDef.h"
 #include "../Weapons/Weapon.h"
+#include "../InputSystem.h"
 #include "../Physics.h"
 
 namespace Zk {
@@ -31,6 +32,7 @@ public:
 	PlayerEntity(
 		sf::Vector2f pos,
 		const InputConfig & inputConfig,
+		MouseDeviceHandle mdh,
 		const WeaponDef & weaponDef
 	);
 	virtual ~PlayerEntity();
@@ -66,6 +68,7 @@ private:
 	
 	double jumpCooldown;
 	Weapon weapon;
+	MouseDeviceHandle mouseDevice;
 	const InputConfig & inputConfig;
 };
 

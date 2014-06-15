@@ -10,12 +10,16 @@
 namespace Zk {
 namespace Game {
 
+class Entity;
 class PlayerEntity;
 
 class CrosshairRenderable : public SpriteRenderable
 {
 public:
-	CrosshairRenderable(std::weak_ptr<PlayerEntity> player);
+	CrosshairRenderable(
+		std::weak_ptr<Entity> entity,
+		std::weak_ptr<PlayerEntity> player
+	);
 	virtual ~CrosshairRenderable();
 	
 	virtual bool visibleToPlayer(std::weak_ptr<Player> player);

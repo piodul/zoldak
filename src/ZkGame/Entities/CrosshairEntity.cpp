@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 
+#include <QtGui>
+#include <QDebug>
+
 #include <memory>
 
 #include "../../ZkCommon/Constants.h"
@@ -20,18 +23,22 @@ using namespace Zk::Game;
 CrosshairEntity::CrosshairEntity(
 	std::weak_ptr<PlayerEntity> owner,
 	MouseDeviceHandle mdh
-)
-	: Entity(nullptr, nullptr)
+) :
+	Entity(nullptr, nullptr),
+	std::enable_shared_from_this<CrosshairEntity>()
 {
 	this->owner = owner;
 	this->mouseDevice = mdh;
-	
-	setRenderable(new CrosshairRenderable(owner));
 }
 
 CrosshairEntity::~CrosshairEntity()
 {
 	
+}
+
+void CrosshairEntity::registerMe()
+{
+	setRenderable(new CrosshairRenderable(shared_from_this(), owner));
 }
 
 void CrosshairEntity::update(double step)
@@ -47,20 +54,20 @@ void CrosshairEntity::update(double step)
 			sf::Vector2f((float)mouseDelta.x, (float)mouseDelta.y)
 			* (float)Constants::METERS_PER_PIXEL;
 		
-		pos += delta;
-		
-		sf::Vector2f centerPos = ptr->getCenterPosition();
+		relativePos += delta;
 		
 		//Może wyekstraktować to do jakiejś części odpowiedzialnej za majzę?
-		if (pos.x > centerPos.x + radius.x)
-			pos.x = centerPos.x + radius.x;
-		if (pos.x < centerPos.x - radius.x)
-			pos.x = centerPos.x - radius.x;
+		if (relativePos.x >  radius.x)
+			relativePos.x =  radius.x;
+		if (relativePos.x < -radius.x)
+			relativePos.x = -radius.x;
 		
-		if (pos.y > centerPos.y + radius.y)
-			pos.y = centerPos.y + radius.y;
-		if (pos.y < centerPos.y - radius.y)
-			pos.y = centerPos.y - radius.y;
+		if (relativePos.y >  radius.y)
+			relativePos.y =  radius.y;
+		if (relativePos.y < -radius.y)
+			relativePos.y = -radius.y;
+		
+		qDebug() << lib_cast<QPointF>(relativePos);
 	}
 	else
 		markForDeletion();
@@ -68,7 +75,12 @@ void CrosshairEntity::update(double step)
 
 sf::Vector2f CrosshairEntity::getCenterPosition() const
 {
-	return pos;
+	auto ptr = owner.lock();
+	
+	if (ptr != nullptr)
+		return ptr->getCenterPosition() + relativePos;
+	else
+		return sf::Vector2f();
 }
 
 EntityType CrosshairEntity::getType() const

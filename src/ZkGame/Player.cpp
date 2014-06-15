@@ -49,6 +49,7 @@ void Player::update(double step)
 			ptr = std::make_shared<PlayerEntity>(
 				spawnerMesh.pickSpawnLocation(),
 				inputConfig,
+				mouseDevice,
 				weaponDef
 			);
 			

@@ -18,6 +18,7 @@
 #include "PlayerEntity.h"
 #include "MedKitEntity.h"
 #include "GrenadePackEntity.h"
+#include "CrosshairEntity.h"
 #include "../Config/InputConfig.h"
 #include "../Config/PlayerAction.h"
 #include "../Config/InputAction.h"
@@ -25,6 +26,7 @@
 #include "../Weapons/WeaponDef.h"
 #include "../Weapons/Weapon.h"
 #include "../GameSystem.h"
+#include "../InputSystem.h"
 
 using namespace Zk::Common;
 using namespace Zk::Game;
@@ -51,12 +53,14 @@ PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 PlayerEntity::PlayerEntity(
 	sf::Vector2f pos,
 	const InputConfig & inputConfig,
+	MouseDeviceHandle mdh,
 	const WeaponDef & weaponDef
 ) :
 	Entity(nullptr, nullptr),
 	BodyCollisionListener(nullptr),
 	std::enable_shared_from_this<PlayerEntity>(),
 	weapon(weaponDef),
+	mouseDevice(mdh),
 	inputConfig(inputConfig)
 {
 	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
@@ -103,6 +107,14 @@ void PlayerEntity::registerMe()
 	GameSystem::getInstance()->getPhysicsSystem().registerListener(
 		shared_from_this()
 	);
+	
+	auto crosshair = std::make_shared<CrosshairEntity>(
+		shared_from_this(), mouseDevice
+	);
+	
+	crosshair->registerMe();
+	
+	GameSystem::getInstance()->addEntity(crosshair);
 	
 	weapon.setOwner(shared_from_this());
 }
