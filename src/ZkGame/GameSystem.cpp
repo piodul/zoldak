@@ -28,7 +28,6 @@
 #include "Entities/PlayerEntity.h"
 #include "Entities/LevelMeshEntity.h"
 #include "Entities/SpawnerMeshEntity.h"
-#include "Entities/MouseTrackEntity.h"
 #include "Entities/PlayerTrackEntity.h"
 #include "Renderables/Renderable.h"
 #include "Weapons/WeaponDef.h"
