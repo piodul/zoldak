@@ -10,7 +10,7 @@
 
 #include "BulletEntity.h"
 #include "PlayerEntity.h"
-#include "../Renderables/BoxRenderable.h"
+#include "../Renderables/BulletRenderable.h"
 #include "../Player.h"
 #include "../Physics.h"
 #include "../Game.h"
@@ -54,12 +54,6 @@ BulletEntity::BulletEntity(
 	
 	setBody(body);
 	setFilteringBody(body);
-	
-	BoxRenderable * br = new BoxRenderable(
-		body, GameSystem::resourcePath("grenade-pack.png").c_str()
-	);
-	br->setZValue(-(double)LayerType::MIDGROUND);
-	setRenderable(br);
 }
 
 BulletEntity::~BulletEntity()
@@ -72,6 +66,11 @@ void BulletEntity::registerMe()
 	Game::getInstance()->getPhysicsSystem().registerListener(
 		shared_from_this()
 	);
+	
+	BulletRenderable * br = new BulletRenderable(shared_from_this());
+	
+	br->setZValue(-(double)LayerType::MIDGROUND);
+	setRenderable(br);
 }
 
 void BulletEntity::onBeginContactEvent(b2Contact * contact)
@@ -127,4 +126,9 @@ void BulletEntity::update(double step)
 EntityType BulletEntity::getType() const
 {
 	return EntityType::BulletEntity;
+}
+
+sf::Vector2f BulletEntity::getVelocity() const
+{
+	return lib_cast<sf::Vector2f>(getBody()->GetLinearVelocity());
 }

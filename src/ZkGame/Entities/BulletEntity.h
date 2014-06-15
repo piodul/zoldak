@@ -37,6 +37,8 @@ public:
 	
 	virtual void update(double step);
 	virtual EntityType getType() const override;
+	
+	sf::Vector2f getVelocity() const;
 
 private:
 	Player & owner;

@@ -27,6 +27,7 @@ set(SOURCES
 	Renderables/MeshRenderable.cpp
 	Renderables/SpriteRenderable.cpp
 	Renderables/CrosshairRenderable.cpp
+	Renderables/BulletRenderable.cpp
 	
 	Weapons/Weapon.cpp
 	Weapons/WeaponDef.cpp
