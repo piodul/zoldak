@@ -25,7 +25,7 @@ QDataStream & Zk::Game::operator<<(QDataStream & ds, const InputConfig & ic)
 		auto it = ic.playerToInput.find((PlayerAction)i);
 		ds << it->second;
 	}
-	
+
 	return ds;
 }
 
@@ -37,6 +37,6 @@ QDataStream & Zk::Game::operator>>(QDataStream & ds, InputConfig & ic)
 		ds >> ia;
 		ic.playerToInput[(PlayerAction)i] = ia;
 	}
-	
+
 	return ds;
 }

@@ -18,7 +18,7 @@ BackgroundItem::BackgroundItem(QGraphicsView * view, QGraphicsItem * parent)
 
 BackgroundItem::~BackgroundItem()
 {
-	
+
 }
 
 QRectF BackgroundItem::boundingRect() const

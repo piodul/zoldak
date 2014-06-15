@@ -34,7 +34,7 @@ CrosshairEntity::CrosshairEntity(
 
 CrosshairEntity::~CrosshairEntity()
 {
-	
+
 }
 
 void CrosshairEntity::registerMe()
@@ -45,7 +45,7 @@ void CrosshairEntity::registerMe()
 void CrosshairEntity::update(double step)
 {
 	auto ptr = owner.lock();
-	
+
 	if (ptr != nullptr)
 	{
 		sf::Vector2f radius =
@@ -54,21 +54,18 @@ void CrosshairEntity::update(double step)
 		sf::Vector2f delta =
 			sf::Vector2f((float)mouseDelta.x, (float)mouseDelta.y)
 			* (float)Constants::METERS_PER_PIXEL;
-		
+
 		relativePos += delta;
-		
-		//Może wyekstraktować to do jakiejś części odpowiedzialnej za majzę?
+
 		if (relativePos.x >  radius.x)
 			relativePos.x =  radius.x;
 		if (relativePos.x < -radius.x)
 			relativePos.x = -radius.x;
-		
+
 		if (relativePos.y >  radius.y)
 			relativePos.y =  radius.y;
 		if (relativePos.y < -radius.y)
 			relativePos.y = -radius.y;
-		
-		//qDebug() << lib_cast<QPointF>(relativePos);
 	}
 	else
 		markForDeletion();
@@ -77,7 +74,7 @@ void CrosshairEntity::update(double step)
 sf::Vector2f CrosshairEntity::getCenterPosition() const
 {
 	auto ptr = owner.lock();
-	
+
 	if (ptr != nullptr)
 		return ptr->getCenterPosition() + relativePos;
 	else

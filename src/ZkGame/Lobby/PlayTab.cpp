@@ -14,35 +14,35 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 	//Lewa strona:
 	//Lista poziomów + labelka
 	QLabel * levelListLabel = new QLabel("Choose a level:");
-	
+
 	levelList = new QListWidget();
 	levelList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	connect(levelList, SIGNAL(itemClicked(QListWidgetItem*)),
 			this, SLOT(selectLevel(QListWidgetItem*)));
-	
+
 	QVBoxLayout * leftLayout = new QVBoxLayout();
 	leftLayout->addWidget(levelListLabel);
 	leftLayout->addWidget(levelList);
-	
+
 	//Prawa strona:
 	//Opcje + przycisk rozpoczęcia gry
 	startGameButton = new QPushButton("Play!");
 	connect(startGameButton, SIGNAL(clicked()),
 			this, SLOT(startGame()));
 	startGameButton->setEnabled(false);
-	
+
 	QHBoxLayout * mainLayout = new QHBoxLayout();
 	mainLayout->addLayout(leftLayout);
 	mainLayout->addWidget(startGameButton);
-	
+
 	this->setLayout(mainLayout);
-	
+
 	populateLevelList();
 }
 
 PlayTab::~PlayTab()
 {
-	
+
 }
 
 void PlayTab::startGame()
@@ -65,7 +65,7 @@ void PlayTab::populateLevelList()
 	QStringList levels = levelsDir.entryList(
 		filters, QDir::Files | QDir::Readable, QDir::Name
 	);
-	
+
 	for (const QString & s : levels)
 		levelList->addItem(s);
 }

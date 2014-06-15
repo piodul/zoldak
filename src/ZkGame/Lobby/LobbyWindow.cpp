@@ -18,13 +18,13 @@ LobbyWindow::LobbyWindow(Config & config, QWidget * parent)
 	tabWidget->addTab(new PlayTab(config), "Game");
 	tabWidget->addTab(new GraphicsTab(config), "Graphics");
 	tabWidget->addTab(new InputTab(config), "Input");
-	
+
 	setCentralWidget(tabWidget);
 }
 
 LobbyWindow::~LobbyWindow()
 {
-	
+
 }
 
 void LobbyWindow::closeEvent(QCloseEvent * event)

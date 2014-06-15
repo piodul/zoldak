@@ -23,7 +23,7 @@ CrosshairRenderable::CrosshairRenderable(
 
 CrosshairRenderable::~CrosshairRenderable()
 {
-	
+
 }
 
 bool CrosshairRenderable::visibleToPlayer(const Player & player)

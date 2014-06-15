@@ -31,9 +31,9 @@ BulletEntity::BulletEntity(
 	owner(owner)
 {
 	this->damage = damage;
-	
+
 	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
-	
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = lib_cast<b2Vec2>(pos);
@@ -41,24 +41,24 @@ BulletEntity::BulletEntity(
 	bodyDef.bullet = true;
 	bodyDef.userData = (void*)this;
 	b2Body * body = world.CreateBody(&bodyDef);
-	
+
 	b2CircleShape circleShape;
 	circleShape.m_radius = 0.05f;
-	
+
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circleShape;
 	fixtureDef.density = 2.0f;
 	fixtureDef.friction = 1.0f;
 	body->CreateFixture(&fixtureDef);
 	body->SetFixedRotation(true);
-	
+
 	setBody(body);
 	setFilteringBody(body);
 }
 
 BulletEntity::~BulletEntity()
 {
-	
+
 }
 
 void BulletEntity::registerMe()
@@ -66,21 +66,21 @@ void BulletEntity::registerMe()
 	Game::getInstance()->getPhysicsSystem().registerListener(
 		shared_from_this()
 	);
-	
+
 	BulletRenderable * br = new BulletRenderable(shared_from_this());
-	
+
 	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
 }
 
 void BulletEntity::onBeginContactEvent(b2Contact * contact)
 {
-	
+
 }
 
 void BulletEntity::onEndContactEvent(b2Contact * contact)
 {
-	
+
 }
 
 void BulletEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
@@ -107,7 +107,7 @@ void BulletEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 			}
 		}
 	}
-	
+
 	//Przy uderzeniu w cokolwiek innego niż gracz,
 	//który nas wystrzelił, giniemy
 	markForDeletion();
@@ -115,12 +115,12 @@ void BulletEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 
 void BulletEntity::onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse)
 {
-	
+
 }
 
 void BulletEntity::update(double step)
 {
-	
+
 }
 
 EntityType BulletEntity::getType() const

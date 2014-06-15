@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 namespace Zk {
-	
+
 namespace Common { class LevelLayer; }
 namespace Game {
 
@@ -17,10 +17,10 @@ class LevelMeshEntity : public Entity
 public:
 	LevelMeshEntity(const Common::LevelLayer * ll, Common::LayerType lt);
 	virtual ~LevelMeshEntity();
-	
+
 	virtual void update(double step);
 	virtual EntityType getType() const override;
-	
+
 private:
 	const Common::LevelLayer * ll;
 	Common::LayerType lt;

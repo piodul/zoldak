@@ -14,9 +14,7 @@ MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 	: QGraphicsEllipseItem(parent)
 {
 	parentLayer = ml;
-	
-	//setZValue(1.0);
-	
+
 	marked = false;
 	setActivated(true);
 	refreshLook();
@@ -24,7 +22,7 @@ MeshTriangleNode::MeshTriangleNode(MeshLayer * ml, QGraphicsItem * parent)
 
 MeshTriangleNode::~MeshTriangleNode()
 {
-	
+
 }
 
 void MeshTriangleNode::addTriangleLink(MeshTriangle * mt)
@@ -39,16 +37,10 @@ int MeshTriangleNode::getTriangleLinkCount() const
 
 void MeshTriangleNode::remTriangleLink(MeshTriangle * mt)
 {
-	//qDebug() << linkedTriangles;
-	qDebug() << "Node ~/~ Triangle";
 	linkedTriangles.removeOne(mt);
-	
-	//qDebug() << mt;
-	
+
 	if (linkedTriangles.size() == 0 && linkedEdges.size() == 0)
 		emit unlinked(this);
-	
-	//qDebug() << linkedTriangles.size() << linkedEdges.size();
 }
 
 void MeshTriangleNode::addEdgeLink(MeshTriangleEdge * mt)
@@ -63,13 +55,10 @@ int MeshTriangleNode::getEdgeLinkCount() const
 
 void MeshTriangleNode::remEdgeLink(MeshTriangleEdge * mte)
 {
-	//qDebug() << "Node ~/~ Edge";
 	linkedEdges.removeOne(mte);
-	
+
 	if (linkedTriangles.size() == 0 && linkedEdges.size() == 0)
 		emit unlinked(this);
-	
-	//qDebug() << linkedTriangles.size() << linkedEdges.size();
 }
 
 const QList<MeshTriangle*> & MeshTriangleNode::getLinkedTriangles() const
@@ -96,11 +85,11 @@ bool MeshTriangleNode::isMarked() const
 void MeshTriangleNode::setActivated(bool activated)
 {
 	isActive = activated;
-	
+
 	setFlag(QGraphicsItem::ItemIsSelectable, isActive);
 	setFlag(QGraphicsItem::ItemIsMovable, isActive);
 	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-	
+
 	refreshLook();
 }
 
@@ -108,7 +97,7 @@ void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	if (!isActive)
 		return;
-	
+
 	QGraphicsEllipseItem::mousePressEvent(event);
 	emit clicked(this, event);
 }
@@ -116,14 +105,6 @@ void MeshTriangleNode::mousePressEvent(QGraphicsSceneMouseEvent * event)
 void MeshTriangleNode::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
 	event->accept();
-	
-	if (!isActive)
-		return;
-	
-	QMenu menu;
-	qDebug() << "DUPA";
-	QAction * removeAction = menu.addAction("&Remove");
-	menu.exec(event->screenPos());
 }
 
 QVariant MeshTriangleNode::itemChange(
@@ -133,7 +114,7 @@ QVariant MeshTriangleNode::itemChange(
 {
 	if (change == ItemPositionChange)
 		emit moved(this, value.toPointF());
-	
+
 	return QGraphicsEllipseItem::itemChange(change, value);
 }
 
@@ -148,7 +129,7 @@ void MeshTriangleNode::refreshLook()
 	}
 	else
 		setPen(QPen(QBrush(Qt::gray), 1.0 * Constants::METERS_PER_PIXEL));
-	
+
 	setBrush(QBrush(QColor(0, 0, 0)));
 	setRect(QRectF(
 		-8.0 * Constants::METERS_PER_PIXEL,
@@ -156,7 +137,7 @@ void MeshTriangleNode::refreshLook()
 		16.0 * Constants::METERS_PER_PIXEL,
 		16.0 * Constants::METERS_PER_PIXEL
 	));
-	
+
 	double z = (isActive ? 1024.0 : (double)-parentLayer->getIndex());
 	setZValue(z + 0.2);
 }

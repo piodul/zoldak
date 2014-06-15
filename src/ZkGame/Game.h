@@ -35,22 +35,22 @@ class Game
 public:
 	Game(QString levelName);
 	~Game();
-	
+
 	void run();
 	void addEntity(std::shared_ptr<Entity> ent);
-	
+
 	sf::Vector2f getViewportDimensions() const;
-	
+
 	inline PhysicsSystem & getPhysicsSystem()
 	{ return physicsSystem; }
 	inline std::array<Player, 2> & getPlayers()
 	{ return players; }
 	inline Camera * getCamera()
 	{ return camera; }
-	
+
 	inline static Game * getInstance()
 	{ return instance; }
-	
+
 private:
 	void initializeGameLoop();
 	void gameLoop();
@@ -58,22 +58,22 @@ private:
 	void removeInactiveRenderables();
 	void refreshZOrder();
 	void cleanupGameLoop();
-	
+
 	sf::RenderWindow renderWindow;
-	
+
 	PhysicsSystem physicsSystem;
-	
+
 	std::list<std::shared_ptr<Entity>> entities;
 	std::multimap<double, std::weak_ptr<Renderable>> renderables;
-	
+
 	std::array<Player, 2> players;
-	
+
 	Camera * camera;
-	
+
 	bool hasFocus;
-	
+
 	Common::Level level;
-	
+
 	static Game * instance;
 };
 

@@ -31,18 +31,18 @@ public:
 		Game,
 		Quit
 	};
-	
+
 	GameSystem(int argc, char ** argv);
 	~GameSystem();
-	
+
 	int exec();
 	void changeState(State s);
-	
+
 	void keepQtAlive(int timeForEvents);
 	void setLevelName(QString name);
-	
+
 	static std::string resourcePath(const std::string & src);
-	
+
 	inline InputSystem & getInputSystem()
 	{ return inputSystem; }
 	inline TextureCache & getTextureCache()
@@ -51,27 +51,27 @@ public:
 	{ return config; }
 	inline const State getState() const
 	{ return state; }
-	
+
 	inline static GameSystem * getInstance()
 	{ return instance; }
-	
+
 private:
 	void lobbyLoop();
 	void gameLoop();
-	
+
 	void loadConfig();
 	void saveConfig() const;
-	
+
 	QApplication app;
-	
+
 	InputSystem inputSystem;
-	
+
 	TextureCache textureCache;
 	Config config;
-	
+
 	State state;
 	QString levelName;
-	
+
 	static GameSystem * instance;
 };
 

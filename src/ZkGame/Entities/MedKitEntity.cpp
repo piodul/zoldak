@@ -16,17 +16,17 @@ MedKitEntity::MedKitEntity(sf::Vector2f pos, SpawnerMeshEntity * spawner)
 	:	CrateEntity(pos, sf::Vector2f(0.25f, 0.25f), "medkit.png"),
 		spawner(spawner)
 {
-	
+
 }
 
 MedKitEntity::~MedKitEntity()
 {
-	
+
 }
 
 void MedKitEntity::update(double step)
 {
-	
+
 }
 
 EntityType MedKitEntity::getType() const

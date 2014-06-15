@@ -35,9 +35,9 @@ GrenadeEntity::GrenadeEntity(
 {
 	this->damage = damage;
 	countdownToExplosion = FUSE_TIME;
-	
+
 	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
-	
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = lib_cast<b2Vec2>(pos);
@@ -45,19 +45,19 @@ GrenadeEntity::GrenadeEntity(
 	bodyDef.bullet = true;
 	bodyDef.userData = (void*)this;
 	b2Body * body = world.CreateBody(&bodyDef);
-	
+
 	b2CircleShape circleShape;
 	circleShape.m_radius = 0.20f;
-	
+
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circleShape;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.5f;
 	body->CreateFixture(&fixtureDef);
-	
+
 	setBody(body);
 	setFilteringBody(body);
-	
+
 	BoxRenderable * br = new BoxRenderable(
 		body, GameSystem::resourcePath("grenade-particle.png").c_str()
 	);
@@ -67,7 +67,7 @@ GrenadeEntity::GrenadeEntity(
 
 GrenadeEntity::~GrenadeEntity()
 {
-	
+
 }
 
 void GrenadeEntity::registerMe()
@@ -79,12 +79,12 @@ void GrenadeEntity::registerMe()
 
 void GrenadeEntity::onBeginContactEvent(b2Contact * contact)
 {
-	
+
 }
 
 void GrenadeEntity::onEndContactEvent(b2Contact * contact)
 {
-	
+
 }
 
 void GrenadeEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
@@ -101,7 +101,7 @@ void GrenadeEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldM
 
 void GrenadeEntity::onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse)
 {
-	
+
 }
 
 void GrenadeEntity::update(double step)
@@ -110,29 +110,29 @@ void GrenadeEntity::update(double step)
 	if (countdownToExplosion <= 0.0)
 	{
 		std::array<Player, 2> & players = Game::getInstance()->getPlayers();
-		
+
 		for (Player & p : players)
 		{
 			auto ptr = p.getPlayerEntity().lock();
-			
+
 			if (ptr != nullptr)
 			{
 				sf::Vector2f delta = ptr->getCenterPosition() - getCenterPosition();
 				float distance = sqrtf(delta.x * delta.x + delta.y * delta.y);
-				
+
 				if (distance > RANGE)
 					continue;
-				
+
 				distance = (RANGE - distance) / RANGE;
 				double damageTotal = damage * distance * distance;
-				
+
 				ptr->takeDamage(damageTotal);
-				
+
 				if ((ptr->getHealth() == 0.0) && (&p != &owner))
 					owner.reportKill();
 			}
 		}
-		
+
 		markForDeletion();
 	}
 }

@@ -26,29 +26,25 @@ LevelView::LevelView(
 {
 	window = mw;
 	setScene(new QGraphicsScene());
-	
+
 	//Włączamy OpenGL (dla rysowania trójkątów)
 	setViewport(new QGLWidget());
-	
-	//setContextMenuPolicy(Qt::CustomContextMenu);
-	// connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-	// 	this, SLOT(showContextMenu(const QPoint&)));
-	
+
 	setDragMode(QGraphicsView::RubberBandDrag);
-	
+
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	
+
 	setSceneRect(QRect(0, 0, 1, 1));
-	
+
 	bgItem = new BackgroundItem(this);
 	scene()->addItem(bgItem);
-	
+
 	for (int i = 0; i < (int)LayerType::MAX_LAYER; i++)
 		layers << new MeshLayer(scene(), palette, i, this);
-	
+
 	activateLayer(LayerType::MIDGROUND);
-	
+
 	for (MeshLayer * ml : layers)
 	{
 		connect(ml, SIGNAL(statusTextChanged(QString)),
@@ -58,24 +54,24 @@ LevelView::LevelView(
 		connect(bgItem, SIGNAL(clicked()),
 				ml, SLOT(backgroundClicked()));
 	}
-	
+
 	scale(Constants::PIXELS_PER_METER, Constants::PIXELS_PER_METER);
-	
+
 	isDragging = false;
 }
 
 LevelView::~LevelView()
 {
-	
+
 }
 
 bool LevelView::fromCommonLevel(const Common::Level & l)
 {
 	const std::vector<Common::LevelLayer*> & lls = l.getLayers();
-	
+
 	for (int i = 0; i < (int)lls.size(); i++)
 		layers[i]->fromCommonLevelLayer(*lls[i]);
-	
+
 	return true;
 }
 
@@ -83,15 +79,15 @@ void LevelView::toCommonLevel(Common::Level & l) const
 {
 	//Śliskie - nie wiadomo kto ma usunąć warstwy
 	l.clear();
-	
+
 	std::vector<Common::LevelLayer*> lls;
-	
+
 	for (int i = 0; i < layers.size(); i++)
 	{
 		lls.push_back(new Common::LevelLayer());
 		layers[i]->toCommonLevelLayer(*lls[i]);
 	}
-	
+
 	l.setLayers(lls);
 }
 
@@ -99,10 +95,10 @@ void LevelView::activateLayer(LayerType id)
 {
 	if ((int)id < 0 || (int)id >= layers.size())
 		return;
-	
+
 	for (MeshLayer * ml : layers)
 		ml->setActivated(false);
-	
+
 	layers[(int)id]->setActivated(true);
 }
 
@@ -112,7 +108,6 @@ void LevelView::mousePressEvent(QMouseEvent * event)
 	{
 		isDragging = true;
 		oldMousePos = event->pos();
-		qDebug() << "Started dragging!";
 	}
 	else
 		QGraphicsView::mousePressEvent(event);
@@ -124,12 +119,12 @@ void LevelView::mouseMoveEvent(QMouseEvent * event)
 	{
 		QPointF delta =
 			QPointF(event->pos() - oldMousePos) * Constants::METERS_PER_PIXEL;
-		//translate(delta.x(), delta.y());
+
 		setSceneRect(sceneRect().translated(-delta));
 		bgItem->updateSceneView();
-		
+
 		oldMousePos = event->pos();
-		
+
 		qDebug() << delta;
 	}
 	else

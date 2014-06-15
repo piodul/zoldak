@@ -10,7 +10,7 @@ class MouseChoiceDialog
 public:
 	MouseChoiceDialog() = delete;
 	~MouseChoiceDialog() = delete;
-	
+
 	static bool chooseMouse(MouseDeviceHandle & mdh);
 };
 

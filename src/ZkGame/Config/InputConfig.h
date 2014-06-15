@@ -16,19 +16,14 @@ class InputConfig
 {
 public:
 	InputConfig();
-	
+
 	friend QDataStream & operator<<(QDataStream & ds, const InputConfig & ic);
 	friend QDataStream & operator>>(QDataStream & ds, InputConfig & ic);
-	
+
 	std::map<PlayerAction, InputAction> playerToInput;
 	MouseDeviceHandle mouseDevice;
-	
+
 	bool isActionTriggered(PlayerAction pa) const;
 };
-
-//Oto wielka tajemnica: dlaczego dwie następne linijki mogę pominąć,
-//a w przypadku GraphicsConfig muszę explicite pisać na zwenątrz??
-// QDataStream & operator<<(QDataStream & ds, const InputConfig & ic);
-// QDataStream & operator>>(QDataStream & ds, InputConfig & ic);
 
 }}

@@ -10,7 +10,7 @@ namespace Game {
 class GraphicsTab : public QWidget
 {
 	Q_OBJECT;
-	
+
 public:
 	GraphicsTab(Config & config, QWidget * parent = nullptr);
 	virtual ~GraphicsTab();
@@ -18,15 +18,15 @@ public:
 private slots:
 	void changeResolution(int index);
 	void changeFullscreenOption(bool full);
-	
+
 private:
 	void populateResolutionsBox();
-	
+
 	QComboBox * resolutionsBox;
 	QCheckBox * fullscreenBox;
-	
+
 	Config & config;
-	
+
 };
 
 }}

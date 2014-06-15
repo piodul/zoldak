@@ -49,15 +49,15 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 			if (triggered && direction != sf::Vector2f(0.f, 0.f))
 			{
 				//Pew, pew!
-				
+
 				auto ptr = owner.getPlayerEntity().lock();
-				
+
 				if (ptr != nullptr)
 				{
 					float scalingFactor =
 						weaponDef.muzzleVelocity /
 						sqrtf(direction.x * direction.x + direction.y * direction.y);
-					
+
 					switch (weaponDef.particleType)
 					{
 					case WeaponDef::ParticleType::BULLET:
@@ -68,9 +68,9 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 								owner,
 								weaponDef.damagePerShot
 							);
-							
+
 							be->registerMe();
-							
+
 							Game::getInstance()->addEntity(be);
 						}
 						break;
@@ -82,14 +82,14 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 								owner,
 								weaponDef.damagePerShot
 							);
-							
+
 							be->registerMe();
-							
+
 							Game::getInstance()->addEntity(be);
 						}
 						break;
 					}
-					
+
 					ammoLeftInClip--;
 					if (ammoLeftInClip == 0)
 						reloadCooldown = weaponDef.reloadTime;

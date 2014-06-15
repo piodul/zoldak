@@ -15,11 +15,11 @@ class TextureCache
 public:
 	TextureCache();
 	~TextureCache();
-	
+
 	sf::Texture * getTexture(const char * src);
 	sf::Texture * getTexture(const std::string & str);
 	void clear();
-	
+
 private:
 	std::map<QString, sf::Texture*> cache;
 };

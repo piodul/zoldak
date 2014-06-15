@@ -58,16 +58,16 @@ SplitScreenCamera::SplitScreenCamera(
 
 SplitScreenCamera::~SplitScreenCamera()
 {
-	
+
 }
 
 void SplitScreenCamera::setupViews()
 {
 	discardInvalidEntities();
 	computedViews.clear();
-	
+
 	sf::View view;
-	
+
 	if (trackedEntities.size() > 0)
 	{
 		int id = 0;
@@ -85,10 +85,10 @@ void SplitScreenCamera::setupViews()
 					step * relativeScreenSize.x,
 					relativeScreenSize.y
 				));
-				
+
 				view.setViewport(sf::FloatRect(factor, 0.f, step, 1.f));
 				break;
-				
+
 			case Alignment::Vertical:
 				view.reset(sf::FloatRect(
 					0.f,
@@ -96,15 +96,15 @@ void SplitScreenCamera::setupViews()
 					relativeScreenSize.x,
 					step * relativeScreenSize.y
 				));
-				
+
 				view.setViewport(sf::FloatRect(0.f, factor, 1.f, step));
 				break;
 			}
-			
+
 			view.setCenter(ent->getCenterPosition());
-			
+
 			computedViews.push_back(view);
-			
+
 			id++;
 		}
 	}
@@ -113,23 +113,11 @@ void SplitScreenCamera::setupViews()
 		view.reset(
 			sf::FloatRect(0.f, 0.f, relativeScreenSize.x, relativeScreenSize.y)
 		);
-		
+
 		view.setViewport(
 			sf::FloatRect(0.f, 0.f, 1.f, 1.f)
 		);
-		
+
 		computedViews.push_back(view);
 	}
-	
-	// if (trackedEntities.size() > 0)
-	// {
-	// 	for (std::weak_ptr<Entity> weakEnt : trackedEntities)
-	// 	{
-	// 		//discardInvalidEntities gwarantuje nam,
-	// 		//że jest to poprawny wskaźnik
-	// 		std::shared_ptr<Entity> ent = weakEnt.lock();
-			
-	// 		sf::Vector2f pos = ent->getCenterPosition();
-	// 	}
-	// }
 }

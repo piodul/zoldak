@@ -1,8 +1,6 @@
 #include <QString>
 #include <SFML/Graphics.hpp>
 
-#include <QDebug>
-
 #include <map>
 
 #include "TextureCache.h"
@@ -11,7 +9,7 @@ using namespace Zk::Game;
 
 TextureCache::TextureCache()
 {
-	qDebug() << "TextureCache initialized";
+
 }
 
 TextureCache::~TextureCache()
@@ -23,7 +21,7 @@ sf::Texture * TextureCache::getTexture(const char * src)
 {
 	QString qstr = src;
 	sf::Texture * texture = cache[qstr];
-	
+
 	if (texture == nullptr)
 	{
 		texture = new sf::Texture();
@@ -31,7 +29,7 @@ sf::Texture * TextureCache::getTexture(const char * src)
 		texture->setSmooth(true);
 		cache[qstr] = texture;
 	}
-	
+
 	return texture;
 }
 
@@ -44,6 +42,6 @@ void TextureCache::clear()
 {
 	for (auto it : cache)
 		delete it.second;
-	
+
 	cache.clear();
 }

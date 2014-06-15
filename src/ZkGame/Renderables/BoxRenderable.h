@@ -16,13 +16,13 @@ public:
 		const char * imgSrc
 	);
 	virtual ~BoxRenderable();
-	
+
 	virtual void paint(sf::RenderTarget * rt);
-	
+
 private:
 	sf::Texture * texture;
 	sf::Sprite sprite;
-	
+
 	const b2Body * body;
 };
 

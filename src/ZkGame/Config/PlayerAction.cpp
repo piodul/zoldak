@@ -13,8 +13,8 @@ const char * Zk::Game::playerActionToName(PlayerAction pa)
 		{ PlayerAction::ThrowGrenade,	"Throw grenade" },
 		{ PlayerAction::Shoot,			"Shoot" }
 	};
-	
+
 	auto it = playerActionName.find(pa);
-	
+
 	return (it != playerActionName.end()) ? it->second : "???";
 }

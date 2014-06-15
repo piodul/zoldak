@@ -53,7 +53,7 @@ void Entity::setBody(b2Body * b)
 		b2World * world = body->GetWorld();
 		world->DestroyBody(body);
 	}
-	
+
 	body = b;
 }
 

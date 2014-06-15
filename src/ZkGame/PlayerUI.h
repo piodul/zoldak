@@ -16,12 +16,12 @@ class PlayerUI
 public:
 	PlayerUI(Player & player);
 	~PlayerUI();
-	
+
 	void paint(sf::RenderTarget * rt);
-	
+
 private:
 	Player & player;
-	
+
 	sf::Font font;
 	sf::Texture * healthTexture;
 	sf::Texture * grenadeTexture;

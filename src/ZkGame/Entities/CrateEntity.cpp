@@ -16,24 +16,24 @@ CrateEntity::CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSr
 	: Entity(nullptr, nullptr)
 {
 	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
-	
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = lib_cast<b2Vec2>(pos);
 	bodyDef.userData = (void*)this;
 	b2Body * body = world.CreateBody(&bodyDef);
-	
+
 	b2PolygonShape polyShape;
 	polyShape.SetAsBox(size.x, size.y);
-	
+
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &polyShape;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
 	body->CreateFixture(&fixtureDef);
-	
+
 	setBody(body);
-	
+
 	BoxRenderable * br = new BoxRenderable(
 		body, GameSystem::resourcePath(imgSrc).c_str()
 	);
@@ -43,5 +43,5 @@ CrateEntity::CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSr
 
 CrateEntity::~CrateEntity()
 {
-	
+
 }

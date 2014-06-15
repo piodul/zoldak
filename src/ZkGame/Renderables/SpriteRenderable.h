@@ -19,13 +19,13 @@ public:
 		const char * imgSrc
 	);
 	virtual ~SpriteRenderable();
-	
+
 	virtual void paint(sf::RenderTarget * rt);
-	
+
 private:
 	sf::Texture * texture;
 	sf::Sprite sprite;
-	
+
 	std::weak_ptr<Entity> entity;
 };
 

@@ -16,12 +16,12 @@ public:
 		: z(0.0)
 	{  }
 	virtual ~Renderable() {};
-	
+
 	virtual void paint(sf::RenderTarget * rt) = 0;
-	
+
 	virtual bool visibleToPlayer(const Player & player)
 	{ return true; }
-	
+
 	inline double getZValue() const
 	{ return z; }
 	void setZValue(double z)

@@ -16,17 +16,17 @@ GrenadePackEntity::GrenadePackEntity(sf::Vector2f pos, SpawnerMeshEntity * spawn
 	:	CrateEntity(pos, sf::Vector2f(0.25f, 0.25f), "grenade-pack.png"),
 		spawner(spawner)
 {
-	
+
 }
 
 GrenadePackEntity::~GrenadePackEntity()
 {
-	
+
 }
 
 void GrenadePackEntity::update(double step)
 {
-	
+
 }
 
 EntityType GrenadePackEntity::getType() const

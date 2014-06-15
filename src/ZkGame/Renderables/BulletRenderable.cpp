@@ -18,13 +18,13 @@ BulletRenderable::BulletRenderable(std::weak_ptr<BulletEntity> bullet)
 
 BulletRenderable::~BulletRenderable()
 {
-	
+
 }
 
 void BulletRenderable::paint(sf::RenderTarget * rt)
 {
 	auto ptr = bullet.lock();
-	
+
 	if (ptr != nullptr)
 	{
 		sf::Vector2f currentPosition = ptr->getCenterPosition();
@@ -33,7 +33,7 @@ void BulletRenderable::paint(sf::RenderTarget * rt)
 			sf::Vertex(currentPosition, sf::Color::Black),
 			sf::Vertex(backPosition, sf::Color::White),
 		};
-		
+
 		rt->draw(segment, 2, sf::Lines);
 	}
 }

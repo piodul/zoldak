@@ -11,10 +11,10 @@ class GraphicsConfig
 {
 public:
 	GraphicsConfig();
-	
+
 	friend QDataStream & operator<<(QDataStream & ds, const GraphicsConfig & gc);
 	friend QDataStream & operator>>(QDataStream & ds, GraphicsConfig & gc);
-	
+
 	sf::VideoMode videoMode;
 	bool fullscreen;
 };

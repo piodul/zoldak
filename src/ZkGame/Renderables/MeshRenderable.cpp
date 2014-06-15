@@ -12,7 +12,7 @@ MeshRenderable::MeshRenderable(const sf::VertexArray & varr)
 
 MeshRenderable::~MeshRenderable()
 {
-	
+
 }
 
 void MeshRenderable::paint(sf::RenderTarget * rt)

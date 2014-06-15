@@ -13,12 +13,12 @@ static const float CONVERGE_TEMPO = 0.2f;
 MouseTrackEntity::MouseTrackEntity(const MouseDeviceHandle & mdh)
 	: Entity(nullptr, nullptr), mdh(mdh)
 {
-	
+
 }
 
 MouseTrackEntity::~MouseTrackEntity()
 {
-	
+
 }
 
 void MouseTrackEntity::update(double step)

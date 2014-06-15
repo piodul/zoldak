@@ -15,13 +15,13 @@ class Camera
 public:
 	Camera();
 	virtual ~Camera() {};
-	
+
 	virtual void setupViews() = 0;
 	std::vector<sf::View> getViews() const;
-	
+
 protected:
 	void discardInvalidEntities();
-	
+
 	sf::Vector2f relativeScreenSize;
 	std::vector<std::weak_ptr<Entity>> trackedEntities;
 	std::vector<sf::View> computedViews;
@@ -35,7 +35,7 @@ public:
 		Horizontal = 0,
 		Vertical = 1
 	};
-	
+
 	SplitScreenCamera(
 		std::initializer_list<std::weak_ptr<Entity>> entities
 	);
@@ -43,23 +43,14 @@ public:
 		const std::vector<std::weak_ptr<Entity>> & entities
 	);
 	virtual ~SplitScreenCamera();
-	
+
 	virtual void setupViews() override;
-	
+
 	void setAlignment(Alignment a);
 	Alignment getAlignment() const;
-	
+
 private:
 	Alignment alignment;
-};
-
-class BoundingBoxCamera : public Camera
-{
-public:
-	BoundingBoxCamera();
-	virtual ~BoundingBoxCamera();
-	
-	virtual void setupViews() override;
 };
 
 }}

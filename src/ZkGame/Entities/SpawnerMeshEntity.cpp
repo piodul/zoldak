@@ -30,32 +30,32 @@ SpawnerMeshEntity::SpawnerMeshEntity(const LevelLayer * ll, LayerType lt)
 	: Entity(nullptr, nullptr), spawnerMesh(ll)
 {
 	this->lt = lt;
-	
+
 	cooldown = 0.0;
-	
+
 	itemCount = 0;
 	if (lt == LayerType::MEDKIT_SPAWN)
 		maxItemCount = Constants::MAX_MEDKITS_ON_MAP;
 	else
 		maxItemCount = Constants::MAX_GRENADE_PACKS_ON_MAP;
-	
+
 	setRenderable(nullptr);
 	setBody(nullptr);
 }
 
 SpawnerMeshEntity::~SpawnerMeshEntity()
 {
-	
+
 }
 
 void SpawnerMeshEntity::update(double step)
 {
 	cooldown = std::max(0.0, cooldown - step);
-	
+
 	if (cooldown == 0.0 && itemCount < maxItemCount)
 	{
 		sf::Vector2f pos = spawnerMesh.pickSpawnLocation();
-		
+
 		if (lt == LayerType::MEDKIT_SPAWN)
 		{
 			Game::getInstance()->addEntity(
@@ -68,7 +68,7 @@ void SpawnerMeshEntity::update(double step)
 				std::make_shared<GrenadePackEntity>(pos, this)
 			);
 		}
-		
+
 		cooldown = COOLDOWN_IN_SECONDS;
 		itemCount++;
 	}

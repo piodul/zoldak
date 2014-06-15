@@ -23,15 +23,15 @@ public:
 		MouseDeviceHandle mdh
 	);
 	virtual ~CrosshairEntity();
-	
+
 	void registerMe();
-	
+
 	virtual void update(double step);
-	
+
 	virtual sf::Vector2f getCenterPosition() const;
-	
+
 	virtual EntityType getType() const;
-	
+
 protected:
 	sf::Vector2f relativePos;
 	std::weak_ptr<PlayerEntity> owner;

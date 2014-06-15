@@ -39,7 +39,7 @@ bool BodyCollisionListener::interestedInPostSolveEvent(b2Contact * contact, cons
 
 ContactListener::ContactListener()
 {
-	
+
 }
 
 void ContactListener::BeginContact(b2Contact * contact)
@@ -48,7 +48,7 @@ void ContactListener::BeginContact(b2Contact * contact)
 	{
 		if (wcl.expired())
 			continue;
-		
+
 		auto cl = wcl.lock();
 		if (cl->interestedInBeginContactEvent(contact))
 			cl->onBeginContactEvent(contact);
@@ -60,7 +60,7 @@ void ContactListener::EndContact(b2Contact * contact)
 	{
 		if (wcl.expired())
 			continue;
-		
+
 		auto cl = wcl.lock();
 		if (cl->interestedInEndContactEvent(contact))
 			cl->onEndContactEvent(contact);
@@ -73,7 +73,7 @@ void ContactListener::PreSolve(b2Contact * contact, const b2Manifold * oldManifo
 	{
 		if (wcl.expired())
 			continue;
-		
+
 		auto cl = wcl.lock();
 		if (cl->interestedInPreSolveEvent(contact, oldManifold))
 			cl->onPreSolveEvent(contact, oldManifold);
@@ -86,7 +86,7 @@ void ContactListener::PostSolve(b2Contact * contact, const b2ContactImpulse * im
 	{
 		if (wcl.expired())
 			continue;
-		
+
 		auto cl = wcl.lock();
 		if (cl->interestedInPostSolveEvent(contact, impulse))
 			cl->onPostSolveEvent(contact, impulse);
@@ -107,7 +107,7 @@ void ContactListener::discardOldListeners()
 			return cl.expired();
 		}
 	);
-	
+
 	collisionListeners.erase(end, collisionListeners.end());
 }
 
@@ -119,7 +119,7 @@ PhysicsSystem::PhysicsSystem()
 
 PhysicsSystem::~PhysicsSystem()
 {
-	
+
 }
 
 void PhysicsSystem::registerListener(std::weak_ptr<CollisionListener> cl)

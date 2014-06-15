@@ -49,13 +49,13 @@ GameSystem::GameSystem(int argc, char ** argv) :
 
 GameSystem::~GameSystem()
 {
-	
+
 }
 
 int GameSystem::exec()
 {
 	loadConfig();
-	
+
 	while (state != State::Quit)
 	{
 		switch (state)
@@ -64,17 +64,17 @@ int GameSystem::exec()
 			lobbyLoop();
 			saveConfig();
 			break;
-			
+
 		case State::Game:
 			gameLoop();
 			break;
-			
+
 		default:
 			//Impossibru
 			break;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -87,7 +87,7 @@ void GameSystem::lobbyLoop()
 {
 	LobbyWindow lw(config);
 	lw.show();
-	
+
 	while (state == State::Lobby)
 	{
 		app.sendPostedEvents();
@@ -95,7 +95,7 @@ void GameSystem::lobbyLoop()
 			QEventLoop::WaitForMoreEvents,
 			250
 		);
-		
+
 		QThread::currentThread()->msleep(10);
 	}
 }
@@ -135,7 +135,7 @@ void GameSystem::loadConfig()
 		qDebug() << "Warning: failed to load config!";
 		return;
 	}
-	
+
 	QDataStream ds(&f);
 	ds >> config;
 }
@@ -148,7 +148,7 @@ void GameSystem::saveConfig() const
 		qDebug() << "Warning: failed to save config!";
 		return;
 	}
-	
+
 	QDataStream ds(&f);
 	ds << config;
 }

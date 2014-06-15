@@ -25,7 +25,7 @@ PlayerTrackEntity::PlayerTrackEntity(int trackedPlayer)
 
 PlayerTrackEntity::~PlayerTrackEntity()
 {
-	
+
 }
 
 void PlayerTrackEntity::update(double step)
@@ -33,10 +33,10 @@ void PlayerTrackEntity::update(double step)
 	sf::Vector2f target(0.f, 0.f);
 	auto players = Game::getInstance()->getPlayers();
 	int p = trackedPlayer;
-	
+
 	if (players[p].getPlayerEntity().lock() == nullptr)
 		p = 1 - p;
-	
+
 	if (players[p].getPlayerEntity().lock() != nullptr)
 	{
 		auto ptr = players[p].getPlayerEntity().lock();
@@ -45,7 +45,7 @@ void PlayerTrackEntity::update(double step)
 			ptr->getCrosshairEntity().lock()->getCenterPosition()
 		) * 0.5f;
 	}
-	
+
 	currPos = (1.f - CONVERGE_TEMPO) * currPos + CONVERGE_TEMPO * target;
 }
 

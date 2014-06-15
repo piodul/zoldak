@@ -70,7 +70,7 @@ void Player::update(double step)
 	if (ptr == nullptr)
 	{
 		timeToRespawn = std::max(0.0, timeToRespawn - step);
-		
+
 		if (timeToRespawn == 0.0)
 		{
 			ptr = std::make_shared<PlayerEntity>(
@@ -78,12 +78,12 @@ void Player::update(double step)
 				spawnerMesh.pickSpawnLocation(),
 				inputConfig
 			);
-			
+
 			ptr->registerMe();
-			
+
 			Game::getInstance()->addEntity(ptr);
 			entity = ptr;
-			
+
 			timeToRespawn = RESPAWN_TIME;
 		}
 	}

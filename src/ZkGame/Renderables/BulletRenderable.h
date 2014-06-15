@@ -20,9 +20,9 @@ class BulletRenderable : public Renderable
 public:
 	BulletRenderable(std::weak_ptr<BulletEntity> bullet);
 	virtual ~BulletRenderable();
-	
+
 	virtual void paint(sf::RenderTarget * rt);
-	
+
 private:
 	std::weak_ptr<BulletEntity> bullet;
 };

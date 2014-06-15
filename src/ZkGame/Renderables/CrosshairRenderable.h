@@ -21,13 +21,13 @@ public:
 		std::weak_ptr<PlayerEntity> player
 	);
 	virtual ~CrosshairRenderable();
-	
+
 	virtual bool visibleToPlayer(const Player & player);
-	
+
 private:
 	sf::Texture * texture;
 	sf::Sprite sprite;
-	
+
 	std::weak_ptr<PlayerEntity> player;
 };
 

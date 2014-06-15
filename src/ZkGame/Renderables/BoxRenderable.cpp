@@ -23,26 +23,26 @@ BoxRenderable::BoxRenderable(
 )
 {
 	this->body = body;
-	
+
 	const b2Fixture * fixture = body->GetFixtureList();
 	b2AABB aabb = fixture->GetAABB(0);
-	
+
 	texture = GameSystem::getInstance()->getTextureCache().getTexture(imgSrc);
-	
+
 	sf::Vector2f bodySize =
 		lib_cast<sf::Vector2f>(aabb.upperBound - aabb.lowerBound);
 	sf::Vector2f imageSize =
 		sf::Vector2f(texture->getSize()) * (float)Constants::METERS_PER_PIXEL;
-	
+
 	qDebug() << lib_cast<QPointF>(bodySize);
-	
+
 	sf::Vector2f scalingFactor = sf::Vector2f(
 		bodySize.x / imageSize.x,
 		bodySize.y / imageSize.y
 	) * (float)Constants::METERS_PER_PIXEL;
-	
+
 	qDebug() << lib_cast<QPointF>(scalingFactor);
-	
+
 	sprite.setTexture(*texture);
 	sprite.setOrigin(sf::Vector2f(texture->getSize()) * 0.5f);
 	sprite.setScale(scalingFactor);
@@ -50,15 +50,15 @@ BoxRenderable::BoxRenderable(
 
 BoxRenderable::~BoxRenderable()
 {
-	
+
 }
 
 void BoxRenderable::paint(sf::RenderTarget * rt)
 {
 	sprite.setPosition(lib_cast<sf::Vector2f>(body->GetPosition()));
-	
+
 	float angle = body->GetAngle() * 180.f / b2_pi;
 	sprite.setRotation(angle);
-	
+
 	rt->draw(sprite);
 }

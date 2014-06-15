@@ -26,43 +26,42 @@ MeshTriangle::MeshTriangle(
 	parentLayer = ml;
 	this->verts = verts;
 	this->edges = edges;
-	
+
 	isActive = true;
-	
+
 	vColors = { Qt::black, Qt::black, Qt::black };
-	
+
 	swappedColorID = -1;
-	
+
 	for (MeshTriangleNode * vert : verts)
 	{
 		vert->addTriangleLink(this);
-		
+
 		connect(vert, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
 			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
-		
+
 		connect(this, SIGNAL(destroyed(MeshTriangle*)),
 			vert, SLOT(remTriangleLink(MeshTriangle*)));
 	}
-	
+
 	for (MeshTriangleEdge * edge : edges)
 	{
 		edge->addTriangleLink(this);
-		
+
 		connect(this, SIGNAL(destroyed(MeshTriangle*)),
 			edge, SLOT(remTriangleLink(MeshTriangle*)));
 	}
-	
+
 	setAcceptHoverEvents(true);
-	
+
 	updatePosition(nullptr, QPointF());
-	
+
 	refreshLook();
 }
 
 MeshTriangle::~MeshTriangle()
 {
 	emit destroyed(this);
-	//parentLayer->triangleDestroyed(this);
 }
 
 QRectF MeshTriangle::boundingRect() const
@@ -70,7 +69,7 @@ QRectF MeshTriangle::boundingRect() const
 	QRectF ret(verts[0]->pos(), QSize());
 	ret = ret.united(QRectF(verts[1]->pos(), QSize()));
 	ret = ret.united(QRectF(verts[2]->pos(), QSize()));
-	
+
 	return ret;
 }
 
@@ -84,12 +83,12 @@ void MeshTriangle::paint(
 	{
 		qDebug() << "Warning: supplied QPainter has OpenGL disabled!";
 	}
-	
+
 	painter->beginNativePainting();
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	glBegin(GL_TRIANGLES);
 	int id = 0;
 	for (MeshTriangleNode * vert : verts)
@@ -97,34 +96,34 @@ void MeshTriangle::paint(
 		QColor color = (id != swappedColorID) ? vColors[id] : swappedColor;
 		if (!isActive)
 			color = color.darker();
-		
+
 		QPointF pos = vert->pos();
 		glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 		glVertex2f(pos.x(), pos.y());
 		id++;
 	}
 	glEnd();
-	
+
 	painter->endNativePainting();
-	
+
 	//Jeśli jesteśmy nieaktywni, to dodatkowo rysujemy na trójkącie "meszek"
 	if (!isActive)
 	{
 		QPointF vs[3] {
 			verts[0]->pos(), verts[1]->pos(), verts[2]->pos()
 		};
-		
+
 		QBrush sprayBrush(Qt::gray, Qt::Dense6Pattern);
-		
+
 		QTransform backTransform;
 		backTransform.scale(
 			Constants::METERS_PER_PIXEL,
 			Constants::METERS_PER_PIXEL
 		);
-		
+
 		//Comment the next line for lulz
 		sprayBrush.setTransform(backTransform);
-		
+
 		painter->setBrush(sprayBrush);
 		painter->setPen(Qt::transparent);
 		painter->drawPolygon(vs, 3);
@@ -135,10 +134,10 @@ QPainterPath MeshTriangle::shape() const
 {
 	QPolygonF poly;
 	poly << verts[0]->pos() << verts[1]->pos() << verts[2]->pos();
-	
+
 	QPainterPath pp;
 	pp.addPolygon(poly);
-	
+
 	return pp;
 }
 
@@ -190,7 +189,7 @@ void MeshTriangle::mousePressEvent(QGraphicsSceneMouseEvent * event)
 		event->ignore();
 		return;
 	}
-	
+
 	if (event->modifiers() & Qt::ControlModifier)
 	{
 		event->accept();
@@ -210,7 +209,7 @@ void MeshTriangle::hoverMoveEvent(QGraphicsSceneHoverEvent * event)
 {
 	if (!isActive)
 		return;
-	
+
 	auto range = { 0, 1, 2 };
 	swappedColorID = *std::min_element(
 		range.begin(), range.end(),
@@ -229,7 +228,7 @@ void MeshTriangle::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
 	if (!isActive)
 		return;
-	
+
 	swappedColorID = -1;
 	update();
 	event->accept();

@@ -27,17 +27,17 @@ public:
 		double damage
 	);
 	virtual ~BulletEntity();
-	
+
 	void registerMe();
-	
+
 	virtual void onBeginContactEvent(b2Contact * contact) override;
 	virtual void onEndContactEvent(b2Contact * contact) override;
 	virtual void onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold) override;
 	virtual void onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse) override;
-	
+
 	virtual void update(double step);
 	virtual EntityType getType() const override;
-	
+
 	sf::Vector2f getVelocity() const;
 
 private:

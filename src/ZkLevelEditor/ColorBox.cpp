@@ -10,18 +10,18 @@ ColorBox::ColorBox(QWidget * parent)
 	: QWidget(parent)
 {
 	selected = false;
-	
+
 	QSizePolicy sizePolicy(
 		QSizePolicy::Fixed,
 		QSizePolicy::Fixed
 	);
-	
+
 	setSizePolicy(sizePolicy);
 }
 
 ColorBox::~ColorBox()
 {
-	
+
 }
 
 void ColorBox::select()
@@ -57,12 +57,12 @@ void ColorBox::paintEvent(QPaintEvent * event)
 {
 	QPainter painter(this);
 	painter.fillRect(rect(), color);
-	
+
 	if (selected)
 	{
 		painter.setPen(QPen(Qt::black, 1.0));
 		painter.drawRect(rect().adjusted(2, 2, -3, -3));
-		
+
 		painter.setPen(QPen(Qt::white, 1.0));
 		painter.drawRect(rect().adjusted(1, 1, -2, -2));
 	}
@@ -83,9 +83,9 @@ void ColorBox::mousePressEvent(QMouseEvent * event)
 			color = c;
 			update();
 		}
-		
+
 		event->accept();
 	}
-	
+
 	QWidget::mousePressEvent(event);
 }

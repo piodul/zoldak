@@ -6,7 +6,6 @@
 
 #include <QtCore>
 #include <QtGui>
-#include <QDebug>
 
 using namespace Zk::Common;
 using namespace Zk::LevelEditor;
@@ -19,27 +18,27 @@ MeshTriangleEdge::MeshTriangleEdge(
 	: QGraphicsLineItem(parent)
 {
 	this->ends = ends;
-	
+
 	parentLayer = ml;
-	
+
 	for (MeshTriangleNode * end : ends)
 	{
 		end->addEdgeLink(this);
-		
+
 		connect(end, SIGNAL(moved(MeshTriangleNode*, const QPointF&)),
 			this, SLOT(updatePosition(MeshTriangleNode*, const QPointF&)));
-		
+
 		connect(this, SIGNAL(unlinked(MeshTriangleEdge*)),
 			end, SLOT(remEdgeLink(MeshTriangleEdge*)));
 	}
-	
+
 	isActive = true;
 	refreshLook();
 }
 
 MeshTriangleEdge::~MeshTriangleEdge()
 {
-	
+
 }
 
 std::array<MeshTriangleNode*, 2> MeshTriangleEdge::getEnds() const
@@ -71,10 +70,9 @@ void MeshTriangleEdge::setActivated(bool activated)
 
 void MeshTriangleEdge::remTriangleLink(MeshTriangle * mt)
 {
-	qDebug() << "Edge ~/~ Triangle";
 	linkedTriangles.removeOne(mt);
 	refreshLook();
-	
+
 	if (linkedTriangles.size() == 0)
 		emit unlinked(this);
 }
@@ -90,10 +88,10 @@ void MeshTriangleEdge::updatePosition(MeshTriangleNode * mtn, const QPointF & po
 void MeshTriangleEdge::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
 	QGraphicsLineItem::mousePressEvent(event);
-	
+
 	if (!isActive)
 		return;
-	
+
 	if (event->button() == Qt::LeftButton)
 		emit clicked(this, event);
 }
@@ -119,10 +117,10 @@ void MeshTriangleEdge::refreshLook()
 		pen.setColor(QColor(127, 127, 127));
 		pen.setWidthF(2.0 * Constants::METERS_PER_PIXEL);
 	}
-	
+
 	setPen(pen);
 	setLine(QLineF(ends[0]->pos(), ends[1]->pos()));
-	
+
 	double z = (isActive ? 1024.0 : (double)-parentLayer->getIndex());
 	setZValue(z + 0.1);
 }

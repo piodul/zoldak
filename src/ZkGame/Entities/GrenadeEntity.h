@@ -26,24 +26,24 @@ public:
 		double damage
 	);
 	virtual ~GrenadeEntity();
-	
+
 	void registerMe();
-	
+
 	virtual void onBeginContactEvent(b2Contact * contact) override;
 	virtual void onEndContactEvent(b2Contact * contact) override;
 	virtual void onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold) override;
 	virtual void onPostSolveEvent(b2Contact * contact, const b2ContactImpulse * impulse) override;
-	
+
 	virtual void update(double step);
 	virtual EntityType getType() const override;
 
 private:
 	static constexpr double FUSE_TIME = 3.0;
 	static constexpr double RANGE = 10.0;
-	
+
 	Player & owner;
 	double damage;
-	
+
 	double countdownToExplosion;
 };
 

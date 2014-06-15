@@ -18,16 +18,16 @@ QDataStream & Zk::Game::operator<<(QDataStream & ds, const WeaponDef & wd)
 QDataStream & Zk::Game::operator>>(QDataStream & ds, WeaponDef & wd)
 {
 	qint32 cs, pt;
-	
+
 	ds	>> wd.damagePerShot
 		>> wd.muzzleVelocity
 		>> wd.refireTime
 		>> cs
 		>> wd.reloadTime
 		>> pt;
-	
+
 	wd.clipSize = cs;
 	wd.particleType = (WeaponDef::ParticleType)wd.particleType;
-	
+
 	return ds;
 }

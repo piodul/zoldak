@@ -13,7 +13,7 @@ bool InputChoiceDialog::chooseInputAction(InputAction & ia)
 		"Choose key",
 		sf::Style::Titlebar
 	);
-	
+
 	sf::Event event;
 	while (window.waitEvent(event))
 	{
@@ -21,22 +21,22 @@ bool InputChoiceDialog::chooseInputAction(InputAction & ia)
 		{
 		case sf::Event::LostFocus:
 			return false;
-			
+
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::Unknown)
 				break;
-			
+
 			ia = InputAction(event.key.code);
 			return true;
-			
+
 		case sf::Event::MouseButtonPressed:
 			ia = InputAction(event.mouseButton.button);
 			return true;
-			
+
 		default:
 			break;
 		}
 	}
-	
+
 	return false;
 }
