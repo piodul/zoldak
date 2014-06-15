@@ -41,7 +41,7 @@ GameSystem::GameSystem(int argc, char ** argv)
 {
 	state = State::Lobby;
 	instance = this;
-	hasFocus = false;
+	hasFocus = true;
 }
 
 GameSystem::~GameSystem()
@@ -244,6 +244,8 @@ void GameSystem::gameLoop()
 				state = State::Lobby;
 			}
 			else if (event.type == sf::Event::GainedFocus)
+				hasFocus = true;
+			else if (event.type == sf::Event::MouseButtonPressed)
 				hasFocus = true;
 			else if (event.type == sf::Event::LostFocus)
 				hasFocus = false;
