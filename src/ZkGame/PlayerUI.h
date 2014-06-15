@@ -14,7 +14,7 @@ class Player;
 class PlayerUI
 {
 public:
-	PlayerUI(Player & player, TextureCache & tc);
+	PlayerUI(Player & player);
 	~PlayerUI();
 	
 	void paint(sf::RenderTarget * rt);

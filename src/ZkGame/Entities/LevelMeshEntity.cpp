@@ -11,6 +11,7 @@
 
 #include "LevelMeshEntity.h"
 #include "Entity.h"
+#include "../Game.h"
 #include "../GameSystem.h"
 #include "../Renderables/Renderable.h"
 #include "../Renderables/MeshRenderable.h"
@@ -60,7 +61,7 @@ static b2Body * createLevelLayerCollisionMesh(const LevelLayer * ll)
 {
 	//Ta funkcja zakłada, że wszystkie wierzchołki zewnętrzne mają stopień 2
 	
-	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
+	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
 	
 	const std::vector<sf::Vertex> & verts = ll->getVertices();
 	const std::vector<triangleDesc_t> & tris = ll->getTriangleDescriptions();

@@ -5,12 +5,13 @@
 #include "Entities/PlayerEntity.h"
 #include "Config/InputConfig.h"
 #include "SpawnerMesh.h"
+#include "Game.h"
 #include "GameSystem.h"
 
 using namespace Zk::Game;
 
-Player::Player(int id, TextureCache & tc)
-	: ui(*this, tc)
+Player::Player(int id)
+	: ui(*this)
 {
 	this->id = id;
 	timeToRespawn = 0.0;
@@ -92,7 +93,7 @@ void Player::update(double step)
 			
 			ptr->registerMe();
 			
-			GameSystem::getInstance()->addEntity(ptr);
+			Game::getInstance()->addEntity(ptr);
 			entity = ptr;
 			
 			timeToRespawn = RESPAWN_TIME;

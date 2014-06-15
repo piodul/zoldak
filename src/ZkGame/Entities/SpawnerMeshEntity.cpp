@@ -19,7 +19,7 @@
 #include "SpawnerMeshEntity.h"
 #include "MedKitEntity.h"
 #include "GrenadePackEntity.h"
-#include "../GameSystem.h"
+#include "../Game.h"
 #include "../Renderables/Renderable.h"
 #include "../Renderables/MeshRenderable.h"
 
@@ -58,13 +58,13 @@ void SpawnerMeshEntity::update(double step)
 		
 		if (lt == LayerType::MEDKIT_SPAWN)
 		{
-			GameSystem::getInstance()->addEntity(
+			Game::getInstance()->addEntity(
 				std::make_shared<MedKitEntity>(pos, this)
 			);
 		}
 		else if (lt == LayerType::GRENADES_SPAWN)
 		{
-			GameSystem::getInstance()->addEntity(
+			Game::getInstance()->addEntity(
 				std::make_shared<GrenadePackEntity>(pos, this)
 			);
 		}

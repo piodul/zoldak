@@ -19,7 +19,7 @@ class TextureCache;
 class Player
 {
 public:
-	Player(int id, TextureCache & tc);
+	Player(int id);
 	
 	///Ustawia uchwyt do myszki.
 	void setMouseDevice(MouseDeviceHandle md);

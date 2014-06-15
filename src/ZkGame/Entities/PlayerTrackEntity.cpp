@@ -9,6 +9,7 @@
 #include "PlayerEntity.h"
 #include "CrosshairEntity.h"
 #include "../GameSystem.h"
+#include "../Game.h"
 #include "../InputSystem.h"
 
 using namespace Zk::Common;
@@ -30,7 +31,7 @@ PlayerTrackEntity::~PlayerTrackEntity()
 void PlayerTrackEntity::update(double step)
 {
 	sf::Vector2f target(0.f, 0.f);
-	auto players = GameSystem::getInstance()->getPlayers();
+	auto players = Game::getInstance()->getPlayers();
 	int p = trackedPlayer;
 	
 	if (players[p].getPlayerEntity().lock() == nullptr)

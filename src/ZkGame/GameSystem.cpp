@@ -18,6 +18,7 @@
 #include "Lobby/LobbyWindow.h"
 
 #include "GameSystem.h"
+#include "Game.h"
 #include "InputSystem.h"
 #include "Player.h"
 #include "PlayerUI.h"
@@ -40,16 +41,10 @@ using namespace Zk::Common;
 GameSystem * GameSystem::instance = nullptr;
 
 GameSystem::GameSystem(int argc, char ** argv) :
-	app(argc, argv),
-	physicsSystem(),
-	players{
-		Player(0, textureCache),
-		Player(1, textureCache)
-	}
+	app(argc, argv)
 {
 	state = State::Lobby;
 	instance = this;
-	hasFocus = true;
 }
 
 GameSystem::~GameSystem()
@@ -83,6 +78,11 @@ int GameSystem::exec()
 	return 0;
 }
 
+void GameSystem::changeState(State s)
+{
+	state = s;
+}
+
 void GameSystem::lobbyLoop()
 {
 	LobbyWindow lw(config);
@@ -100,355 +100,19 @@ void GameSystem::lobbyLoop()
 	}
 }
 
-void GameSystem::initializeGameLoop()
-{
-	{
-		sf::Uint32 style = sf::Style::Titlebar | sf::Style::Close;
-		if (config.graphicsConfig.fullscreen)
-			style |= sf::Style::Fullscreen;
-		
-		renderWindow.create(
-			//sf::VideoMode(800, 600),
-			config.graphicsConfig.videoMode,
-			L"Żołdak",
-			style
-		);
-		
-		renderWindow.setMouseCursorVisible(false);
-	}
-	
-	//Ustaw ikonę okna
-	{
-		sf::Image wndIcon;
-		if (wndIcon.loadFromFile(
-			resourcePath("grenade.png"))
-		)
-		{	
-			sf::Vector2u iconSize = wndIcon.getSize();
-			
-			renderWindow.setIcon(
-				iconSize.x,
-				iconSize.y,
-				wndIcon.getPixelsPtr()
-			);
-		}
-	}
-	
-	renderWindow.setVerticalSyncEnabled(true);
-	
-	Level l;
-	QFile f(resourcePath("../bin/multilayer.zvl").c_str());
-	if (!f.open(QIODevice::ReadOnly))
-		qDebug() << "Failed to open level";
-	else
-	{
-		QDataStream ds(&f);
-		ds >> l;
-	}
-	
-	addEntity(
-		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::FOREGROUND],
-			LayerType::FOREGROUND
-		)
-	);
-	
-	addEntity(
-		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::MIDGROUND],
-			LayerType::MIDGROUND
-		)
-	);
-	
-	addEntity(
-		std::make_shared<LevelMeshEntity>(
-			l.getLayers()[(int)LayerType::BACKGROUND],
-			LayerType::BACKGROUND
-		)
-	);
-	
-	addEntity(
-		std::make_shared<SpawnerMeshEntity>(
-			l.getLayers()[(int)LayerType::MEDKIT_SPAWN],
-			LayerType::MEDKIT_SPAWN
-		)
-	);
-	
-	addEntity(
-		std::make_shared<SpawnerMeshEntity>(
-			l.getLayers()[(int)LayerType::GRENADES_SPAWN],
-			LayerType::GRENADES_SPAWN
-		)
-	);
-	
-	{
-		WeaponDef wd;
-		wd.damagePerShot = 15.0;
-		wd.muzzleVelocity = 100.0;
-		wd.refireTime = 0.05;
-		wd.reloadTime = 3.0;
-		wd.clipSize = 30;
-		
-		players[0].setMouseDevice(inputSystem.getMouseDeviceHandle(0));
-		players[0].setSpawnerMesh(SpawnerMesh(
-			l.getLayers()[(int)LayerType::PLAYER_A_SPAWN]
-		));
-		players[0].setInputConfig(config.playerInputConfig[0]);
-		players[0].setWeaponDef(wd);
-		
-		players[1].setMouseDevice(inputSystem.getMouseDeviceHandle(1));
-		players[1].setSpawnerMesh(SpawnerMesh(
-			l.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
-		));
-		players[1].setInputConfig(config.playerInputConfig[1]);
-		players[1].setWeaponDef(wd);
-	}
-	
-	auto track = std::make_shared<PlayerTrackEntity>(0);
-	auto track2 = std::make_shared<PlayerTrackEntity>(1);
-	entities.push_back(track);
-	entities.push_back(track2);
-	
-	camera = new SplitScreenCamera({ track, track2 });
-	
-	{
-		// std::shared_ptr<Entity> ent = std::make_shared<MouseTrackEntity>(
-		// 	inputSystem.getMouseDeviceHandle(0)
-		// );
-		// entities.push_back(ent);
-		
-		// auto player = std::make_shared<PlayerEntity>(
-		// 	sf::Vector2f(-1.5f, -1.f),
-		// 	config.playerInputConfig[0],
-		// 	inputSystem.getMouseDeviceHandle(0),
-		// 	wd
-		// );
-		// player->registerMe();
-		
-		// auto player2 = std::make_shared<PlayerEntity>(
-		// 	sf::Vector2f(1.5f, -1.f),
-		// 	config.playerInputConfig[1],
-		// 	inputSystem.getMouseDeviceHandle(1),
-		// 	wd
-		// );
-		// player2->registerMe();
-		
-		// addEntity(player);
-		// addEntity(player2);
-		
-		// this->players = { player, player2 };
-		// camera = new SplitScreenCamera({ player, player2 });
-	}
-}
-
 void GameSystem::gameLoop()
 {
-	initializeGameLoop();
-	
-	sf::Vector2f position;
-	sf::Clock beat;
-	
-	int timeForEvents;
-	
-	//renderWindow.setFramerateLimit(60);
-	
-	while (state == State::Game)
-	{
-		//Wykonaj Qt-ową część programu
-		sf::Time frameStart = beat.getElapsedTime();
-		
-		app.sendPostedEvents();
-		app.processEvents(
-			QEventLoop::AllEvents,
-			timeForEvents
-		);
-		
-		sf::Time qtLoopFinished = beat.getElapsedTime();
-		
-		//qDebug() << (qtLoopFinished - frameStart).asMilliseconds();
-		
-		//Eventy SFML-a
-		sf::Event event;
-		while (renderWindow.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				renderWindow.close();
-				state = State::Lobby;
-			}
-			else if (event.type == sf::Event::GainedFocus)
-				hasFocus = true;
-			else if (event.type == sf::Event::MouseButtonPressed)
-				hasFocus = true;
-			else if (event.type == sf::Event::LostFocus)
-				hasFocus = false;
-		}
-		
-		//Eventy ManyMouse'a
-		inputSystem.pollInput();
-		
-		//Fizyka
-		physicsSystem.simulate(1.0 / 60.0);
-		
-		//Niektóre jednostki mogą chcieć skorzystać z widoków kamery
-		camera->setupViews();
-		
-		players[0].update(1.0 / 60.0);
-		players[1].update(1.0 / 60.0);
-		
-		//Update
-		for (std::shared_ptr<Entity> ent : entities)
-			ent->update(1.0 / 60.0);
-		
-		//Render
-		removeInactiveRenderables();
-		refreshZOrder();
-		
-		renderWindow.clear(sf::Color::White);
-		
-		std::vector<sf::View> views = camera->getViews();
-		
-		int viewid = 0;
-		for (sf::View view : views)
-		{
-			renderWindow.setView(view);
-			for (auto p : renderables)
-			{
-				auto ptr = p.second.lock();
-				ptr->paint(&renderWindow);
-			}
-			
-			//Teraz rysujemy UI
-			players[viewid].paintUI(&renderWindow);
-			
-			viewid++;
-		}
-		
-		renderWindow.display();
-		glFlush();
-		
-		//Wszystko się narysowało, więc możemy teraz pousuwać
-		//nieaktywne obiekty
-		removeInactiveEntities();
-		
-		//Przesuwamy kursor myszy z powrotem na środek okienka, aby
-		//nie "wylazł" poza jego obszar.
-		//Jest to nie do końca ładny trik, gdyż okazjonalnie, przy
-		//szybkich ruchach myszki, kursor może wylecieć za okno.
-		//Nie ma to znaczenia, na szczęście, w trybie fullscreen.
-		//Różne systemy operacyjne udostępniają opcję ograniczenia
-		//ruchów kursora do obszaru okna, lecz w SFML-u ficzer ten
-		//jest dopiero w przygotowaniu:
-		//	https://github.com/LaurentGomila/SFML/issues/394
-		//	https://github.com/LaurentGomila/SFML/issues/394
-		if (hasFocus)
-			sf::Mouse::setPosition(
-				(sf::Vector2i)renderWindow.getSize() / 2,
-				renderWindow
-			);
-		
-		//Wprawdzie SFML posiada mechanizmy pozwalające na ograniczenie
-		//framerate, lecz robi to trochę nieudolnie i pojawiają się lagi.
-		//Nie wynikają one prawdopodobnie z niekompetencji programisty,
-		//lecz z dużej ziarnistości sleep-a.
-		//Użycie glFinish z drugiej strony daje perfekcyjną synchronizację,
-		//lecz powoduje loop-spinning i zżera u mnie 20% CPU.
-		//Moje rozwiązanie łączy obydwa podejścia: po zakończeniu pętli
-		//wątek zasypia i budzi się 1-2ms przed odpaleniem glFinish,
-		//które czeka na odświeżenie ekranu.
-		//Nie rozwiązuje to jednak fundamentalnego problemu - wszystko
-		//się popsuje gdy monitor będzie miał inną częstotliwość odświeżania
-		//niż 60Hz. To jest do poprawienia.
-		
-		sf::Time frameEnd = beat.getElapsedTime();
-		static const sf::Int32 millisPerFrame = 1000 / 60;
-		timeForEvents =
-			millisPerFrame - (qtLoopFinished - frameStart).asMilliseconds();
-		
-		//Śpimy, bo glFinish() robi aktywne czekanie
-		int timeToSleep = millisPerFrame - (frameEnd - frameStart).asMilliseconds();
-		timeToSleep = std::max(timeToSleep - 3, 0);
-		QThread::currentThread()->msleep(timeToSleep);
-		
-		//Mój komputer wymaga tej funkcji, aby vsync działał poprawnie
-		//Zasraniec robi aktywne czekanie, though
-		glFinish();
-	}
-	
-	cleanupGameLoop();
+	Game game;
+	game.run();
 }
 
-void GameSystem::removeInactiveEntities()
+void GameSystem::keepQtAlive(int timeForEvents)
 {
-	entities.remove_if(
-		[](const std::shared_ptr<Entity> & ent) -> bool
-		{
-			if (ent->wantsToBeDeleted())
-				qDebug() << "Removing entity!";
-			return ent->wantsToBeDeleted();
-		}
+	app.sendPostedEvents();
+	app.processEvents(
+		QEventLoop::AllEvents,
+		timeForEvents
 	);
-}
-
-void GameSystem::removeInactiveRenderables()
-{
-	for (auto it = renderables.begin(); it != renderables.end();)
-	{
-		if (it->second.expired())
-			renderables.erase(it++);
-		else
-			it++;
-	}
-}
-
-void GameSystem::refreshZOrder()
-{
-	std::vector<std::weak_ptr<Renderable>> renderablesToChange;
-	for (auto it = renderables.begin(); it != renderables.end();)
-	{
-		auto ptr = it->second.lock();
-		if (it->first != ptr->getZValue())
-		{
-			renderablesToChange.push_back(it->second);
-			renderables.erase(it++);
-		}
-		else
-			it++;
-	}
-	
-	for (std::weak_ptr<Renderable> r : renderablesToChange)
-		renderables.insert(
-			std::make_pair(r.lock()->getZValue(), r)
-		);
-}
-
-void GameSystem::cleanupGameLoop()
-{
-	entities.clear();
-	delete camera;
-}
-
-void GameSystem::changeState(State s)
-{
-	state = s;
-}
-
-void GameSystem::addEntity(std::shared_ptr<Entity> ent)
-{
-	entities.push_back(ent);
-	
-	std::weak_ptr<Renderable> r = ent->getRenderable();
-	auto ptr = r.lock();
-	
-	if (ptr != nullptr)
-		renderables.insert(
-			std::make_pair(r.lock()->getZValue(), r)
-		);
-}
-
-sf::Vector2f GameSystem::getViewportDimensions() const
-{
-	return camera->getViews()[0].getSize();
 }
 
 std::string GameSystem::resourcePath(const std::string & src)

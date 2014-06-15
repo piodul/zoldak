@@ -6,6 +6,7 @@
 
 #include "CrateEntity.h"
 #include "../Renderables/BoxRenderable.h"
+#include "../Game.h"
 #include "../GameSystem.h"
 
 using namespace Zk::Common;
@@ -14,7 +15,7 @@ using namespace Zk::Game;
 CrateEntity::CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSrc)
 	: Entity(nullptr, nullptr)
 {
-	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
+	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
 	
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;

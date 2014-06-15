@@ -15,6 +15,7 @@
 #include "CrosshairEntity.h"
 #include "PlayerEntity.h"
 #include "../GameSystem.h"
+#include "../Game.h"
 #include "../InputSystem.h"
 
 using namespace Zk::Common;
@@ -48,7 +49,7 @@ void CrosshairEntity::update(double step)
 	if (ptr != nullptr)
 	{
 		sf::Vector2f radius =
-			GameSystem::getInstance()->getViewportDimensions();
+			Game::getInstance()->getViewportDimensions();
 		sf::Vector3i mouseDelta = mouseDevice.getRelativePosition();
 		sf::Vector2f delta =
 			sf::Vector2f((float)mouseDelta.x, (float)mouseDelta.y)

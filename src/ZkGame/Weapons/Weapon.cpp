@@ -11,7 +11,7 @@
 #include "../Entities/PlayerEntity.h"
 
 #include "../Player.h"
-#include "../GameSystem.h"
+#include "../Game.h"
 
 using namespace Zk::Game;
 
@@ -63,7 +63,7 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 					
 					be->registerMe();
 					
-					GameSystem::getInstance()->addEntity(be);
+					Game::getInstance()->addEntity(be);
 					
 					ammoLeftInClip--;
 					if (ammoLeftInClip == 0)

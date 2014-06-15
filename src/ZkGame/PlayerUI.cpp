@@ -10,6 +10,7 @@
 
 #include "PlayerUI.h"
 #include "Entities/PlayerEntity.h"
+#include "Game.h"
 #include "GameSystem.h"
 #include "TextureCache.h"
 #include "Camera.h"
@@ -20,9 +21,11 @@
 using namespace Zk::Common;
 using namespace Zk::Game;
 
-PlayerUI::PlayerUI(Player & player, TextureCache & tc)
+PlayerUI::PlayerUI(Player & player)
 	: player(player)
 {
+	TextureCache & tc = GameSystem::getInstance()->getTextureCache();
+	
 	font.loadFromFile(
 		GameSystem::resourcePath("SourceSansPro/SourceSansPro-Regular.otf")
 	);
@@ -47,7 +50,7 @@ void PlayerUI::paint(sf::RenderTarget * rt)
 	
 	std::weak_ptr<PlayerEntity> pe = player.getPlayerEntity();
 	
-	Camera * cam =  GameSystem::getInstance()->getCamera();
+	Camera * cam = Game::getInstance()->getCamera();
 	sf::View view = cam->getViews()[player.getID()];
 	
 	//Modyfikujemy widok, gdyż potrzebne jest mierzenie

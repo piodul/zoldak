@@ -25,6 +25,7 @@
 #include "../Renderables/BoxRenderable.h"
 #include "../Weapons/WeaponDef.h"
 #include "../Weapons/Weapon.h"
+#include "../Game.h"
 #include "../GameSystem.h"
 #include "../InputSystem.h"
 
@@ -65,7 +66,7 @@ PlayerEntity::PlayerEntity(
 	inputConfig(inputConfig),
 	player(player)
 {
-	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
+	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
 	
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -106,7 +107,7 @@ PlayerEntity::~PlayerEntity()
 
 void PlayerEntity::registerMe()
 {
-	GameSystem::getInstance()->getPhysicsSystem().registerListener(
+	Game::getInstance()->getPhysicsSystem().registerListener(
 		shared_from_this()
 	);
 	
@@ -115,7 +116,7 @@ void PlayerEntity::registerMe()
 	);
 	
 	crosshair->registerMe();
-	GameSystem::getInstance()->addEntity(crosshair);
+	Game::getInstance()->addEntity(crosshair);
 	this->crosshair = crosshair;
 }
 

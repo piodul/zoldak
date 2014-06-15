@@ -13,6 +13,7 @@
 #include "../Renderables/BoxRenderable.h"
 #include "../Player.h"
 #include "../Physics.h"
+#include "../Game.h"
 #include "../GameSystem.h"
 
 using namespace Zk::Common;
@@ -31,7 +32,7 @@ BulletEntity::BulletEntity(
 {
 	this->damage = damage;
 	
-	b2World & world = GameSystem::getInstance()->getPhysicsSystem().getWorld();
+	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
 	
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -68,7 +69,7 @@ BulletEntity::~BulletEntity()
 
 void BulletEntity::registerMe()
 {
-	GameSystem::getInstance()->getPhysicsSystem().registerListener(
+	Game::getInstance()->getPhysicsSystem().registerListener(
 		shared_from_this()
 	);
 }
