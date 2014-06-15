@@ -170,6 +170,7 @@ void Game::initializeGameLoop()
 		wd.refireTime = 0.05;
 		wd.reloadTime = 3.0;
 		wd.clipSize = 30;
+		wd.particleType = WeaponDef::ParticleType::BULLET;
 		
 		players[0].setSpawnerMesh(SpawnerMesh(
 			level.getLayers()[(int)LayerType::PLAYER_A_SPAWN]

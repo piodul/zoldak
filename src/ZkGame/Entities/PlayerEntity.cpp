@@ -32,6 +32,15 @@
 using namespace Zk::Common;
 using namespace Zk::Game;
 
+static const WeaponDef grenadeDef {
+	100.0,	//obrażenia od jednego strzału
+	10.0,	//prędkość wylotowa
+	0.5,	//czas do następnego strzału
+	0.0,	//czas przeładowania (tutaj nieistotny)
+	5,		//rozmiar magazynka
+	WeaponDef::ParticleType::GRENADE
+};
+
 PlayerEntity::ContactInfo::ContactInfo(b2Body * myBody, b2Contact * original)
 {
 	this->original = original;
@@ -61,6 +70,7 @@ PlayerEntity::PlayerEntity(
 	BodyCollisionListener(nullptr),
 	std::enable_shared_from_this<PlayerEntity>(),
 	weapon(weaponDef, player),
+	grenadeWeapon(grenadeDef, player),
 	inputConfig(inputConfig),
 	player(player)
 {
@@ -102,7 +112,6 @@ PlayerEntity::PlayerEntity(
 	jumpCooldown = 0.0;
 	
 	health = MAX_HP;
-	grenadeCount = 3;
 }
 
 PlayerEntity::~PlayerEntity()
@@ -253,7 +262,14 @@ void PlayerEntity::update(double step)
 	sf::Vector2f direction =
 		crosshair.lock()->getCenterPosition() - getCenterPosition();
 	
-	weapon.update(step, direction, inputConfig.isActionTriggered(PlayerAction::Shoot));
+	weapon.update(
+		step, direction, inputConfig.isActionTriggered(PlayerAction::Shoot)
+	);
+	
+	//Aktualizacja granatów
+	grenadeWeapon.update(
+		step, direction, inputConfig.isActionTriggered(PlayerAction::ThrowGrenade)
+	);
 	
 	//if (isStanding)
 	//	qDebug() << "I'm standing";
@@ -280,6 +296,11 @@ void PlayerEntity::takeDamage(double damage)
 	}
 }
 
+int PlayerEntity::getGrenadeCount() const
+{
+	return grenadeWeapon.getAmmoCount();
+}
+
 void PlayerEntity::pickUpMedKit()
 {
 	health += MedKitEntity::HP_PER_MEDKIT;
@@ -289,6 +310,5 @@ void PlayerEntity::pickUpMedKit()
 
 void PlayerEntity::pickUpGrenadePack()
 {
-	if (grenadeCount < MAX_GRENADES)
-		grenadeCount++;
+	grenadeWeapon.loadAmmo(1);
 }

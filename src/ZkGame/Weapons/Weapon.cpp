@@ -8,6 +8,7 @@
 #include "WeaponDef.h"
 #include "Weapon.h"
 #include "../Entities/BulletEntity.h"
+#include "../Entities/GrenadeEntity.h"
 #include "../Entities/PlayerEntity.h"
 
 #include "../Player.h"
@@ -28,11 +29,14 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 	if (ammoLeftInClip == 0)
 	{
 		//W trakcie przeładowywania
-		reloadCooldown -= step;
-		if (reloadCooldown <= 0.0)
+		if (weaponDef.particleType == WeaponDef::ParticleType::BULLET)
 		{
-			reloadCooldown = 0.0;
-			ammoLeftInClip = weaponDef.clipSize;
+			reloadCooldown -= step;
+			if (reloadCooldown <= 0.0)
+			{
+				reloadCooldown = 0.0;
+				ammoLeftInClip = weaponDef.clipSize;
+			}
 		}
 	}
 	else
@@ -54,16 +58,37 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 						weaponDef.muzzleVelocity /
 						sqrtf(direction.x * direction.x + direction.y * direction.y);
 					
-					auto be = std::make_shared<BulletEntity>(
-						ptr->getCenterPosition(),
-						direction * scalingFactor,
-						owner,
-						weaponDef.damagePerShot
-					);
-					
-					be->registerMe();
-					
-					Game::getInstance()->addEntity(be);
+					switch (weaponDef.particleType)
+					{
+					case WeaponDef::ParticleType::BULLET:
+						{
+							auto be = std::make_shared<BulletEntity>(
+								ptr->getCenterPosition(),
+								direction * scalingFactor,
+								owner,
+								weaponDef.damagePerShot
+							);
+							
+							be->registerMe();
+							
+							Game::getInstance()->addEntity(be);
+						}
+						break;
+					case WeaponDef::ParticleType::GRENADE:
+						{
+							auto be = std::make_shared<GrenadeEntity>(
+								ptr->getCenterPosition(),
+								direction * scalingFactor,
+								owner,
+								weaponDef.damagePerShot
+							);
+							
+							be->registerMe();
+							
+							Game::getInstance()->addEntity(be);
+						}
+						break;
+					}
 					
 					ammoLeftInClip--;
 					if (ammoLeftInClip == 0)
@@ -74,6 +99,12 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 			}
 		}
 	}
+}
+
+void Weapon::loadAmmo(int count)
+{
+	if (count > 0)
+		ammoLeftInClip = std::min(ammoLeftInClip + count, weaponDef.clipSize);
 }
 
 double Weapon::reloadProgress() const

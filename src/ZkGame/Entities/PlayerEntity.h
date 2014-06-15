@@ -53,8 +53,7 @@ public:
 	{ return health; }
 	void takeDamage(double damage); //Lol @ nazwa parametru
 	
-	inline int getGrenadeCount() const
-	{ return grenadeCount; }
+	int getGrenadeCount() const;
 	
 	inline const Weapon & getWeapon() const
 	{ return weapon; }
@@ -69,10 +68,10 @@ private:
 	std::vector<ContactInfo> contacts;
 	
 	double health;
-	int grenadeCount;
 	
 	double jumpCooldown;
 	Weapon weapon;
+	Weapon grenadeWeapon;
 	const InputConfig & inputConfig;
 	
 	Player & player;

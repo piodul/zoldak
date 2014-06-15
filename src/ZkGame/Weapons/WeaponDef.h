@@ -8,6 +8,12 @@ namespace Game {
 class WeaponDef
 {
 public:
+	enum class ParticleType : int
+	{
+		BULLET = 0,
+		GRENADE = 1
+	};
+	
 	friend QDataStream & operator<<(QDataStream & ds, const WeaponDef & wd);
 	friend QDataStream & operator>>(QDataStream & ds, WeaponDef & wd);
 	
@@ -25,6 +31,9 @@ public:
 	
 	///Rozmiar magazynku.
 	int clipSize;
+	
+	///Typ pocisku.
+	ParticleType particleType;
 };
 
 QDataStream & operator<<(QDataStream & ds, const WeaponDef & wd);

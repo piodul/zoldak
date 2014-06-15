@@ -22,6 +22,9 @@ public:
 	///broń jest gotowa do wystrzału.
 	void update(double step, sf::Vector2f direction, bool triggered);
 	
+	///Natychmiast dodaje naboje do magazynka.
+	void loadAmmo(int count);
+	
 	///Zwraca wartość z przedziału [0, 1] oznaczającą
 	///postęp przeładowywania. 0 - początek
 	///przeładowywania, 1 - niepusty magazynek.

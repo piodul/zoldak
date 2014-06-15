@@ -19,6 +19,7 @@ set(SOURCES
 	Entities/SpawnerMeshEntity.cpp
 	Entities/MouseTrackEntity.cpp
 	Entities/BulletEntity.cpp
+	Entities/GrenadeEntity.cpp
 	Entities/CrosshairEntity.cpp
 	Entities/PlayerTrackEntity.cpp
 	
