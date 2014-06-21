@@ -32,7 +32,7 @@ public:
 		Quit
 	};
 
-	GameSystem(int argc, char ** argv);
+	GameSystem(int & argc, char ** argv);
 	~GameSystem();
 
 	int exec();

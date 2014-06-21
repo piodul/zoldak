@@ -39,7 +39,7 @@ using namespace Zk::Common;
 
 GameSystem * GameSystem::instance = nullptr;
 
-GameSystem::GameSystem(int argc, char ** argv) :
+GameSystem::GameSystem(int & argc, char ** argv) :
 	app(argc, argv)
 {
 	state = State::Lobby;
