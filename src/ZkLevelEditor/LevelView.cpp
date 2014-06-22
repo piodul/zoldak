@@ -20,11 +20,13 @@ using namespace Zk::LevelEditor;
 LevelView::LevelView(
 	MainWindow * mw,
 	ColorPaletteWidget * palette,
+	QListWidget * layerNames,
 	QWidget * parent
 )
 	: QGraphicsView(parent)
 {
 	window = mw;
+	this->layerNames = layerNames;
 	setScene(new QGraphicsScene());
 
 	//Włączamy OpenGL (dla rysowania trójkątów)
@@ -41,9 +43,13 @@ LevelView::LevelView(
 	scene()->addItem(bgItem);
 
 	for (int i = 0; i < (int)LayerType::MAX_LAYER; i++)
+		layerNames->addItem(layerTypeToName((LayerType)i));
+
+	for (int i = 0; i < (int)LayerType::MAX_LAYER; i++)
 		layers << new MeshLayer(scene(), palette, i, this);
 
 	activateLayer(LayerType::MIDGROUND);
+	layerNames->setCurrentRow((int)LayerType::MIDGROUND);
 
 	for (MeshLayer * ml : layers)
 	{

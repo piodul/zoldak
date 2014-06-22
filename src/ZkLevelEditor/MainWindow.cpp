@@ -16,17 +16,14 @@ MainWindow::MainWindow(QWidget * parent)
 	: QMainWindow(parent)
 {
 	paletteWidget = new ColorPaletteWidget(4);
-	levelView = new LevelView(this, paletteWidget);
 	layerList = new QListWidget();
+	levelView = new LevelView(this, paletteWidget, layerList);
 
 	QSizePolicy layerListSizePolicy(
 		QSizePolicy::Maximum,
 		QSizePolicy::Preferred
 	);
 	layerList->setSizePolicy(layerListSizePolicy);
-
-	for (int i = 0; i < (int)LayerType::MAX_LAYER; i++)
-		layerList->addItem(layerTypeToName((LayerType)i));
 
 	connect(layerList, SIGNAL(currentRowChanged(int)),
 			this, SLOT(changeActiveLayer(int)));

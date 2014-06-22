@@ -28,6 +28,7 @@ public:
 	LevelView(
 		MainWindow * mw,
 		ColorPaletteWidget * palette,
+		QListWidget * layerNames,
 		QWidget * parent = nullptr
 	);
 	virtual ~LevelView();
@@ -46,6 +47,7 @@ protected:
 private:
 	MainWindow * window;
 	QList<MeshLayer*> layers;
+	QListWidget * layerNames;
 	BackgroundItem * bgItem;
 
 	bool isDragging;
