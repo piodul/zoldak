@@ -51,11 +51,11 @@ void PlayerUI::paint(sf::RenderTarget * rt)
 		view.getSize() * (float)Constants::PIXELS_PER_METER;
 	view.reset(sf::FloatRect(0.f, 0.f, viewSize.x, viewSize.y));
 
-	sf::FloatRect area = view.getViewport();
-	area.left *= 0.f;
-	area.top *= 0.f;
-	area.width *= (float)viewSize.x;
-	area.height *= (float)viewSize.y;
+	sf::FloatRect area;
+	area.left = 0.f;
+	area.top = 0.f;
+	area.width = (float)viewSize.x;
+	area.height = (float)viewSize.y;
 
 	rt->setView(view);
 
@@ -161,11 +161,12 @@ void PlayerUI::paint(sf::RenderTarget * rt)
 	sf::Text text;
 	text.setFont(font);
 	text.setString(pointsString.toStdString());
-	text.setCharacterSize(atSize.y + htSize.y + gtSize.y);
+	text.setCharacterSize(48);
+	sf::FloatRect rect = text.getLocalBounds();
 	text.setColor(sf::Color::Blue);
 	text.setPosition(
-		area.left + htSize.x + 256.f,
-		area.top + area.height - atSize.y - htSize.y - gtSize.y
+		area.left + area.width - rect.width,
+		area.top + area.height - 48
 	);
 	rt->draw(text);
 
@@ -177,7 +178,7 @@ void PlayerUI::paint(sf::RenderTarget * rt)
 
 		text.setCharacterSize(48);
 		text.setString(respawnString.toStdString());
-		sf::FloatRect rect = text.getLocalBounds();
+		rect = text.getLocalBounds();
 		text.setPosition(
 			area.left + (area.width - rect.width) / 2.f,
 			area.top + (area.height - rect.height) / 2.f
