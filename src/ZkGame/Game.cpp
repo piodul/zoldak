@@ -316,8 +316,6 @@ void Game::removeInactiveEntities()
 	entities.remove_if(
 		[](const std::shared_ptr<Entity> & ent) -> bool
 		{
-			if (ent->wantsToBeDeleted())
-				qDebug() << "Removing entity!";
 			return ent->wantsToBeDeleted();
 		}
 	);
