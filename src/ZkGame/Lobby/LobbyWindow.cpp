@@ -18,6 +18,10 @@ LobbyWindow::LobbyWindow(Config & config, QWidget * parent)
 	tabWidget->addTab(new PlayTab(config), "Game");
 	tabWidget->addTab(new GraphicsTab(config), "Graphics");
 	tabWidget->addTab(new InputTab(config), "Input");
+	
+	setWindowIcon(
+		QIcon(GameSystem::resourcePath("grenade-large.png").c_str())
+	);
 
 	setCentralWidget(tabWidget);
 }
