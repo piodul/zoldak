@@ -35,6 +35,7 @@ GrenadeEntity::GrenadeEntity(
 {
 	this->damage = damage;
 	countdownToExplosion = FUSE_TIME;
+	canCollideWithOwner = false;
 
 	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
 
@@ -84,18 +85,31 @@ void GrenadeEntity::onBeginContactEvent(b2Contact * contact)
 
 void GrenadeEntity::onEndContactEvent(b2Contact * contact)
 {
-
+	if (!canCollideWithOwner)
+	{
+		ContactInfo ci(getBody(), contact);
+		Entity * ent = (Entity*)ci.toucher->GetUserData();
+		if (ent->getType() == EntityType::PlayerEntity)
+		{
+			PlayerEntity * ceEnt = (PlayerEntity*)ent;
+			if (ceEnt == owner.getPlayerEntity().lock().get())
+				canCollideWithOwner = true;
+		}
+	}
 }
 
 void GrenadeEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldManifold)
 {
-	ContactInfo ci(getBody(), contact);
-	Entity * ent = (Entity*)ci.toucher->GetUserData();
-	if (ent->getType() == EntityType::PlayerEntity)
+	if (!canCollideWithOwner)
 	{
-		PlayerEntity * ceEnt = (PlayerEntity*)ent;
-		if (ceEnt == owner.getPlayerEntity().lock().get())
-			contact->SetEnabled(false);
+		ContactInfo ci(getBody(), contact);
+		Entity * ent = (Entity*)ci.toucher->GetUserData();
+		if (ent->getType() == EntityType::PlayerEntity)
+		{
+			PlayerEntity * ceEnt = (PlayerEntity*)ent;
+			if (ceEnt == owner.getPlayerEntity().lock().get())
+				contact->SetEnabled(false);
+		}
 	}
 }
 

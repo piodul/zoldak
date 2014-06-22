@@ -43,6 +43,7 @@ private:
 
 	Player & owner;
 	double damage;
+	bool canCollideWithOwner;
 
 	double countdownToExplosion;
 };
