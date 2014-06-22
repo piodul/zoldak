@@ -17,7 +17,7 @@ public:
 
 private slots:
 	void startGame();
-	void selectLevel(QListWidgetItem * lwi);
+	void selectLevel();
 
 private:
 	void populateLevelList();

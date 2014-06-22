@@ -1,6 +1,8 @@
 #include <QtCore>
 #include <QtGui>
 
+#include <QDebug>
+
 #include "../Config/Config.h"
 #include "../GameSystem.h"
 
@@ -17,8 +19,8 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 
 	levelList = new QListWidget();
 	levelList->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	connect(levelList, SIGNAL(itemClicked(QListWidgetItem*)),
-			this, SLOT(selectLevel(QListWidgetItem*)));
+	connect(levelList, SIGNAL(itemSelectionChanged()),
+			this, SLOT(selectLevel()));
 
 	QVBoxLayout * leftLayout = new QVBoxLayout();
 	leftLayout->addWidget(levelListLabel);
@@ -51,8 +53,9 @@ void PlayTab::startGame()
 	GameSystem::getInstance()->changeState(GameSystem::State::Game);
 }
 
-void PlayTab::selectLevel(QListWidgetItem * lwi)
+void PlayTab::selectLevel()
 {
+	QListWidgetItem * lwi = levelList->currentItem();
 	startGameButton->setEnabled(true);
 	levelName = lwi->text();
 }
