@@ -37,6 +37,8 @@
 using namespace Zk::Common;
 using namespace Zk::Game;
 
+static constexpr double MILLIS_PER_FRAME = 1.0 / 60.0;
+
 Game * Game::instance = nullptr;
 
 Game::Game(QString levelName) :
@@ -205,7 +207,6 @@ void Game::gameLoop()
 		{
 			if (event.type == sf::Event::Closed)
 			{
-				renderWindow.close();
 				GameSystem::getInstance()->changeState(
 					GameSystem::State::Lobby
 				);
@@ -222,17 +223,17 @@ void Game::gameLoop()
 		GameSystem::getInstance()->getInputSystem().pollInput();
 
 		//Fizyka
-		physicsSystem.simulate(1.0 / 60.0);
+		physicsSystem.simulate(MILLIS_PER_FRAME);
 
 		//Niektóre jednostki mogą chcieć skorzystać z widoków kamery
 		camera->setupViews();
 
-		players[0].update(1.0 / 60.0);
-		players[1].update(1.0 / 60.0);
+		players[0].update(MILLIS_PER_FRAME);
+		players[1].update(MILLIS_PER_FRAME);
 
 		//Update
 		for (std::shared_ptr<Entity> ent : entities)
-			ent->update(1.0 / 60.0);
+			ent->update(MILLIS_PER_FRAME);
 
 		//Render
 		removeInactiveRenderables();
@@ -296,7 +297,7 @@ void Game::gameLoop()
 		//niż 60Hz. To jest do poprawienia.
 
 		sf::Time frameEnd = beat.getElapsedTime();
-		static const sf::Int32 millisPerFrame = 1000 / 60;
+		static const sf::Int32 millisPerFrame = (int)(MILLIS_PER_FRAME * 1000.0);
 		timeForEvents =
 			millisPerFrame - (qtLoopFinished - frameStart).asMilliseconds();
 
@@ -308,6 +309,12 @@ void Game::gameLoop()
 		//Mój komputer wymaga tej funkcji, aby vsync działał poprawnie
 		//Zasraniec robi aktywne czekanie, though
 		glFinish();
+
+		//Jeśli wciśnięty jest klawisz escape, wychodzimy z gry
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			GameSystem::getInstance()->changeState(
+				GameSystem::State::Lobby
+			);
 	}
 }
 
