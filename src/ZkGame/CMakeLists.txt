@@ -45,18 +45,21 @@ set(SOURCES
 	Config/InputAction.cpp
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	list(APPEND SOURCES win-res.rc)
-endif ()
-
-add_executable(ZkGame ${SOURCES})
-target_link_libraries(ZkGame
+set(LIBS
 	ZkCommon
 	${QT_LIBRARIES}
 	${SFML_LIBRARIES}
 	${BOX2D_LIBRARIES}
 	${OPENGL_LIBRARIES}
-	dl
 	ManyMouse
 	Box2D
 )
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	list(APPEND SOURCES win-res.rc)
+else ()
+	list(APPEND LIBS dl)
+endif ()
+
+add_executable(ZkGame ${SOURCES})
+target_link_libraries(ZkGame ${LIBS})
