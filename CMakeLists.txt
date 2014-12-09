@@ -13,6 +13,7 @@ set(QT_LIBRARIES
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 set(SFML_STATIC_VARIABLES TRUE)
 find_package(SFML 2.1 COMPONENTS system window graphics audio REQUIRED)
 

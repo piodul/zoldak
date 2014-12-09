@@ -56,5 +56,7 @@ target_link_libraries(ZkGame
 	${SFML_LIBRARIES}
 	${BOX2D_LIBRARIES}
 	${OPENGL_LIBRARIES}
+	dl
 	ManyMouse
+	Box2D
 )
