@@ -3,6 +3,7 @@ set(SOURCES
 	Camera.cpp
 	Player.cpp
 	PlayerUI.cpp
+	PlayerUILayout.cpp
 	Physics.cpp
 	Game.cpp
 	GameSystem.cpp
