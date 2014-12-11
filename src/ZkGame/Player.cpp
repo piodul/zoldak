@@ -84,7 +84,7 @@ void Player::update(double step)
 			Game::getInstance()->addEntity(ptr);
 			entity = ptr;
 
-			timeToRespawn = RESPAWN_TIME;
+			timeToRespawn = GameSystem::getInstance()->getConfig().settingsConfig.respawnTime();
 		}
 	}
 }

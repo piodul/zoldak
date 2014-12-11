@@ -7,3 +7,6 @@ extlib/
 
 *.blend1
 *.blend2
+
+## IDE files
+*.kdev4

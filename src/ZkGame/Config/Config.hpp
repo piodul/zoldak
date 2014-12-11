@@ -6,6 +6,7 @@
 
 #include "GraphicsConfig.hpp"
 #include "InputConfig.hpp"
+#include "SettingsConfig.hpp"
 
 namespace Zk {
 namespace Game {
@@ -20,6 +21,7 @@ public:
 
 	GraphicsConfig graphicsConfig;
 	std::array<InputConfig, 2> playerInputConfig;
+	SettingsConfig settingsConfig;
 };
 
 }}

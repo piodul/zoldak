@@ -4,13 +4,13 @@ namespace Zk {
 namespace Common {
 
 namespace Constants {
-
-static const double PIXELS_PER_METER = 64.0;
-static const double METERS_PER_PIXEL = 1.0 / PIXELS_PER_METER;
-
+namespace Defaults {
+static const double RESPAWN_TIME = 5.0;
 static const int MAX_MEDKITS_ON_MAP = 8;
 static const int MAX_GRENADE_PACKS_ON_MAP = 8;
-
+}
+static const double PIXELS_PER_METER = 64.0;
+static const double METERS_PER_PIXEL = 1.0 / PIXELS_PER_METER;
 }
 
 enum class LayerType : int

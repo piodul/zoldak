@@ -173,6 +173,7 @@ void Game::initializeGameLoop()
 			level.getLayers()[(int)LayerType::PLAYER_B_SPAWN]
 		));
 		players[1].setInputConfig(config.playerInputConfig[1]);
+
 	}
 
 	auto track = std::make_shared<PlayerTrackEntity>(0);

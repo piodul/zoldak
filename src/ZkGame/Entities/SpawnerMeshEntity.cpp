@@ -20,6 +20,7 @@
 #include "MedKitEntity.hpp"
 #include "GrenadePackEntity.hpp"
 #include "../Game.hpp"
+#include "../GameSystem.hpp"
 #include "../Renderables/Renderable.hpp"
 #include "../Renderables/MeshRenderable.hpp"
 
@@ -35,9 +36,9 @@ SpawnerMeshEntity::SpawnerMeshEntity(const LevelLayer * ll, LayerType lt)
 
 	itemCount = 0;
 	if (lt == LayerType::MEDKIT_SPAWN)
-		maxItemCount = Constants::MAX_MEDKITS_ON_MAP;
+		maxItemCount = GameSystem::getInstance()->getConfig().settingsConfig.maxMedkitsOnMap();
 	else
-		maxItemCount = Constants::MAX_GRENADE_PACKS_ON_MAP;
+		maxItemCount = GameSystem::getInstance()->getConfig().settingsConfig.maxGrenadePacksOnMap();
 
 	setRenderable(nullptr);
 	setBody(nullptr);

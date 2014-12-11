@@ -55,8 +55,6 @@ public:
 	void paintUI(sf::RenderTarget * rt);
 
 private:
-	static constexpr double RESPAWN_TIME = 5.0;
-
 	std::weak_ptr<PlayerEntity> entity;
 	SpawnerMesh spawnerMesh;
 	InputConfig inputConfig;

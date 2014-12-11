@@ -35,6 +35,7 @@ set(SOURCES
 	Lobby/PlayTab.cpp
 	Lobby/GraphicsTab.cpp
 	Lobby/InputTab.cpp
+	Lobby/SettingsTab.cpp
 	Lobby/InputChoiceDialog.cpp
 	Lobby/MouseChoiceDialog.cpp
 
@@ -43,6 +44,7 @@ set(SOURCES
 	Config/InputConfig.cpp
 	Config/PlayerAction.cpp
 	Config/InputAction.cpp
+	Config/SettingsConfig.cpp
 )
 
 set(LIBS
