@@ -1,12 +1,12 @@
 #include <SFML/Graphics.hpp>
 
-#include "../Entities/Entity.h"
-#include "../Entities/BulletEntity.h"
+#include "../Entities/Entity.hpp"
+#include "../Entities/BulletEntity.hpp"
 
-#include "../GameSystem.h"
+#include "../GameSystem.hpp"
 
-#include "BulletRenderable.h"
-#include "Renderable.h"
+#include "BulletRenderable.hpp"
+#include "Renderable.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

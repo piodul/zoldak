@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include "Config.h"
+#include "Config.hpp"
 
 using namespace Zk::Game;
 

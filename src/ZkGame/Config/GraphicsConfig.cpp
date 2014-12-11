@@ -2,7 +2,7 @@
 
 #include <SFML/Window.hpp>
 
-#include "GraphicsConfig.h"
+#include "GraphicsConfig.hpp"
 
 using namespace Zk::Game;
 

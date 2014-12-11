@@ -2,15 +2,15 @@
 
 #include <array>
 
-#include "../../ZkCommon/Constants.h"
+#include "../../ZkCommon/Constants.hpp"
 
-#include "Entity.h"
-#include "PlayerTrackEntity.h"
-#include "PlayerEntity.h"
-#include "CrosshairEntity.h"
-#include "../GameSystem.h"
-#include "../Game.h"
-#include "../InputSystem.h"
+#include "Entity.hpp"
+#include "PlayerTrackEntity.hpp"
+#include "PlayerEntity.hpp"
+#include "CrosshairEntity.hpp"
+#include "../GameSystem.hpp"
+#include "../Game.hpp"
+#include "../InputSystem.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

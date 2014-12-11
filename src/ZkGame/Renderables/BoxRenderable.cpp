@@ -5,14 +5,14 @@
 #include <QtGui>
 #include <QDebug>
 
-#include "../../ZkCommon/Constants.h"
-#include "../../ZkCommon/LibraryCast.h"
+#include "../../ZkCommon/Constants.hpp"
+#include "../../ZkCommon/LibraryCast.hpp"
 
-#include "../GameSystem.h"
-#include "../TextureCache.h"
+#include "../GameSystem.hpp"
+#include "../TextureCache.hpp"
 
-#include "BoxRenderable.h"
-#include "Renderable.h"
+#include "BoxRenderable.hpp"
+#include "Renderable.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

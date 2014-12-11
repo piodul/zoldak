@@ -3,10 +3,10 @@
 
 #include <memory>
 
-#include "../../ZkCommon/LibraryCast.h"
+#include "../../ZkCommon/LibraryCast.hpp"
 
-#include "Entity.h"
-#include "../Renderables/Renderable.h"
+#include "Entity.hpp"
+#include "../Renderables/Renderable.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

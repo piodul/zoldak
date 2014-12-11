@@ -1,16 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
-#include "../../ZkCommon/Constants.h"
-#include "../../ZkCommon/LibraryCast.h"
+#include "../../ZkCommon/Constants.hpp"
+#include "../../ZkCommon/LibraryCast.hpp"
 
-#include "../Entities/Entity.h"
+#include "../Entities/Entity.hpp"
 
-#include "../GameSystem.h"
-#include "../TextureCache.h"
+#include "../GameSystem.hpp"
+#include "../TextureCache.hpp"
 
-#include "SpriteRenderable.h"
-#include "Renderable.h"
+#include "SpriteRenderable.hpp"
+#include "Renderable.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

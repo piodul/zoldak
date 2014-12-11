@@ -1,7 +1,7 @@
 #include <SFML/Window.hpp>
 
-#include "../Config/InputAction.h"
-#include "InputChoiceDialog.h"
+#include "../Config/InputAction.hpp"
+#include "InputChoiceDialog.hpp"
 
 using namespace Zk::Game;
 

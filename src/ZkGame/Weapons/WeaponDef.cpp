@@ -1,6 +1,6 @@
 #include <QtCore>
 
-#include "WeaponDef.h"
+#include "WeaponDef.hpp"
 
 using namespace Zk::Game;
 

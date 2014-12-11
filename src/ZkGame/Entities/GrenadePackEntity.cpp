@@ -1,13 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
-#include "../../ZkCommon/Constants.h"
-#include "../../ZkCommon/LibraryCast.h"
+#include "../../ZkCommon/Constants.hpp"
+#include "../../ZkCommon/LibraryCast.hpp"
 
-#include "GrenadePackEntity.h"
-#include "SpawnerMeshEntity.h"
-#include "../Renderables/BoxRenderable.h"
-#include "../GameSystem.h"
+#include "GrenadePackEntity.hpp"
+#include "SpawnerMeshEntity.hpp"
+#include "../Renderables/BoxRenderable.hpp"
+#include "../GameSystem.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

@@ -1,9 +1,9 @@
 #include <QtCore>
 
-#include "PlayerAction.h"
-#include "InputAction.h"
-#include "InputConfig.h"
-#include "../InputSystem.h"
+#include "PlayerAction.hpp"
+#include "InputAction.hpp"
+#include "InputConfig.hpp"
+#include "../InputSystem.hpp"
 
 using namespace Zk::Game;
 

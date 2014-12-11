@@ -5,13 +5,13 @@
 
 #include <algorithm>
 
-#include "../ZkCommon/Constants.h"
-#include "Config/Config.h"
-#include "Config/GraphicsConfig.h"
+#include "../ZkCommon/Constants.hpp"
+#include "Config/Config.hpp"
+#include "Config/GraphicsConfig.hpp"
 
-#include "Camera.h"
-#include "GameSystem.h"
-#include "Entities/Entity.h"
+#include "Camera.hpp"
+#include "GameSystem.hpp"
+#include "Entities/Entity.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

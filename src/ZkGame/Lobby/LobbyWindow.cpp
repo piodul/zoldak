@@ -1,13 +1,13 @@
 #include <QtCore>
 #include <QtGui>
 
-#include "../Config/Config.h"
-#include "../GameSystem.h"
+#include "../Config/Config.hpp"
+#include "../GameSystem.hpp"
 
-#include "LobbyWindow.h"
-#include "PlayTab.h"
-#include "GraphicsTab.h"
-#include "InputTab.h"
+#include "LobbyWindow.hpp"
+#include "PlayTab.hpp"
+#include "GraphicsTab.hpp"
+#include "InputTab.hpp"
 
 using namespace Zk::Game;
 

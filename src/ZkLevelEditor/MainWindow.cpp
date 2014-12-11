@@ -1,9 +1,9 @@
-#include "../ZkCommon/Constants.h"
-#include "../ZkCommon/Level.h"
+#include "../ZkCommon/Constants.hpp"
+#include "../ZkCommon/Level.hpp"
 
-#include "MainWindow.h"
-#include "LevelView.h"
-#include "ColorPaletteWidget.h"
+#include "MainWindow.hpp"
+#include "LevelView.hpp"
+#include "ColorPaletteWidget.hpp"
 
 #include <QtCore>
 #include <QtGui>

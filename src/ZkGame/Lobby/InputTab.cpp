@@ -5,16 +5,16 @@
 #include <algorithm>
 #include <map>
 
-#include "../Config/Config.h"
-#include "../Config/InputAction.h"
-#include "../Config/PlayerAction.h"
+#include "../Config/Config.hpp"
+#include "../Config/InputAction.hpp"
+#include "../Config/PlayerAction.hpp"
 
-#include "../InputSystem.h"
-#include "../GameSystem.h"
+#include "../InputSystem.hpp"
+#include "../GameSystem.hpp"
 
-#include "InputChoiceDialog.h"
-#include "MouseChoiceDialog.h"
-#include "InputTab.h"
+#include "InputChoiceDialog.hpp"
+#include "MouseChoiceDialog.hpp"
+#include "InputTab.hpp"
 
 using namespace Zk::Game;
 

@@ -4,8 +4,8 @@
 
 #include <map>
 
-#include "InputAction.h"
-#include "../InputSystem.h"
+#include "InputAction.hpp"
+#include "../InputSystem.hpp"
 
 using namespace Zk::Game;
 

@@ -1,14 +1,14 @@
 #include <SFML/Graphics.hpp>
 
-#include "Renderable.h"
-#include "CrosshairRenderable.h"
-#include "SpriteRenderable.h"
+#include "Renderable.hpp"
+#include "CrosshairRenderable.hpp"
+#include "SpriteRenderable.hpp"
 
-#include "../Entities/Entity.h"
-#include "../Entities/PlayerEntity.h"
+#include "../Entities/Entity.hpp"
+#include "../Entities/PlayerEntity.hpp"
 
-#include "../GameSystem.h"
-#include "../Player.h"
+#include "../GameSystem.hpp"
+#include "../Player.hpp"
 
 using namespace Zk::Game;
 

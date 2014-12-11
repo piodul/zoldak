@@ -5,16 +5,16 @@
 #include <limits>
 #include <map>
 
-#include "../../ZkCommon/Constants.h"
-#include "../../ZkCommon/LibraryCast.h"
-#include "../../ZkCommon/Level.h"
+#include "../../ZkCommon/Constants.hpp"
+#include "../../ZkCommon/LibraryCast.hpp"
+#include "../../ZkCommon/Level.hpp"
 
-#include "LevelMeshEntity.h"
-#include "Entity.h"
-#include "../Game.h"
-#include "../GameSystem.h"
-#include "../Renderables/Renderable.h"
-#include "../Renderables/MeshRenderable.h"
+#include "LevelMeshEntity.hpp"
+#include "Entity.hpp"
+#include "../Game.hpp"
+#include "../GameSystem.hpp"
+#include "../Renderables/Renderable.hpp"
+#include "../Renderables/MeshRenderable.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

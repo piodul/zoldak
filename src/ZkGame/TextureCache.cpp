@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "TextureCache.h"
+#include "TextureCache.hpp"
 
 using namespace Zk::Game;
 

@@ -4,17 +4,17 @@
 
 #include <memory>
 
-#include "../ZkCommon/Constants.h"
+#include "../ZkCommon/Constants.hpp"
 
-#include "PlayerUI.h"
-#include "Entities/PlayerEntity.h"
-#include "Game.h"
-#include "GameSystem.h"
-#include "TextureCache.h"
-#include "Camera.h"
+#include "PlayerUI.hpp"
+#include "Entities/PlayerEntity.hpp"
+#include "Game.hpp"
+#include "GameSystem.hpp"
+#include "TextureCache.hpp"
+#include "Camera.hpp"
 
-#include "Weapons/Weapon.h"
-#include "Weapons/WeaponDef.h"
+#include "Weapons/Weapon.hpp"
+#include "Weapons/WeaponDef.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

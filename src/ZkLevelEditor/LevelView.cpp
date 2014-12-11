@@ -1,13 +1,13 @@
-#include "../ZkCommon/Constants.h"
-#include "../ZkCommon/Level.h"
+#include "../ZkCommon/Constants.hpp"
+#include "../ZkCommon/Level.hpp"
 
-#include "MainWindow.h"
-#include "LevelView.h"
-#include "MeshTriangleNode.h"
-#include "MeshTriangle.h"
-#include "MeshTriangleEdge.h"
-#include "MeshLayer.h"
-#include "BackgroundItem.h"
+#include "MainWindow.hpp"
+#include "LevelView.hpp"
+#include "MeshTriangleNode.hpp"
+#include "MeshTriangle.hpp"
+#include "MeshTriangleEdge.hpp"
+#include "MeshLayer.hpp"
+#include "BackgroundItem.hpp"
 
 #include <QtCore>
 #include <QtGui>

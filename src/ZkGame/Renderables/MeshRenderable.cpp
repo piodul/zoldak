@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
-#include "MeshRenderable.h"
-#include "Renderable.h"
+#include "MeshRenderable.hpp"
+#include "Renderable.hpp"
 
 using namespace Zk::Game;
 

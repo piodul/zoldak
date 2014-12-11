@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Physics.h"
+#include "Physics.hpp"
 
 using namespace Zk::Game;
 

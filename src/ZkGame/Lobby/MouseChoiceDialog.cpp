@@ -3,9 +3,9 @@
 
 #include <QDebug>
 
-#include "../InputSystem.h"
-#include "../GameSystem.h"
-#include "MouseChoiceDialog.h"
+#include "../InputSystem.hpp"
+#include "../GameSystem.hpp"
+#include "MouseChoiceDialog.hpp"
 
 using namespace Zk::Game;
 

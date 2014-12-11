@@ -4,9 +4,9 @@
 
 #include <random>
 
-#include "../ZkCommon/Level.h"
+#include "../ZkCommon/Level.hpp"
 
-#include "SpawnerMesh.h"
+#include "SpawnerMesh.hpp"
 
 using namespace Zk::Common;
 using namespace Zk::Game;

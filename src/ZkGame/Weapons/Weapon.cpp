@@ -5,14 +5,14 @@
 #include <algorithm>
 #include <memory>
 
-#include "WeaponDef.h"
-#include "Weapon.h"
-#include "../Entities/BulletEntity.h"
-#include "../Entities/GrenadeEntity.h"
-#include "../Entities/PlayerEntity.h"
+#include "WeaponDef.hpp"
+#include "Weapon.hpp"
+#include "../Entities/BulletEntity.hpp"
+#include "../Entities/GrenadeEntity.hpp"
+#include "../Entities/PlayerEntity.hpp"
 
-#include "../Player.h"
-#include "../Game.h"
+#include "../Player.hpp"
+#include "../Game.hpp"
 
 using namespace Zk::Game;
 

@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
-#include "Level.h"
-#include "LibraryCast.h"
+#include "Level.hpp"
+#include "LibraryCast.hpp"
 
 #include <QtCore>
 #include <QtGui>

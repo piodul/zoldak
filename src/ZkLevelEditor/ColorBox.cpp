@@ -1,5 +1,5 @@
-#include "ColorBox.h"
-#include "ColorPaletteWidget.h"
+#include "ColorBox.hpp"
+#include "ColorPaletteWidget.hpp"
 
 #include <QtCore>
 #include <QtGui>

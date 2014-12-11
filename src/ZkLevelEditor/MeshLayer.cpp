@@ -1,12 +1,12 @@
-#include "../ZkCommon/Constants.h"
-#include "../ZkCommon/Level.h"
+#include "../ZkCommon/Constants.hpp"
+#include "../ZkCommon/Level.hpp"
 
-#include "MeshLayer.h"
-#include "MeshTriangle.h"
-#include "MeshTriangleNode.h"
-#include "MeshTriangleEdge.h"
-#include "ColorPaletteWidget.h"
-#include "EditState.h"
+#include "MeshLayer.hpp"
+#include "MeshTriangle.hpp"
+#include "MeshTriangleNode.hpp"
+#include "MeshTriangleEdge.hpp"
+#include "ColorPaletteWidget.hpp"
+#include "EditState.hpp"
 
 #include <SFML/Graphics.hpp>
 

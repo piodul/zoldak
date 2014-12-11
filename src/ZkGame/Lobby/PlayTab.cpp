@@ -3,10 +3,10 @@
 
 #include <QDebug>
 
-#include "../Config/Config.h"
-#include "../GameSystem.h"
+#include "../Config/Config.hpp"
+#include "../GameSystem.hpp"
 
-#include "PlayTab.h"
+#include "PlayTab.hpp"
 
 using namespace Zk::Game;
 

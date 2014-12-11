@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "../ManyMouse/manymouse.h"
 
-#include "InputSystem.h"
+#include "InputSystem.hpp"
 
 #include <QDebug>
 

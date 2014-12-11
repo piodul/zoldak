@@ -1,7 +1,7 @@
-#include "../ZkCommon/Constants.h"
+#include "../ZkCommon/Constants.hpp"
 
-#include "BackgroundItem.h"
-#include "LevelView.h"
+#include "BackgroundItem.hpp"
+#include "LevelView.hpp"
 
 #include <QtCore>
 #include <QtGui>

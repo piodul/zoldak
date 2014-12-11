@@ -5,9 +5,9 @@
 
 #include <vector>
 
-#include "../Config/Config.h"
-#include "../Config/GraphicsConfig.h"
-#include "GraphicsTab.h"
+#include "../Config/Config.hpp"
+#include "../Config/GraphicsConfig.hpp"
+#include "GraphicsTab.hpp"
 
 using namespace Zk::Game;
 

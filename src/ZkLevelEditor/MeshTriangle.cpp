@@ -1,9 +1,9 @@
-#include "../ZkCommon/Constants.h"
+#include "../ZkCommon/Constants.hpp"
 
-#include "MeshTriangle.h"
-#include "MeshTriangleNode.h"
-#include "MeshTriangleEdge.h"
-#include "MeshLayer.h"
+#include "MeshTriangle.hpp"
+#include "MeshTriangleNode.hpp"
+#include "MeshTriangleEdge.hpp"
+#include "MeshLayer.hpp"
 
 #include <QtCore>
 #include <QtGui>
