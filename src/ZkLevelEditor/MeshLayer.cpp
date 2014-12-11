@@ -98,12 +98,12 @@ bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
 	return true;
 }
 
-void MeshLayer::toCommonLevelLayer(Common::LevelLayer & ll) const
+LevelLayer MeshLayer::toCommonLevelLayer() const
 {
 	std::vector<sf::Vertex> vs;
 	vs.reserve(nodes.size());
 
-	ll.clear();
+	LevelLayer ll;
 	for (MeshTriangleNode * mtn : nodes)
 	{
 		QPointF pos = mtn->pos();
@@ -136,6 +136,7 @@ void MeshLayer::toCommonLevelLayer(Common::LevelLayer & ll) const
 	}
 
 	ll.setTriangleDescriptions(tds);
+	return ll;
 }
 
 EditState MeshLayer::getState() const

@@ -42,7 +42,7 @@ public:
 
 	void clear();
 	bool fromCommonLevelLayer(const Common::LevelLayer & ll);
-	void toCommonLevelLayer(Common::LevelLayer & ll) const;
+	Common::LevelLayer toCommonLevelLayer() const;
 
 	EditState getState() const;
 	QColor getSelectedColor() const;

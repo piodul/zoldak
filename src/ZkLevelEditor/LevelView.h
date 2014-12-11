@@ -33,8 +33,8 @@ public:
 	);
 	virtual ~LevelView();
 
-	bool fromCommonLevel(const Common::Level & l);
-	void toCommonLevel(Common::Level & l) const;
+	void fromCommonLevel(const Common::Level & l);
+	Common::Level toCommonLevel() const;
 
 	void activateLayer(Common::LayerType id);
 

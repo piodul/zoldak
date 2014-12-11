@@ -116,8 +116,7 @@ void MainWindow::saveLevel()
 
 	QDataStream ds(&f);
 
-	Level l;
-	levelView->toCommonLevel(l);
+	Level l = levelView->toCommonLevel();
 
 	std::vector<QColor> palette = paletteWidget->toColorList();
 	l.setPalette(palette);
