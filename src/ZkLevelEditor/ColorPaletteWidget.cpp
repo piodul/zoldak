@@ -63,12 +63,13 @@ void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
 		boxes[i]->setColor(QColor(Qt::black));
 }
 
-void ColorPaletteWidget::toColorList(std::vector<QColor> & colors) const
+std::vector<QColor> ColorPaletteWidget::toColorList() const
 {
-	colors.clear();
+	std::vector<QColor> colors;
 
 	for (const ColorBox * cb : boxes)
 		colors.push_back(cb->getColor());
+	return colors;
 }
 
 QColor ColorPaletteWidget::getSelectedColor() const

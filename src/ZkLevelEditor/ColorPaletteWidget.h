@@ -16,7 +16,7 @@ public:
 	virtual ~ColorPaletteWidget();
 
 	void fromColorList(const std::vector<QColor> & colors);
-	void toColorList(std::vector<QColor> & colors) const;
+	std::vector<QColor> toColorList() const;
 
 	QColor getSelectedColor() const;
 
