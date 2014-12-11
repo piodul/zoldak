@@ -29,4 +29,6 @@ find_package(Box2D REQUIRED)
 find_package(OpenGL REQUIRED)
 
 include_directories(${SFML_INCLUDE_DIR})
+include_directories(${Box2D_DIR})
+
 add_subdirectory(src)
