@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <memory>
+#include <string>
 
 #include "../Entities/Entity.hpp"
 #include "../Entities/BulletEntity.hpp"
@@ -19,7 +20,10 @@ class PlayerEntity;
 class BulletRenderable : public Renderable
 {
 public:
-	BulletRenderable(std::weak_ptr<BulletEntity> bullet);
+	BulletRenderable(
+		const std::string & hierarchyPath,
+		std::weak_ptr<BulletEntity> bullet
+	);
 	virtual ~BulletRenderable();
 
 	virtual void paint(sf::RenderTarget * rt, const Player & viewer);

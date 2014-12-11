@@ -19,9 +19,11 @@ using namespace Zk::Common;
 using namespace Zk::Game;
 
 BoxRenderable::BoxRenderable(
+	const std::string & hierarchyPath,
 	const b2Body * body,
 	const char * imgSrc
 )
+	: Renderable(hierarchyPath)
 {
 	this->body = body;
 

@@ -111,9 +111,9 @@ PlayerEntity::PlayerEntity(
 		characterPath = "soldier-B.png";
 
 	BoxRenderable * br = new BoxRenderable(
+		"OBJECTS",
 		body, GameSystem::resourcePath(characterPath).c_str()
 	);
-	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
 
 	jumpCooldown = 0.0;

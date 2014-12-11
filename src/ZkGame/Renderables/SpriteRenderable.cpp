@@ -17,9 +17,11 @@ using namespace Zk::Common;
 using namespace Zk::Game;
 
 SpriteRenderable::SpriteRenderable(
+	const std::string & hierarchyPath,
 	std::weak_ptr<Entity> entity,
 	const char * imgSrc
 )
+	: Renderable(hierarchyPath)
 {
 	this->entity = entity;
 

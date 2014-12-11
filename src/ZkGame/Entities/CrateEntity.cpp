@@ -35,9 +35,9 @@ CrateEntity::CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSr
 	setBody(body);
 
 	BoxRenderable * br = new BoxRenderable(
+		"OBJECTS",
 		body, GameSystem::resourcePath(imgSrc).c_str()
 	);
-	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
 }
 

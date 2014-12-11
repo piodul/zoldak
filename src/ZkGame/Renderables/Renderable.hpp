@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <memory>
+#include <string>
 
 #include "../Player.hpp"
 
@@ -14,8 +15,8 @@ class Player;
 class Renderable
 {
 public:
-	Renderable()
-		: z(0.0)
+	Renderable(const std::string & hierarchyPath)
+		: hierarchyPath(hierarchyPath)
 	{  }
 	virtual ~Renderable() {};
 
@@ -27,13 +28,11 @@ public:
 	virtual bool isGraphicsLayer() const
 	{ return false; }
 
-	inline double getZValue() const
-	{ return z; }
-	void setZValue(double z)
-	{ this->z = z; }
+	const std::string & getHierarchyPath() const
+	{ return hierarchyPath; }
 
 private:
-	double z;
+	std::string hierarchyPath;
 };
 
 }}

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <memory>
+#include <string>
 
 #include "Renderable.hpp"
 #include "SpriteRenderable.hpp"
@@ -17,6 +18,7 @@ class CrosshairRenderable : public SpriteRenderable
 {
 public:
 	CrosshairRenderable(
+		const std::string & hierarchyPath,
 		std::weak_ptr<Entity> entity,
 		std::weak_ptr<PlayerEntity> player
 	);

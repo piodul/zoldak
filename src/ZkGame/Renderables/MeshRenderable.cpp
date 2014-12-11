@@ -7,7 +7,11 @@
 
 using namespace Zk::Game;
 
-MeshRenderable::MeshRenderable(const sf::VertexArray & varr)
+MeshRenderable::MeshRenderable(
+	const std::string & hierarchyPath,
+	const sf::VertexArray & varr
+)
+	: Renderable(hierarchyPath)
 {
 	this->varr = varr;
 }

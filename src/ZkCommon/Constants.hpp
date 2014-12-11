@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace Zk {
 namespace Common {
 
@@ -26,5 +28,7 @@ enum class LayerType : int
 	BACKGROUND,
 	MAX_LAYER
 };
+
+const std::string & getLayerNameByType(LayerType lt);
 
 }}

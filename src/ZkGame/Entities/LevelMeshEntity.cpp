@@ -30,8 +30,10 @@ LevelMeshEntity::LevelMeshEntity(const LevelLayer * ll, LayerType lt)
 	sf::VertexArray varr;
 	ll->constructMesh(varr);
 
-	Renderable * r = new MeshRenderable(varr);
-	r->setZValue(-(double)lt);
+	Renderable * r = new MeshRenderable(
+		getLayerNameByType(lt),
+		varr
+	);
 	setRenderable(r);
 
 	if (lt == LayerType::MIDGROUND)

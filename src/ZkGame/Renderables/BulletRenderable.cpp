@@ -12,7 +12,11 @@
 using namespace Zk::Common;
 using namespace Zk::Game;
 
-BulletRenderable::BulletRenderable(std::weak_ptr<BulletEntity> bullet)
+BulletRenderable::BulletRenderable(
+	const std::string & hierarchyPath,
+	std::weak_ptr<BulletEntity> bullet
+)
+	: Renderable(hierarchyPath)
 {
 	this->bullet = bullet;
 }

@@ -15,6 +15,8 @@
 
 #include "Config/Config.hpp"
 
+#include "Renderables/GraphicsLayers/ContainerGraphicsLayer.hpp"
+
 #include "InputSystem.hpp"
 #include "Physics.hpp"
 #include "Player.hpp"
@@ -26,6 +28,7 @@ namespace Game {
 
 class Entity;
 class Renderable;
+class GraphicsLayer;
 class PlayerEntity;
 class Camera;
 class GameSystem;
@@ -55,8 +58,6 @@ private:
 	void initializeGameLoop();
 	void gameLoop();
 	void removeInactiveEntities();
-	void removeInactiveRenderables();
-	void refreshZOrder();
 	void cleanupGameLoop();
 
 	sf::RenderWindow renderWindow;
@@ -64,7 +65,9 @@ private:
 	PhysicsSystem physicsSystem;
 
 	std::list<std::shared_ptr<Entity>> entities;
-	std::multimap<double, std::weak_ptr<Renderable>> renderables;
+	ContainerGraphicsLayer rootLayer;
+
+	std::vector<std::shared_ptr<GraphicsLayer>> graphicsLayers;
 
 	std::array<Player, 2> players;
 

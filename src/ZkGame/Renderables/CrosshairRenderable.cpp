@@ -13,10 +13,15 @@
 using namespace Zk::Game;
 
 CrosshairRenderable::CrosshairRenderable(
+	const std::string & hierarchyPath,
 	std::weak_ptr<Entity> entity,
 	std::weak_ptr<PlayerEntity> player
 )
-	: SpriteRenderable(entity, GameSystem::resourcePath("crosshair.png").c_str())
+	: SpriteRenderable(
+		hierarchyPath,
+		entity,
+		GameSystem::resourcePath("crosshair.png").c_str()
+	)
 {
 	this->player = player;
 }

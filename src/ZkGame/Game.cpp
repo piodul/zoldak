@@ -30,6 +30,8 @@
 #include "Entities/SpawnerMeshEntity.hpp"
 #include "Entities/PlayerTrackEntity.hpp"
 #include "Renderables/Renderable.hpp"
+#include "Renderables/GraphicsLayers/GraphicsLayer.hpp"
+#include "Renderables/GraphicsLayers/ContainerGraphicsLayer.hpp"
 #include "Weapons/WeaponDef.hpp"
 #include "Weapons/Weapon.hpp"
 #include "Camera.hpp"
@@ -44,6 +46,7 @@ Game * Game::instance = nullptr;
 
 Game::Game(QString levelName) :
 	physicsSystem(),
+	rootLayer("", ""),
 	players{
 		Player(0),
 		Player(1)
@@ -51,6 +54,17 @@ Game::Game(QString levelName) :
 {
 	instance = this;
 	hasFocus = true;
+
+	graphicsLayers = {
+		std::make_shared<ContainerGraphicsLayer>("", "BACKGROUND"),
+		std::make_shared<ContainerGraphicsLayer>("", "MIDGROUND"),
+		std::make_shared<ContainerGraphicsLayer>("", "OBJECTS"),
+		std::make_shared<ContainerGraphicsLayer>("", "FOREGROUND"),
+		std::make_shared<ContainerGraphicsLayer>("", "UI")
+	};
+
+	for (auto p : graphicsLayers)
+		rootLayer.addChild(p);
 
 	QFile f(GameSystem::resourcePath(levelName.toStdString()).c_str());
 	if (!f.open(QIODevice::ReadOnly))
@@ -82,9 +96,7 @@ void Game::addEntity(std::shared_ptr<Entity> ent)
 	auto ptr = r.lock();
 
 	if (ptr != nullptr)
-		renderables.insert(
-			std::make_pair(r.lock()->getZValue(), r)
-		);
+		rootLayer.addChild(ptr);
 }
 
 sf::Vector2f Game::getViewportDimensions() const
@@ -238,9 +250,6 @@ void Game::gameLoop()
 			ent->update(MILLIS_PER_FRAME);
 
 		//Render
-		removeInactiveRenderables();
-		refreshZOrder();
-
 		renderWindow.clear(sf::Color::White);
 
 		std::vector<sf::View> views = camera->getViews();
@@ -249,12 +258,7 @@ void Game::gameLoop()
 		for (sf::View view : views)
 		{
 			renderWindow.setView(view);
-			for (auto p : renderables)
-			{
-				auto ptr = p.second.lock();
-				if (ptr->visibleToPlayer(players[viewid]))
-					ptr->paint(&renderWindow, players[viewid]);
-			}
+			rootLayer.paint(&renderWindow, players[viewid]);
 
 			//Teraz rysujemy UI
 			players[viewid].paintUI(&renderWindow);
@@ -328,38 +332,6 @@ void Game::removeInactiveEntities()
 			return ent->wantsToBeDeleted();
 		}
 	);
-}
-
-void Game::removeInactiveRenderables()
-{
-	for (auto it = renderables.begin(); it != renderables.end();)
-	{
-		if (it->second.expired())
-			renderables.erase(it++);
-		else
-			it++;
-	}
-}
-
-void Game::refreshZOrder()
-{
-	std::vector<std::weak_ptr<Renderable>> renderablesToChange;
-	for (auto it = renderables.begin(); it != renderables.end();)
-	{
-		auto ptr = it->second.lock();
-		if (it->first != ptr->getZValue())
-		{
-			renderablesToChange.push_back(it->second);
-			renderables.erase(it++);
-		}
-		else
-			it++;
-	}
-
-	for (std::weak_ptr<Renderable> r : renderablesToChange)
-		renderables.insert(
-			std::make_pair(r.lock()->getZValue(), r)
-		);
 }
 
 void Game::cleanupGameLoop()

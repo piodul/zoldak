@@ -67,9 +67,11 @@ void BulletEntity::registerMe()
 		shared_from_this()
 	);
 
-	BulletRenderable * br = new BulletRenderable(shared_from_this());
+	BulletRenderable * br = new BulletRenderable(
+		"OBJECTS",
+		shared_from_this()
+	);
 
-	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
 }
 

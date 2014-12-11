@@ -10,7 +10,10 @@ namespace Game {
 class MeshRenderable : public Renderable
 {
 public:
-	MeshRenderable(const sf::VertexArray & varr);
+	MeshRenderable(
+		const std::string & hierarchyPath,
+		const sf::VertexArray & varr
+	);
 	virtual ~MeshRenderable();
 
 	virtual void paint(sf::RenderTarget * rt, const Player & viewer);

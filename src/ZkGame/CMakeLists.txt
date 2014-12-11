@@ -29,6 +29,9 @@ set(SOURCES
 	Renderables/CrosshairRenderable.cpp
 	Renderables/BulletRenderable.cpp
 
+	Renderables/GraphicsLayers/GraphicsLayer.cpp
+	Renderables/GraphicsLayers/ContainerGraphicsLayer.cpp
+
 	Weapons/Weapon.cpp
 	Weapons/WeaponDef.cpp
 

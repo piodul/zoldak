@@ -60,9 +60,9 @@ GrenadeEntity::GrenadeEntity(
 	setFilteringBody(body);
 
 	BoxRenderable * br = new BoxRenderable(
+		"OBJECTS",
 		body, GameSystem::resourcePath("grenade-particle.png").c_str()
 	);
-	br->setZValue(-(double)LayerType::MIDGROUND);
 	setRenderable(br);
 }
 

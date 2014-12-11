@@ -16,6 +16,7 @@ class SpriteRenderable : public Renderable
 {
 public:
 	SpriteRenderable(
+		const std::string & hierarchyPath,
 		std::weak_ptr<Entity> entity,
 		const char * imgSrc
 	);
