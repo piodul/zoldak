@@ -13,7 +13,7 @@ public:
 	MeshRenderable(const sf::VertexArray & varr);
 	virtual ~MeshRenderable();
 
-	virtual void paint(sf::RenderTarget * rt);
+	virtual void paint(sf::RenderTarget * rt, const Player & viewer);
 
 private:
 	sf::VertexArray varr;

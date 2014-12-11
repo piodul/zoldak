@@ -10,6 +10,7 @@
 
 #include "../GameSystem.hpp"
 #include "../TextureCache.hpp"
+#include "../Player.hpp"
 
 #include "BoxRenderable.hpp"
 #include "Renderable.hpp"
@@ -49,7 +50,7 @@ BoxRenderable::~BoxRenderable()
 
 }
 
-void BoxRenderable::paint(sf::RenderTarget * rt)
+void BoxRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	sprite.setPosition(lib_cast<sf::Vector2f>(body->GetPosition()));
 

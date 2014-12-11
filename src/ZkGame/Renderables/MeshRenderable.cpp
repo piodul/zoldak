@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 
+#include "../Player.hpp"
+
 #include "MeshRenderable.hpp"
 #include "Renderable.hpp"
 
@@ -15,7 +17,7 @@ MeshRenderable::~MeshRenderable()
 
 }
 
-void MeshRenderable::paint(sf::RenderTarget * rt)
+void MeshRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	rt->draw(varr);
 }

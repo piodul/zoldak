@@ -4,6 +4,8 @@
 
 #include <memory>
 
+#include "../Player.hpp"
+
 namespace Zk {
 namespace Game {
 
@@ -17,10 +19,13 @@ public:
 	{  }
 	virtual ~Renderable() {};
 
-	virtual void paint(sf::RenderTarget * rt) = 0;
+	virtual void paint(sf::RenderTarget * rt, const Player & viewer) = 0;
 
 	virtual bool visibleToPlayer(const Player & player)
 	{ return true; }
+
+	virtual bool isGraphicsLayer() const
+	{ return false; }
 
 	inline double getZValue() const
 	{ return z; }

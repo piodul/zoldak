@@ -4,6 +4,7 @@
 #include "../Entities/BulletEntity.hpp"
 
 #include "../GameSystem.hpp"
+#include "../Player.hpp"
 
 #include "BulletRenderable.hpp"
 #include "Renderable.hpp"
@@ -21,7 +22,7 @@ BulletRenderable::~BulletRenderable()
 
 }
 
-void BulletRenderable::paint(sf::RenderTarget * rt)
+void BulletRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	auto ptr = bullet.lock();
 

@@ -8,6 +8,7 @@
 
 #include "../GameSystem.hpp"
 #include "../TextureCache.hpp"
+#include "../Player.hpp"
 
 #include "SpriteRenderable.hpp"
 #include "Renderable.hpp"
@@ -37,7 +38,7 @@ SpriteRenderable::~SpriteRenderable()
 
 }
 
-void SpriteRenderable::paint(sf::RenderTarget * rt)
+void SpriteRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	auto ptr = entity.lock();
 

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include "../Player.hpp"
 #include "Renderable.hpp"
 
 namespace Zk {
@@ -17,7 +18,7 @@ public:
 	);
 	virtual ~BoxRenderable();
 
-	virtual void paint(sf::RenderTarget * rt);
+	virtual void paint(sf::RenderTarget * rt, const Player & viewer);
 
 private:
 	sf::Texture * texture;
