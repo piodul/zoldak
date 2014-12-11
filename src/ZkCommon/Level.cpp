@@ -8,17 +8,14 @@
 
 using namespace Zk::Common;
 
-//TODO: Trzeba zamienić std::vectory na QVectory -
-//- będzie łatwiej wczytywać/zapisywać
-
 LevelLayer::LevelLayer()
 {
-	
+
 }
 
 LevelLayer::~LevelLayer()
 {
-	
+
 }
 
 void LevelLayer::clear()
@@ -31,7 +28,7 @@ void LevelLayer::constructMesh(sf::VertexArray & varr) const
 {
 	varr.clear();
 	varr.setPrimitiveType(sf::Triangles);
-	
+
 	for (const triangleDesc_t & td : descs)
 	{
 		for (int i : { 0, 1, 2 })
@@ -44,22 +41,22 @@ void LevelLayer::constructMesh(sf::VertexArray & varr) const
 	}
 }
 
-const std::vector<sf::Vertex> & LevelLayer::getVertices() const
+const QVector<sf::Vertex> & LevelLayer::getVertices() const
 {
 	return verts;
 }
 
-const std::vector<triangleDesc_t> & LevelLayer::getTriangleDescriptions() const
+const QVector<triangleDesc_t> & LevelLayer::getTriangleDescriptions() const
 {
 	return descs;
 }
 
-void LevelLayer::setVertices(const std::vector<sf::Vertex> & verts)
+void LevelLayer::setVertices(const QVector<sf::Vertex> & verts)
 {
 	this->verts = verts;
 }
 
-void LevelLayer::setTriangleDescriptions(const std::vector<triangleDesc_t> & descs)
+void LevelLayer::setTriangleDescriptions(const QVector<triangleDesc_t> & descs)
 {
 	this->descs = descs;
 }
@@ -71,7 +68,7 @@ void LevelLayer::calculateTexCoords()
 
 Level::Level()
 {
-	
+
 }
 
 Level::~Level()
@@ -86,22 +83,22 @@ void Level::clear()
 	palette.clear();
 }
 
-void Level::setLayers(const std::vector<LevelLayer*> & layers)
+void Level::setLayers(const QVector<LevelLayer*> & layers)
 {
 	this->layers = layers;
 }
 
-void Level::setPalette(const std::vector<QColor> & colors)
+void Level::setPalette(const QVector<QColor> & colors)
 {
 	this->palette = colors;
 }
 
-const std::vector<LevelLayer*> & Level::getLayers() const
+const QVector<LevelLayer*> & Level::getLayers() const
 {
 	return layers;
 }
 
-const std::vector<QColor> & Level::getPalette() const
+const QVector<QColor> & Level::getPalette() const
 {
 	return palette;
 }
@@ -111,11 +108,11 @@ QDataStream & Zk::Common::operator<<(QDataStream & ds, const triangleDesc_t & td
 	ds << td.vert[0];
 	ds << td.vert[1];
 	ds << td.vert[2];
-	
+
 	ds << td.color[0];
 	ds << td.color[1];
 	ds << td.color[2];
-	
+
 	return ds;
 }
 
@@ -124,11 +121,11 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, triangleDesc_t & td)
 	ds >> td.vert[0];
 	ds >> td.vert[1];
 	ds >> td.vert[2];
-	
+
 	ds >> td.color[0];
 	ds >> td.color[1];
 	ds >> td.color[2];
-	
+
 	return ds;
 }
 
@@ -137,11 +134,11 @@ QDataStream & Zk::Common::operator<<(QDataStream & ds, const LevelLayer & ll)
 	ds << (qint16)ll.verts.size();
 	for (const sf::Vertex & vert : ll.verts)
 		ds << vert.position.x << vert.position.y;
-	
+
 	ds << (qint16)ll.descs.size();
 	for (const triangleDesc_t & td : ll.descs)
 		ds << td;
-	
+
 	return ds;
 }
 
@@ -156,7 +153,7 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, LevelLayer & ll)
 		ds >> x >> y;
 		ll.verts.push_back(sf::Vertex(sf::Vector2f(x, y)));
 	}
-	
+
 	qint16 ndescs;
 	ds >> ndescs;
 	ll.descs.reserve((int)ndescs);
@@ -166,7 +163,7 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, LevelLayer & ll)
 		ds >> td;
 		ll.descs.push_back(td);
 	}
-	
+
 	return ds;
 }
 
@@ -175,11 +172,11 @@ QDataStream & Zk::Common::operator<<(QDataStream & ds, const Level & l)
 	ds << (qint8)l.layers.size();
 	for (const LevelLayer * ll : l.layers)
 		ds << *ll;
-	
+
 	ds << (qint16)l.palette.size();
 	for (const QColor & color : l.palette)
 		ds << color;
-	
+
 	return ds;
 }
 
@@ -194,7 +191,7 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, Level & l)
 		ds >> *ll;
 		l.layers.push_back(ll);
 	}
-	
+
 	qint16 ncolors;
 	ds >> ncolors;
 	l.palette.reserve((int)ncolors);
@@ -204,6 +201,6 @@ QDataStream & Zk::Common::operator>>(QDataStream & ds, Level & l)
 		ds >> color;
 		l.palette.push_back(color);
 	}
-	
+
 	return ds;
 }

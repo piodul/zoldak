@@ -73,7 +73,7 @@ LevelView::~LevelView()
 
 void LevelView::fromCommonLevel(const Common::Level & l)
 {
-	const std::vector<Common::LevelLayer*> & lls = l.getLayers();
+	const QVector<Common::LevelLayer*> & lls = l.getLayers();
 
 	for (int i = 0; i < (int)lls.size(); i++)
 		layers[i]->fromCommonLevelLayer(*lls[i]);
@@ -84,7 +84,7 @@ Level LevelView::toCommonLevel() const
 	Level result;
 	//Śliskie - nie wiadomo kto ma usunąć warstwy
 
-	std::vector<Common::LevelLayer*> lls;
+	QVector<Common::LevelLayer*> lls;
 
 	for (int i = 0; i < layers.size(); i++)
 		lls.push_back(new Common::LevelLayer(layers[i]->toCommonLevelLayer()));

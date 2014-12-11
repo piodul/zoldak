@@ -4,7 +4,6 @@
 #include <QtCore>
 #include <QtGui>
 
-#include <vector>
 #include <array>
 
 namespace Zk {
@@ -24,25 +23,25 @@ class LevelLayer
 public:
 	LevelLayer();
 	~LevelLayer();
-	
+
 	void clear();
-	
+
 	void constructMesh(sf::VertexArray & varr) const;
-	
-	const std::vector<sf::Vertex> & getVertices() const;
-	const std::vector<triangleDesc_t> & getTriangleDescriptions() const;
-	void setVertices(const std::vector<sf::Vertex> & verts);
-	void setTriangleDescriptions(const std::vector<triangleDesc_t> & descs);
-	
+
+	const QVector<sf::Vertex> & getVertices() const;
+	const QVector<triangleDesc_t> & getTriangleDescriptions() const;
+	void setVertices(const QVector<sf::Vertex> & verts);
+	void setTriangleDescriptions(const QVector<triangleDesc_t> & descs);
+
 	void calculateTexCoords();
-	
+
 	friend QDataStream & operator<<(QDataStream & ds, const LevelLayer & ll);
 	friend QDataStream & operator>>(QDataStream & ds, LevelLayer & ll);
-	
+
 private:
-	std::vector<sf::Vertex> verts;
-	std::vector<triangleDesc_t> descs;
-	
+	QVector<sf::Vertex> verts;
+	QVector<triangleDesc_t> descs;
+
 };
 
 class Level
@@ -50,21 +49,21 @@ class Level
 public:
 	Level();
 	~Level();
-	
+
 	void clear();
-	
-	const std::vector<LevelLayer*> & getLayers() const;
-	const std::vector<QColor> & getPalette() const;
-	void setLayers(const std::vector<LevelLayer*> & layers);
-	void setPalette(const std::vector<QColor> & colors);
-	
+
+	const QVector<LevelLayer*> & getLayers() const;
+	const QVector<QColor> & getPalette() const;
+	void setLayers(const QVector<LevelLayer*> & layers);
+	void setPalette(const QVector<QColor> & colors);
+
 	friend QDataStream & operator<<(QDataStream & ds, const Level & l);
 	friend QDataStream & operator>>(QDataStream & ds, Level & l);
-	
+
 private:
-	std::vector<LevelLayer*> layers;
-	std::vector<QColor> palette;
-	
+	QVector<LevelLayer*> layers;
+	QVector<QColor> palette;
+
 };
 
 }}

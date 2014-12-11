@@ -118,8 +118,7 @@ void MainWindow::saveLevel()
 
 	Level l = levelView->toCommonLevel();
 
-	std::vector<QColor> palette = paletteWidget->toColorList();
-	l.setPalette(palette);
+	l.setPalette(paletteWidget->toColorList());
 
 	ds << l;
 }

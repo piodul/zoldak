@@ -3,7 +3,6 @@
 #include <QtCore>
 
 #include <memory>
-#include <vector>
 
 #include "../ZkCommon/Constants.h"
 

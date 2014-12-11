@@ -63,8 +63,8 @@ static b2Body * createLevelLayerCollisionMesh(const LevelLayer * ll)
 
 	b2World & world = Game::getInstance()->getPhysicsSystem().getWorld();
 
-	const std::vector<sf::Vertex> & verts = ll->getVertices();
-	const std::vector<triangleDesc_t> & tris = ll->getTriangleDescriptions();
+	const QVector<sf::Vertex> & verts = ll->getVertices();
+	const QVector<triangleDesc_t> & tris = ll->getTriangleDescriptions();
 
 	std::map<std::pair<int, int>, int> edges;
 
@@ -106,7 +106,7 @@ static b2Body * createLevelLayerCollisionMesh(const LevelLayer * ll)
 		int firstVert = edges.begin()->first.first;
 		int currVert = firstVert;
 
-		std::vector<b2Vec2> points;
+		QVector<b2Vec2> points;
 
 		do
 		{

@@ -74,11 +74,11 @@ bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
 {
 	clear();
 
-	const std::vector<sf::Vertex> & vs = ll.getVertices();
+	const QVector<sf::Vertex> & vs = ll.getVertices();
 	for (const sf::Vertex & v : vs)
 		createNode(QPointF(v.position.x, v.position.y));
 
-	const std::vector<Common::triangleDesc_t> & tds = ll.getTriangleDescriptions();
+	const QVector<Common::triangleDesc_t> & tds = ll.getTriangleDescriptions();
 	for (const Common::triangleDesc_t & td : tds)
 	{
 		MeshTriangle * mt = formTriangle(
@@ -100,7 +100,7 @@ bool MeshLayer::fromCommonLevelLayer(const Common::LevelLayer & ll)
 
 LevelLayer MeshLayer::toCommonLevelLayer() const
 {
-	std::vector<sf::Vertex> vs;
+	QVector<sf::Vertex> vs;
 	vs.reserve(nodes.size());
 
 	LevelLayer ll;
@@ -118,7 +118,7 @@ LevelLayer MeshLayer::toCommonLevelLayer() const
 	for (MeshTriangleNode * mtn : nodes)
 		nodeIndexes.insert(mtn, id++);
 
-	std::vector<Common::triangleDesc_t> tds;
+	QVector<Common::triangleDesc_t> tds;
 	tds.reserve(triangles.size());
 	for (MeshTriangle * mt : triangles)
 	{

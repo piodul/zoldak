@@ -4,8 +4,6 @@
 #include <QtCore>
 #include <QtGui>
 
-#include <vector>
-
 using namespace Zk::LevelEditor;
 
 static const int NUM_COLUMNS = 4;
@@ -50,7 +48,7 @@ ColorPaletteWidget::~ColorPaletteWidget()
 
 }
 
-void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
+void ColorPaletteWidget::fromColorList(const QVector<QColor> & colors)
 {
 	int rows = (int)(colors.size() + NUM_COLUMNS - 1) / NUM_COLUMNS;
 	setRowCount(rows);
@@ -63,9 +61,9 @@ void ColorPaletteWidget::fromColorList(const std::vector<QColor> & colors)
 		boxes[i]->setColor(QColor(Qt::black));
 }
 
-std::vector<QColor> ColorPaletteWidget::toColorList() const
+QVector<QColor> ColorPaletteWidget::toColorList() const
 {
-	std::vector<QColor> colors;
+	QVector<QColor> colors;
 
 	for (const ColorBox * cb : boxes)
 		colors.push_back(cb->getColor());
