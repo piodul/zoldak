@@ -250,11 +250,8 @@ void PlayerEntity::update(double step)
 	}
 
 	//Jeśli nie biegniemy i jesteśmy na ziemi, powinniśmy szybko spowolnić nasz bieg
-	if (isStanding && !isRunning)
-	{
-		b2Vec2 velocity = getBody()->GetLinearVelocity();
-		getBody()->SetLinearVelocity(b2Vec2(0.f, velocity.y));
-	}
+	if (isStanding && !isRunning && jumpCooldown == 0.f)
+		getBody()->SetLinearVelocity(b2Vec2(0.f, 0.f));
 
 	//Aktualizacja broni
 	sf::Vector2f direction =
