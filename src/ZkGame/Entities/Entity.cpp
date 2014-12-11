@@ -57,6 +57,13 @@ void Entity::setBody(b2Body * b)
 	body = b;
 }
 
+EntityType Entity::getType() const
+{
+	//connected with #issue3
+	//printf("Entity getType called\n");
+	return EntityType::Unknown;
+}
+
 void Entity::markForDeletion()
 {
 	wannaDelete = true;

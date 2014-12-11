@@ -41,6 +41,11 @@ CrateEntity::CrateEntity(sf::Vector2f pos, sf::Vector2f size, const char * imgSr
 	setRenderable(br);
 }
 
+EntityType CrateEntity::getType() const
+{
+	return EntityType::CrateEntity;
+}
+
 CrateEntity::~CrateEntity()
 {
 

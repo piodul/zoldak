@@ -45,7 +45,7 @@ public:
 	inline bool wantsToBeDeleted() const
 	{ return wannaDelete; }
 
-	virtual EntityType getType() const = 0;
+	virtual EntityType getType() const;
 
 protected:
 	void setRenderable(Renderable * r);
