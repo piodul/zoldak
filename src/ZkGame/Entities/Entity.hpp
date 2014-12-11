@@ -33,7 +33,6 @@ public:
 	virtual ~Entity();
 
 	virtual void update(double step) = 0;
-	void paint(sf::RenderTarget * rt);
 
 	virtual sf::Vector2f getCenterPosition() const;
 

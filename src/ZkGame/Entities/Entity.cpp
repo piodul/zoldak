@@ -27,12 +27,6 @@ Entity::~Entity()
 	}
 }
 
-void Entity::paint(sf::RenderTarget * rt)
-{
-	if (visualRep)
-		visualRep->paint(rt);
-}
-
 sf::Vector2f Entity::getCenterPosition() const
 {
 	if (getBody() != nullptr)
