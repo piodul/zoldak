@@ -27,6 +27,7 @@ public:
 	void clear();
 
 	void constructMesh(sf::VertexArray & varr) const;
+	void constructOutline(sf::VertexArray & varr) const;
 
 	const QVector<sf::Vertex> & getVertices() const;
 	const QVector<triangleDesc_t> & getTriangleDescriptions() const;

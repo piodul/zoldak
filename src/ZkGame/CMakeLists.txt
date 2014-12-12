@@ -31,6 +31,7 @@ set(SOURCES
 
 	Renderables/GraphicsLayers/GraphicsLayer.cpp
 	Renderables/GraphicsLayers/ContainerGraphicsLayer.cpp
+	Renderables/GraphicsLayers/FovGraphicsLayer.cpp
 
 	Weapons/Weapon.cpp
 	Weapons/WeaponDef.cpp

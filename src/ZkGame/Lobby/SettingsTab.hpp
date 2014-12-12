@@ -7,26 +7,27 @@
 #include "../Config/Config.hpp"
 
 namespace Zk {
-	namespace Game {
+namespace Game {
 
-		class SettingsTab : public QWidget
-		{
-			Q_OBJECT;
+class SettingsTab : public QWidget
+{
+	Q_OBJECT;
 
-		public:
-			SettingsTab(Config & config, QWidget * parent = nullptr);
-			virtual ~SettingsTab();
+public:
+	SettingsTab(Config & config, QWidget * parent = nullptr);
+	virtual ~SettingsTab();
 
-		private slots:
+private slots:
 
+private:
+	void initEdits();
+	void initLayout();
 
-		private:
-			void initEdits();
-			void initLayout();
-			Config & config;
-			QDoubleSpinBox * respawnTimeEdit;
-			QSpinBox * maxGrenadesEdit;
-			QSpinBox * maxMedkitsEdit;
-		};
+	Config & config;
+	QDoubleSpinBox * respawnTimeEdit;
+	QSpinBox * maxGrenadesEdit;
+	QSpinBox * maxMedkitsEdit;
+	QCheckBox * enabledFovBox;
+};
 
-	}}
+}}

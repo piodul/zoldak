@@ -3,33 +3,37 @@
 #include <QtCore>
 
 namespace Zk {
-	namespace Game {
+namespace Game {
 
-		class SettingsConfig : public QObject
-		{
-		Q_OBJECT;
-		public:
-			SettingsConfig(QObject * parent = nullptr);
+class SettingsConfig : public QObject
+{
+	Q_OBJECT;
 
-			double respawnTime() const;
-			int maxGrenadePacksOnMap() const;
-			int maxMedkitsOnMap() const;
+public:
+	SettingsConfig(QObject * parent = nullptr);
 
-		public slots:
-			void setRespawnTime(double respawnTime);
-			void setMaxGrenadePacksOnMap(int maxGrenadePacksOnMap);
-			void setMaxMedkitsOnMap(int maxMedkitsOnMap);
+	double respawnTime() const;
+	int maxGrenadePacksOnMap() const;
+	int maxMedkitsOnMap() const;
+	bool enabledFovEffect() const;
 
-			friend QDataStream & operator<<(QDataStream & ds, const SettingsConfig & gc);
-			friend QDataStream & operator>>(QDataStream & ds, SettingsConfig & gc);
+public slots:
+	void setRespawnTime(double respawnTime);
+	void setMaxGrenadePacksOnMap(int maxGrenadePacksOnMap);
+	void setMaxMedkitsOnMap(int maxMedkitsOnMap);
+	void setEnabledFovEffect(bool enabledFovEffect);
 
-		private:
-			double respawnTime_;
-			int maxGrenadePacksOnMap_;
-			int maxMedkitsOnMap_;
-		};
+	friend QDataStream & operator<<(QDataStream & ds, const SettingsConfig & gc);
+	friend QDataStream & operator>>(QDataStream & ds, SettingsConfig & gc);
 
-		QDataStream & operator<<(QDataStream & ds, const SettingsConfig & gc);
-		QDataStream & operator>>(QDataStream & ds, SettingsConfig & gc);
+private:
+	double respawnTime_;
+	int maxGrenadePacksOnMap_;
+	int maxMedkitsOnMap_;
+	bool enabledFovEffect_;
+};
 
-	}}
+QDataStream & operator<<(QDataStream & ds, const SettingsConfig & gc);
+QDataStream & operator>>(QDataStream & ds, SettingsConfig & gc);
+
+}}

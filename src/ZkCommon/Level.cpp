@@ -6,6 +6,9 @@
 #include <QtCore>
 #include <QtGui>
 
+#include <map>
+#include <utility>
+
 using namespace Zk::Common;
 
 LevelLayer::LevelLayer()
@@ -37,6 +40,45 @@ void LevelLayer::constructMesh(sf::VertexArray & varr) const
 			QColor c = td.color[i];
 			vert.color = lib_cast<sf::Color>(c);
 			varr.append(vert);
+		}
+	}
+}
+
+void LevelLayer::constructOutline(sf::VertexArray & varr) const
+{
+	varr.clear();
+	varr.setPrimitiveType(sf::Lines);
+
+	std::map<std::pair<int, int>, int> hitcount;
+
+	static const std::pair<int, int> edges[] = {
+		{ 0, 1 },
+		{ 1, 2 },
+		{ 2, 0 }
+	};
+
+	for (const std::pair<int, int> & e : edges)
+	{
+		for (const triangleDesc_t & td : descs)
+		{
+			int v1 = td.vert[e.first];
+			int v2 = td.vert[e.second];
+
+			if (v1 > v2)
+				std::swap(v1, v2);
+
+			hitcount[{ v1, v2 }]++;
+		}
+	}
+
+	for (auto p : hitcount)
+	{
+		if (p.second == 1)
+		{
+			auto edge = p.first;
+
+			varr.append(verts[edge.first]);
+			varr.append(verts[edge.second]);
 		}
 	}
 }

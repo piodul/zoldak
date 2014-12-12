@@ -32,6 +32,7 @@
 #include "Renderables/Renderable.hpp"
 #include "Renderables/GraphicsLayers/GraphicsLayer.hpp"
 #include "Renderables/GraphicsLayers/ContainerGraphicsLayer.hpp"
+#include "Renderables/GraphicsLayers/FovGraphicsLayer.hpp"
 #include "Weapons/WeaponDef.hpp"
 #include "Weapons/Weapon.hpp"
 #include "Camera.hpp"
@@ -52,19 +53,10 @@ Game::Game(QString levelName) :
 		Player(1)
 	}
 {
+	const Config & config = GameSystem::getInstance()->getConfig();
+
 	instance = this;
 	hasFocus = true;
-
-	graphicsLayers = {
-		std::make_shared<ContainerGraphicsLayer>("", "BACKGROUND"),
-		std::make_shared<ContainerGraphicsLayer>("", "MIDGROUND"),
-		std::make_shared<ContainerGraphicsLayer>("", "OBJECTS"),
-		std::make_shared<ContainerGraphicsLayer>("", "FOREGROUND"),
-		std::make_shared<ContainerGraphicsLayer>("", "UI")
-	};
-
-	for (auto p : graphicsLayers)
-		rootLayer.addChild(p);
 
 	QFile f(GameSystem::resourcePath(levelName.toStdString()).c_str());
 	if (!f.open(QIODevice::ReadOnly))
@@ -74,6 +66,24 @@ Game::Game(QString levelName) :
 		QDataStream ds(&f);
 		ds >> level;
 	}
+
+	const LevelLayer * fovObscurant = level.getLayers()[(int)LayerType::MIDGROUND];
+	sf::VertexArray verts;
+	fovObscurant->constructOutline(verts);
+
+	objectsLayer = std::make_shared<FovGraphicsLayer>(verts, "", "OBJECTS");
+	objectsLayer->setFovEffectEnabled(config.settingsConfig.enabledFovEffect());
+
+	graphicsLayers = {
+		std::make_shared<ContainerGraphicsLayer>("", "BACKGROUND"),
+		objectsLayer,
+		std::make_shared<ContainerGraphicsLayer>("", "MIDGROUND"),
+		std::make_shared<ContainerGraphicsLayer>("", "FOREGROUND"),
+		std::make_shared<ContainerGraphicsLayer>("", "UI")
+	};
+
+	for (auto p : graphicsLayers)
+		rootLayer.addChild(p);
 }
 
 Game::~Game()

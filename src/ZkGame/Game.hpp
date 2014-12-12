@@ -16,6 +16,7 @@
 #include "Config/Config.hpp"
 
 #include "Renderables/GraphicsLayers/ContainerGraphicsLayer.hpp"
+#include "Renderables/GraphicsLayers/FovGraphicsLayer.hpp"
 
 #include "InputSystem.hpp"
 #include "Physics.hpp"
@@ -29,6 +30,7 @@ namespace Game {
 class Entity;
 class Renderable;
 class GraphicsLayer;
+class FovGraphicsLayer;
 class PlayerEntity;
 class Camera;
 class GameSystem;
@@ -68,6 +70,7 @@ private:
 	ContainerGraphicsLayer rootLayer;
 
 	std::vector<std::shared_ptr<GraphicsLayer>> graphicsLayers;
+	std::shared_ptr<FovGraphicsLayer> objectsLayer;
 
 	std::array<Player, 2> players;
 
