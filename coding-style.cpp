@@ -1,11 +1,13 @@
 #include <utility>
 #include <string>
 
+//Put spaces around pointers and references
 int main(int argc, char ** argv)
 {
-	//Wcinaj tabami.
+	//Use tabs for indentation
 
-	//Używaj angielskich, CamelCase'owych nazw.
+	//Use english names typed in CamelCase (for types)
+	//or camelCase (for functions and variables)
 	struct Person
 	{
 	private:
@@ -29,7 +31,7 @@ int main(int argc, char ** argv)
 		}
 	};
 
-	//Umieszczaj klamry w osobnych liniach.
+	//Put braces in separate lines
 	if (true)
 	{
 		// ...
@@ -54,8 +56,8 @@ int main(int argc, char ** argv)
 		return x;
 	};
 
-	//Wyjątkiem są puste lub krótkie, jednolinijkowe funkcje,
-	//które możesz formatować następująco...
+	//The exceptions are empty or simple one-liner functions,
+	//which can be formatted in the following way
 	struct A
 	{
 		void doNothing() {}
@@ -64,20 +66,21 @@ int main(int argc, char ** argv)
 		{ return 42; }
 	};
 
-	//...jak i również listy inicjujące...
+
+	//...as well as initializer lists
 	std::pair<double, double> position {
 		34.0, 85.0
 	};
 
-	//...oraz namespace.
+	//..and namespaces
 	//namespace Foo {
 	//...
 	//}
 
-	//Nie ma ustalonego limitu na długość linii, lecz staraj się,
-	//aby kod dał radę się zmieścić na połowie ekranu.
+	//There's no preset limit on line length,
+	//but try to be reasonable about it
 
-	//Rozbijaj długie deklaracje/wywołania funkcji.
+	//Split long declarations and function calls
 	struct B
 	{
 		static std::string concatenate(
@@ -91,18 +94,18 @@ int main(int argc, char ** argv)
 	};
 
 	auto text = B::concatenate(
-		"Ala ma kota.",
-		"Kot ma pchły.",
-		"Kot ma jedną, Ala trzy."
+		"Lorem ipsum ",
+		"dolor sit amet, ",
+		"consectetur adipiscing elit"
 	);
 
 	return 0;
 }
 
-//W namespace nie rób dodatkowych wcięć.
+//Don't indent the first level of namespace content
 namespace Foo {
 static const unsigned int THE_ULTIMATE_ANSWER = 42;
 }
 
-//W razie wątpliwości - użyj Zdrowego Rozsądku™ i bądź konsekwentny.
-//(ewentualnie pytaj podczas game jamu)
+//When in doubt - use Common Sense™ and stay consistent.
+//Don't hesitate to ask or propose extensions to this guideline.
