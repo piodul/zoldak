@@ -11,7 +11,8 @@ const char * Zk::Game::playerActionToName(PlayerAction pa)
 		{ PlayerAction::GoRight,		"Walk right" },
 		{ PlayerAction::Jump,			"Jump" },
 		{ PlayerAction::ThrowGrenade,	"Throw grenade" },
-		{ PlayerAction::Shoot,			"Shoot" }
+		{ PlayerAction::Shoot,			"Shoot" },
+		{ PlayerAction::Walk,           "Walk" }
 	};
 
 	auto it = playerActionName.find(pa);

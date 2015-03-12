@@ -183,6 +183,7 @@ void PlayerEntity::onPostSolveEvent(b2Contact * contact, const b2ContactImpulse 
 void PlayerEntity::update(double step)
 {
 	const b2Vec2 runAcceleration(25.f, 0.f);
+	const b2Vec2 walkAcceleration(20.f, 0.f);
 	const b2Vec2 strafeAcceleration(10.f, 0.f);
 
 	bool isStanding = false;
@@ -206,13 +207,19 @@ void PlayerEntity::update(double step)
 
 	jumpCooldown = std::max(0.0, jumpCooldown - step);
 
+	bool isWalking = inputConfig.isActionTriggered(PlayerAction::Walk);
 	if (inputConfig.isActionTriggered(PlayerAction::GoLeft))
 	{
-		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_CAP)
+		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_CAP && !isWalking)
 			getBody()->ApplyForceToCenter(
 				isStanding ? -runAcceleration : -strafeAcceleration,
 				true
 			);
+		if (getBody()->GetLinearVelocity().x > -HORIZONTAL_VELOCITY_WALK_CAP && isWalking)
+			getBody()->ApplyForceToCenter(
+				isStanding ? -walkAcceleration : -strafeAcceleration,
+				true
+			); 
 
 		if (isStanding)
 			isRunning = !isRunning;
@@ -220,9 +227,14 @@ void PlayerEntity::update(double step)
 
 	if (inputConfig.isActionTriggered(PlayerAction::GoRight))
 	{
-		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_CAP)
+		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_CAP && !isWalking)
 			getBody()->ApplyForceToCenter(
 				isStanding ? runAcceleration : strafeAcceleration,
+				true
+			);
+		if (getBody()->GetLinearVelocity().x < HORIZONTAL_VELOCITY_WALK_CAP && isWalking)
+			getBody()->ApplyForceToCenter(
+				isStanding ? walkAcceleration : strafeAcceleration,
 				true
 			);
 

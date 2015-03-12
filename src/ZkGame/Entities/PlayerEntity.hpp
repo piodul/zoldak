@@ -26,6 +26,7 @@ class PlayerEntity :
 	public std::enable_shared_from_this<PlayerEntity>
 {
 	static constexpr double HORIZONTAL_VELOCITY_CAP = 5.0;
+	static constexpr double HORIZONTAL_VELOCITY_WALK_CAP = 1.0;
 
 public:
 	static constexpr double MAX_HP = 100.0;

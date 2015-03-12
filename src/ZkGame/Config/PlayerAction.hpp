@@ -14,6 +14,7 @@ enum class PlayerAction : int
 	Jump,
 	ThrowGrenade,
 	Shoot,
+	Walk,
 
 	NUM_ACTIONS
 };
