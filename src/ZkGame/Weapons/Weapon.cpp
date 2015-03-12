@@ -66,7 +66,7 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 								ptr->getCenterPosition(),
 								direction * scalingFactor,
 								owner,
-								weaponDef.damagePerShot
+								weaponDef.damagePerShot * ptr->getDamageModifier()
 							);
 
 							be->registerMe();
@@ -80,7 +80,7 @@ void Weapon::update(double step, sf::Vector2f direction, bool triggered)
 								ptr->getCenterPosition(),
 								direction * scalingFactor,
 								owner,
-								weaponDef.damagePerShot
+								weaponDef.damagePerShot * ptr->getDamageModifier()
 							);
 
 							be->registerMe();

@@ -19,6 +19,7 @@
 #include "SpawnerMeshEntity.hpp"
 #include "MedKitEntity.hpp"
 #include "GrenadePackEntity.hpp"
+#include "QuadDamageEntity.hpp"
 #include "../Game.hpp"
 #include "../GameSystem.hpp"
 #include "../Renderables/Renderable.hpp"
@@ -62,6 +63,12 @@ void SpawnerMeshEntity::update(double step)
 		{
 			Game::getInstance()->addEntity(
 				std::make_shared<GrenadePackEntity>(pos, this)
+			);
+		}
+		else if (lt == LayerType::QUADDAMAGE_SPAWN)
+		{
+			Game::getInstance()->addEntity(
+				std::make_shared<QuadDamageEntity>(pos, this)
 			);
 		}
 

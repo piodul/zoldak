@@ -149,15 +149,16 @@ const char * Zk::LevelEditor::layerTypeToName(LayerType lt)
 {
 	switch (lt)
 	{
-	case LayerType::MEDKIT_SPAWN:	return "Medkit spawn";
-	case LayerType::GRENADES_SPAWN:	return "Grenades spawn";
-	case LayerType::PLAYER_A_SPAWN:	return "Player A spawn";
-	case LayerType::PLAYER_B_SPAWN:	return "Player B spawn";
-	case LayerType::PLAYER_A_FLAG:	return "Player A flag spawn";
-	case LayerType::PLAYER_B_FLAG:	return "Player B flag spawn";
-	case LayerType::FOREGROUND:		return "Foreground";
-	case LayerType::MIDGROUND:		return "Midground (collidable)";
-	case LayerType::BACKGROUND:		return "Background";
-	default:						return "???";
+	case LayerType::MEDKIT_SPAWN:		return "Medkit spawn";
+	case LayerType::GRENADES_SPAWN:		return "Grenades spawn";
+	case LayerType::QUADDAMAGE_SPAWN:	return "Quad Damage spawn";
+	case LayerType::PLAYER_A_SPAWN:		return "Player A spawn";
+	case LayerType::PLAYER_B_SPAWN:		return "Player B spawn";
+	case LayerType::PLAYER_A_FLAG:		return "Player A flag spawn";
+	case LayerType::PLAYER_B_FLAG:		return "Player B flag spawn";
+	case LayerType::FOREGROUND:			return "Foreground";
+	case LayerType::MIDGROUND:			return "Midground (collidable)";
+	case LayerType::BACKGROUND:			return "Background";
+	default:							return "???";
 	}
 }
