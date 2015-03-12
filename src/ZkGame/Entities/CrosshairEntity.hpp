@@ -22,7 +22,7 @@ public:
 		std::weak_ptr<PlayerEntity> owner,
 		MouseDeviceHandle mdh
 	);
-	virtual ~CrosshairEntity();
+	virtual ~CrosshairEntity() = default;
 
 	void registerMe();
 

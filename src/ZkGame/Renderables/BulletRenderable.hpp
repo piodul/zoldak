@@ -24,7 +24,7 @@ public:
 		const std::string & hierarchyPath,
 		std::weak_ptr<BulletEntity> bullet
 	);
-	virtual ~BulletRenderable();
+	virtual ~BulletRenderable() = default;
 
 	virtual void paint(sf::RenderTarget * rt, const Player & viewer);
 

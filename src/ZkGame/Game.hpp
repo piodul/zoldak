@@ -39,7 +39,7 @@ class Game
 {
 public:
 	Game(QString levelName);
-	~Game();
+	~Game() = default;
 
 	void run();
 	void addEntity(std::shared_ptr<Entity> ent);

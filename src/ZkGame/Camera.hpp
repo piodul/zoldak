@@ -14,7 +14,7 @@ class Camera
 {
 public:
 	Camera();
-	virtual ~Camera() {};
+	virtual ~Camera() = default;
 
 	virtual void setupViews() = 0;
 	std::vector<sf::View> getViews() const;

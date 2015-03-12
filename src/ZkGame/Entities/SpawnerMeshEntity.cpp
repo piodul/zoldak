@@ -44,11 +44,6 @@ SpawnerMeshEntity::SpawnerMeshEntity(const LevelLayer * ll, LayerType lt)
 	setBody(nullptr);
 }
 
-SpawnerMeshEntity::~SpawnerMeshEntity()
-{
-
-}
-
 void SpawnerMeshEntity::update(double step)
 {
 	cooldown = std::max(0.0, cooldown - step);

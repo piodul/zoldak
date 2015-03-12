@@ -19,11 +19,6 @@ MedKitEntity::MedKitEntity(sf::Vector2f pos, SpawnerMeshEntity * spawner)
 
 }
 
-MedKitEntity::~MedKitEntity()
-{
-
-}
-
 void MedKitEntity::update(double step)
 {
 

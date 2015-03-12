@@ -166,11 +166,6 @@ MouseDeviceHandle::MouseDeviceHandle(
 	this->info = info;
 }
 
-MouseDeviceHandle::~MouseDeviceHandle()
-{
-
-}
-
 bool MouseDeviceHandle::isValid() const
 {
 	return !token.expired();

@@ -121,11 +121,6 @@ PlayerEntity::PlayerEntity(
 	health = MAX_HP;
 }
 
-PlayerEntity::~PlayerEntity()
-{
-
-}
-
 void PlayerEntity::registerMe()
 {
 	Game::getInstance()->getPhysicsSystem().registerListener(

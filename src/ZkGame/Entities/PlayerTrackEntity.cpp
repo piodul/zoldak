@@ -23,11 +23,6 @@ PlayerTrackEntity::PlayerTrackEntity(int trackedPlayer)
 	this->trackedPlayer = trackedPlayer;
 }
 
-PlayerTrackEntity::~PlayerTrackEntity()
-{
-
-}
-
 void PlayerTrackEntity::update(double step)
 {
 	sf::Vector2f target(0.f, 0.f);

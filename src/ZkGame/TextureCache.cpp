@@ -7,11 +7,6 @@
 
 using namespace Zk::Game;
 
-TextureCache::TextureCache()
-{
-
-}
-
 TextureCache::~TextureCache()
 {
 	clear();

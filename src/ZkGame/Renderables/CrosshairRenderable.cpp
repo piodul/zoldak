@@ -26,11 +26,6 @@ CrosshairRenderable::CrosshairRenderable(
 	this->player = player;
 }
 
-CrosshairRenderable::~CrosshairRenderable()
-{
-
-}
-
 bool CrosshairRenderable::visibleToPlayer(const Player & player)
 {
 	return this->player.lock() == player.getPlayerEntity().lock();

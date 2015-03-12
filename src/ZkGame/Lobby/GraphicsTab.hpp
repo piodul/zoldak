@@ -13,7 +13,7 @@ class GraphicsTab : public QWidget
 
 public:
 	GraphicsTab(Config & config, QWidget * parent = nullptr);
-	virtual ~GraphicsTab();
+	virtual ~GraphicsTab() = default;
 
 private slots:
 	void changeResolution(int index);

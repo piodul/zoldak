@@ -12,7 +12,7 @@ class SpawnerMesh
 {
 public:
 	///Konstruuje pusty SpawnerMesh.
-	SpawnerMesh();
+	SpawnerMesh() = default;
 
 	///Konstruuje SpawnerMesh na podstawie warstwy poziomu.
 	SpawnerMesh(const Common::LevelLayer * ll);

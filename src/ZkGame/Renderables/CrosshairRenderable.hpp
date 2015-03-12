@@ -22,7 +22,7 @@ public:
 		std::weak_ptr<Entity> entity,
 		std::weak_ptr<PlayerEntity> player
 	);
-	virtual ~CrosshairRenderable();
+	virtual ~CrosshairRenderable() = default;
 
 	virtual bool visibleToPlayer(const Player & player);
 

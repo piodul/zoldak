@@ -42,11 +42,6 @@ PlayTab::PlayTab(Config & config, QWidget * parent)
 	populateLevelList();
 }
 
-PlayTab::~PlayTab()
-{
-
-}
-
 void PlayTab::startGame()
 {
 	GameSystem::getInstance()->setLevelName(QString("levels/") + levelName);

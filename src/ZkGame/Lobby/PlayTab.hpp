@@ -13,7 +13,7 @@ class PlayTab : public QWidget
 
 public:
 	PlayTab(Config & config, QWidget * parent = nullptr);
-	virtual ~PlayTab();
+	virtual ~PlayTab() = default;
 
 private slots:
 	void startGame();

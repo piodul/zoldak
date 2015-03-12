@@ -46,11 +46,6 @@ GameSystem::GameSystem(int & argc, char ** argv) :
 	instance = this;
 }
 
-GameSystem::~GameSystem()
-{
-
-}
-
 int GameSystem::exec()
 {
 	loadConfig();

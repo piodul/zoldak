@@ -13,7 +13,7 @@ namespace Game {
 class TextureCache
 {
 public:
-	TextureCache();
+	TextureCache() = default;
 	~TextureCache();
 
 	sf::Texture * getTexture(const char * src);

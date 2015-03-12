@@ -17,7 +17,7 @@ public:
 	static constexpr double HP_PER_MEDKIT = 50.0;
 
 	MedKitEntity(sf::Vector2f pos, SpawnerMeshEntity * spawner);
-	virtual ~MedKitEntity();
+	virtual ~MedKitEntity() = default;
 
 	virtual void update(double step) override;
 	virtual EntityType getType() const override;

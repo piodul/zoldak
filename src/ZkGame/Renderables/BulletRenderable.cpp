@@ -21,11 +21,6 @@ BulletRenderable::BulletRenderable(
 	this->bullet = bullet;
 }
 
-BulletRenderable::~BulletRenderable()
-{
-
-}
-
 void BulletRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	auto ptr = bullet.lock();

@@ -56,11 +56,6 @@ BulletEntity::BulletEntity(
 	setFilteringBody(body);
 }
 
-BulletEntity::~BulletEntity()
-{
-
-}
-
 void BulletEntity::registerMe()
 {
 	Game::getInstance()->getPhysicsSystem().registerListener(

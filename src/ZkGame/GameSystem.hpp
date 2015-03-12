@@ -33,7 +33,7 @@ public:
 	};
 
 	GameSystem(int & argc, char ** argv);
-	~GameSystem();
+	~GameSystem() = default;
 
 	int exec();
 	void changeState(State s);

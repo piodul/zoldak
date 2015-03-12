@@ -59,7 +59,7 @@ private:
 class ContactListener : public b2ContactListener
 {
 public:
-	ContactListener();
+	ContactListener() = default;
 
 	virtual void BeginContact(b2Contact * contact) override;
 	virtual void EndContact(b2Contact * contact) override;
@@ -78,7 +78,7 @@ class PhysicsSystem
 {
 public:
 	PhysicsSystem();
-	~PhysicsSystem();
+	~PhysicsSystem() = default;
 
 	void registerListener(std::weak_ptr<CollisionListener> cl);
 	inline b2World & getWorld()

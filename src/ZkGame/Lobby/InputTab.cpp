@@ -58,11 +58,6 @@ InputTab::InputTab(Config & config, QWidget * parent)
 	changePlayer();
 }
 
-InputTab::~InputTab()
-{
-
-}
-
 void InputTab::changeInputBind(QTableWidgetItem * twi)
 {
 	InputAction & ia =

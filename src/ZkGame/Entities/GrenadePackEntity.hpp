@@ -17,7 +17,7 @@ public:
 	static constexpr double HP_PER_MEDKIT = 50.0;
 
 	GrenadePackEntity(sf::Vector2f pos, SpawnerMeshEntity * spawner);
-	virtual ~GrenadePackEntity();
+	virtual ~GrenadePackEntity() = default;
 
 	virtual void update(double step) override;
 	virtual EntityType getType() const override;

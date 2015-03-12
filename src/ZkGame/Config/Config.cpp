@@ -6,11 +6,6 @@
 
 using namespace Zk::Game;
 
-Config::Config()
-{
-
-}
-
 QDataStream & Zk::Game::operator<<(QDataStream & ds, const Config & c)
 {
 	ds << c.graphicsConfig;

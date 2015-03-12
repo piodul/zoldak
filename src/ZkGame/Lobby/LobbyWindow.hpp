@@ -13,7 +13,7 @@ class LobbyWindow : public QMainWindow
 
 public:
 	LobbyWindow(Config & config, QWidget * parent = nullptr);
-	virtual ~LobbyWindow();
+	virtual ~LobbyWindow() = default;
 
 	virtual void closeEvent(QCloseEvent * event) override;
 

@@ -45,7 +45,7 @@ class MouseDeviceHandle
 public:
 	MouseDeviceHandle();
 	MouseDeviceHandle(std::weak_ptr<int> token, const mouseInfo_t * info);
-	~MouseDeviceHandle();
+	~MouseDeviceHandle() = default;
 
 	bool isValid() const;
 	bool isConnected() const;

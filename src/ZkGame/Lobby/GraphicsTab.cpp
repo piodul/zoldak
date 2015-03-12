@@ -38,11 +38,6 @@ GraphicsTab::GraphicsTab(Config & config, QWidget * parent)
 	this->setLayout(mainLayout);
 }
 
-GraphicsTab::~GraphicsTab()
-{
-
-}
-
 void GraphicsTab::changeResolution(int index)
 {
 	const std::vector<sf::VideoMode> & modes = sf::VideoMode::getFullscreenModes();

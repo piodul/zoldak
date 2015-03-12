@@ -19,11 +19,6 @@ GrenadePackEntity::GrenadePackEntity(sf::Vector2f pos, SpawnerMeshEntity * spawn
 
 }
 
-GrenadePackEntity::~GrenadePackEntity()
-{
-
-}
-
 void GrenadePackEntity::update(double step)
 {
 

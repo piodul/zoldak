@@ -11,16 +11,6 @@
 
 using namespace Zk::Common;
 
-LevelLayer::LevelLayer()
-{
-
-}
-
-LevelLayer::~LevelLayer()
-{
-
-}
-
 void LevelLayer::clear()
 {
 	verts.clear();

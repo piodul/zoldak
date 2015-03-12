@@ -25,7 +25,7 @@ public:
 		Player & owner,
 		double damage
 	);
-	virtual ~GrenadeEntity();
+	virtual ~GrenadeEntity() = default;
 
 	void registerMe();
 

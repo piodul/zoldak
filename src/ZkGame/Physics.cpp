@@ -37,11 +37,6 @@ bool BodyCollisionListener::interestedInPostSolveEvent(b2Contact * contact, cons
 	return contactContainsBody(contact, filteringBody);
 }
 
-ContactListener::ContactListener()
-{
-
-}
-
 void ContactListener::BeginContact(b2Contact * contact)
 {
 	for (auto wcl : collisionListeners)
@@ -115,11 +110,6 @@ PhysicsSystem::PhysicsSystem()
 	: world(b2Vec2(0.0, 9.8))
 {
 	world.SetContactListener(&cl);
-}
-
-PhysicsSystem::~PhysicsSystem()
-{
-
 }
 
 void PhysicsSystem::registerListener(std::weak_ptr<CollisionListener> cl)

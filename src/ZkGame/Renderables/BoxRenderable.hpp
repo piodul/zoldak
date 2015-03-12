@@ -19,7 +19,7 @@ public:
 		const b2Body * body,
 		const char * imgSrc
 	);
-	virtual ~BoxRenderable();
+	virtual ~BoxRenderable() = default;
 
 	virtual void paint(sf::RenderTarget * rt, const Player & viewer);
 

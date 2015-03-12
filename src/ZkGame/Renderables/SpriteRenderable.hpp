@@ -20,7 +20,7 @@ public:
 		std::weak_ptr<Entity> entity,
 		const char * imgSrc
 	);
-	virtual ~SpriteRenderable();
+	virtual ~SpriteRenderable() = default;
 
 	virtual void paint(sf::RenderTarget * rt, const Player & viewer);
 

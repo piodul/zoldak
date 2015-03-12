@@ -66,11 +66,6 @@ GrenadeEntity::GrenadeEntity(
 	setRenderable(br);
 }
 
-GrenadeEntity::~GrenadeEntity()
-{
-
-}
-
 void GrenadeEntity::registerMe()
 {
 	Game::getInstance()->getPhysicsSystem().registerListener(

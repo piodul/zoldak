@@ -47,11 +47,6 @@ BoxRenderable::BoxRenderable(
 	sprite.setScale(scalingFactor);
 }
 
-BoxRenderable::~BoxRenderable()
-{
-
-}
-
 void BoxRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	sprite.setPosition(lib_cast<sf::Vector2f>(body->GetPosition()));

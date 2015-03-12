@@ -14,7 +14,7 @@ class PlayerTrackEntity : public Entity
 {
 public:
 	PlayerTrackEntity(int trackedPlayer);
-	virtual ~PlayerTrackEntity();
+	virtual ~PlayerTrackEntity() = default;
 
 	virtual void update(double step) override;
 	virtual EntityType getType() const override;

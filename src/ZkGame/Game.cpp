@@ -86,11 +86,6 @@ Game::Game(QString levelName) :
 		rootLayer.addChild(p);
 }
 
-Game::~Game()
-{
-
-}
-
 void Game::run()
 {
 	initializeGameLoop();

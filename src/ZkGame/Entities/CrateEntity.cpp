@@ -45,8 +45,3 @@ EntityType CrateEntity::getType() const
 {
 	return EntityType::CrateEntity;
 }
-
-CrateEntity::~CrateEntity()
-{
-
-}

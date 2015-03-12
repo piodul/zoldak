@@ -44,11 +44,6 @@ LevelMeshEntity::LevelMeshEntity(const LevelLayer * ll, LayerType lt)
 	}
 }
 
-LevelMeshEntity::~LevelMeshEntity()
-{
-
-}
-
 void LevelMeshEntity::update(double step)
 {
 

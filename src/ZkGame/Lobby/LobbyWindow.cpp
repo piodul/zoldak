@@ -28,11 +28,6 @@ LobbyWindow::LobbyWindow(Config & config, QWidget * parent)
 	setCentralWidget(tabWidget);
 }
 
-LobbyWindow::~LobbyWindow()
-{
-
-}
-
 void LobbyWindow::closeEvent(QCloseEvent * event)
 {
 	GameSystem::getInstance()->changeState(GameSystem::State::Quit);

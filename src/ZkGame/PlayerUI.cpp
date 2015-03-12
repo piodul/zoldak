@@ -33,10 +33,6 @@ PlayerUI::PlayerUI(Player & player)
 	ammoTexture = tc.getTexture(GameSystem::resourcePath("ammo.png"));
 }
 
-PlayerUI::~PlayerUI()
-{
-}
-
 void PlayerUI::paint(sf::RenderTarget * rt)
 {
 	PlayerUILayout{rt, player, &font, healthTexture, grenadeTexture, ammoTexture}.paint();

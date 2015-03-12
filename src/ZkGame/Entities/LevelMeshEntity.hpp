@@ -16,7 +16,7 @@ class LevelMeshEntity : public Entity
 {
 public:
 	LevelMeshEntity(const Common::LevelLayer * ll, Common::LayerType lt);
-	virtual ~LevelMeshEntity();
+	virtual ~LevelMeshEntity() = default;
 
 	virtual void update(double step);
 	virtual EntityType getType() const override;

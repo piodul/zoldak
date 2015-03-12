@@ -16,11 +16,6 @@ MeshRenderable::MeshRenderable(
 	this->varr = varr;
 }
 
-MeshRenderable::~MeshRenderable()
-{
-
-}
-
 void MeshRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	rt->draw(varr);

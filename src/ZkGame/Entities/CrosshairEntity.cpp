@@ -32,11 +32,6 @@ CrosshairEntity::CrosshairEntity(
 	this->mouseDevice = mdh;
 }
 
-CrosshairEntity::~CrosshairEntity()
-{
-
-}
-
 void CrosshairEntity::registerMe()
 {
 	setRenderable(new CrosshairRenderable(

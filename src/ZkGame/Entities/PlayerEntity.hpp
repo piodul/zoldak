@@ -37,7 +37,7 @@ public:
 		sf::Vector2f pos,
 		const InputConfig & inputConfig
 	);
-	virtual ~PlayerEntity();
+	virtual ~PlayerEntity() = default;
 
 	void registerMe();
 

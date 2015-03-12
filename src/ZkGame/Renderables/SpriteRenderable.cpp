@@ -35,11 +35,6 @@ SpriteRenderable::SpriteRenderable(
 	);
 }
 
-SpriteRenderable::~SpriteRenderable()
-{
-
-}
-
 void SpriteRenderable::paint(sf::RenderTarget * rt, const Player & viewer)
 {
 	auto ptr = entity.lock();

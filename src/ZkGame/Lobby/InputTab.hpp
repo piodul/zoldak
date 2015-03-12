@@ -18,7 +18,7 @@ class InputTab : public QWidget
 
 public:
 	InputTab(Config & config, QWidget * parent = nullptr);
-	virtual ~InputTab();
+	virtual ~InputTab() = default;
 
 private slots:
 	void changeInputBind(QTableWidgetItem * twi);

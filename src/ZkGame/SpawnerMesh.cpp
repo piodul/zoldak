@@ -14,11 +14,6 @@ using namespace Zk::Game;
 static sf::Vector2f randomPointInTriangle(std::array<sf::Vector2f, 3> verts);
 static float triangleArea(std::array<sf::Vector2f, 3> verts);
 
-SpawnerMesh::SpawnerMesh()
-{
-
-}
-
 SpawnerMesh::SpawnerMesh(const LevelLayer * ll)
 {
 	ll->constructMesh(varr);

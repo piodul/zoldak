@@ -19,7 +19,7 @@ class SpawnerMeshEntity : public Entity
 {
 public:
 	SpawnerMeshEntity(const Common::LevelLayer * ll, Common::LayerType lt);
-	virtual ~SpawnerMeshEntity();
+	virtual ~SpawnerMeshEntity() = default;
 
 	virtual void update(double step);
 	virtual EntityType getType() const override;

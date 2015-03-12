@@ -21,8 +21,8 @@ QDataStream & operator>>(QDataStream & ds, triangleDesc_t & td);
 class LevelLayer
 {
 public:
-	LevelLayer();
-	~LevelLayer();
+	LevelLayer() = default;
+	~LevelLayer() = default;
 
 	void clear();
 

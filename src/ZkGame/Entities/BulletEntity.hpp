@@ -26,7 +26,7 @@ public:
 		Player & owner,
 		double damage
 	);
-	virtual ~BulletEntity();
+	virtual ~BulletEntity() = default;
 
 	void registerMe();
 

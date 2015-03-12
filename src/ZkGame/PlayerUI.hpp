@@ -15,7 +15,7 @@ class PlayerUI
 {
 public:
 	PlayerUI(Player & player);
-	~PlayerUI();
+	~PlayerUI() = default;
 
 	void paint(sf::RenderTarget * rt);
 

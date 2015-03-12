@@ -14,7 +14,7 @@ namespace Game {
 class Config
 {
 public:
-	Config();
+	Config() = default;
 
 	friend QDataStream & operator<<(QDataStream & ds, const Config & c);
 	friend QDataStream & operator>>(QDataStream & ds, Config & c);

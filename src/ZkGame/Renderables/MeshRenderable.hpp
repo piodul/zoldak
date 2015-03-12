@@ -14,7 +14,7 @@ public:
 		const std::string & hierarchyPath,
 		const sf::VertexArray & varr
 	);
-	virtual ~MeshRenderable();
+	virtual ~MeshRenderable() = default;
 
 	virtual void paint(sf::RenderTarget * rt, const Player & viewer);
 
