@@ -31,6 +31,14 @@ int main(int argc, char ** argv)
 		}
 	};
 
+	//When default ctors and dtors suffice and you want
+	//to be explicit about it, use the C++11 "default" notation
+	struct SimpleClass
+	{
+		SimpleClass() = default;
+		~SimpleClass() = default;
+	}
+
 	//Put braces in separate lines
 	if (true)
 	{
