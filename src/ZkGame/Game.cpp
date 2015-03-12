@@ -181,6 +181,14 @@ void Game::initializeGameLoop()
 		)
 	);
 
+	addEntity(
+		std::make_shared<SpawnerMeshEntity>(
+			level.getLayers()[(int)LayerType::QUADDAMAGE_SPAWN],
+			LayerType::QUADDAMAGE_SPAWN
+		)
+	);
+
+
 	{
 		players[0].setSpawnerMesh(SpawnerMesh(
 			level.getLayers()[(int)LayerType::PLAYER_A_SPAWN]

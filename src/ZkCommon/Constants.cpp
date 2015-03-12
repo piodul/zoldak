@@ -10,6 +10,7 @@ const std::string & Zk::Common::getLayerNameByType(LayerType lt)
 	static std::map<LayerType, std::string> lt2s {
 		{ LayerType::MEDKIT_SPAWN, "MEDKIT_SPAWN" },
 		{ LayerType::GRENADES_SPAWN, "GRENADES_SPAWN" },
+		{ LayerType::QUADDAMAGE_SPAWN, "QUADDAMAGE_SPAWN" },
 		{ LayerType::PLAYER_A_SPAWN, "PLAYER_A_SPAWN" },
 		{ LayerType::PLAYER_B_SPAWN, "PLAYER_B_SPAWN" },
 		{ LayerType::PLAYER_A_FLAG, "PLAYER_A_FLAG" },

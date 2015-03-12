@@ -23,7 +23,8 @@ enum class EntityType : int
 	BulletEntity,
 	GrenadeEntity,
 	CrosshairEntity,
-	PlayerTrackEntity
+	PlayerTrackEntity,
+	QuadDamageEntity
 };
 
 class Entity

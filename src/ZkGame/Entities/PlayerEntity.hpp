@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <vector>
+#include <set>
 
 #include "Entity.hpp"
 #include "../Config/InputConfig.hpp"
@@ -13,6 +14,8 @@
 #include "../InputSystem.hpp"
 #include "../Physics.hpp"
 #include "../Player.hpp"
+
+#include "../../ZkCommon/Powerups.hpp"
 
 namespace Zk {
 namespace Game {
@@ -49,6 +52,8 @@ public:
 	virtual void update(double step);
 	virtual EntityType getType() const override;
 
+	inline double getDamageModifier() const
+	{ return damageModifier; }
 	inline double getHealth() const
 	{ return health; }
 	void takeDamage(double damage);
@@ -64,15 +69,19 @@ public:
 private:
 	void pickUpMedKit();
 	void pickUpGrenadePack();
+	void pickUpQuadDamage();
+	void updatePowerups(double step);
 
 	std::vector<ContactInfo> contacts;
 
 	double health;
 
 	double jumpCooldown;
+	double damageModifier;
 	Weapon weapon;
 	Weapon grenadeWeapon;
 	const InputConfig & inputConfig;
+	std::map<Common::Powerup, int> powerupsTime;
 
 	Player & player;
 	std::weak_ptr<CrosshairEntity> crosshair;

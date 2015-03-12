@@ -18,6 +18,7 @@
 #include "MedKitEntity.hpp"
 #include "GrenadePackEntity.hpp"
 #include "CrosshairEntity.hpp"
+#include "QuadDamageEntity.hpp"
 #include "../Config/InputConfig.hpp"
 #include "../Config/PlayerAction.hpp"
 #include "../Config/InputAction.hpp"
@@ -117,6 +118,7 @@ PlayerEntity::PlayerEntity(
 	setRenderable(br);
 
 	jumpCooldown = 0.0;
+	damageModifier = 1.0;
 
 	health = MAX_HP;
 }
@@ -167,6 +169,14 @@ void PlayerEntity::onPreSolveEvent(b2Contact * contact, const b2Manifold * oldMa
 		contact->SetEnabled(false);
 
 		pickUpGrenadePack();
+	}
+	else if (ent->getType() == EntityType::QuadDamageEntity)
+	{
+		QuadDamageEntity * ceEnt = (QuadDamageEntity*)ent;
+		ceEnt->pickUp();
+		contact->SetEnabled(false);
+
+		pickUpQuadDamage();
 	}
 }
 
@@ -271,6 +281,8 @@ void PlayerEntity::update(double step)
 	grenadeWeapon.update(
 		step, direction, inputConfig.isActionTriggered(PlayerAction::ThrowGrenade)
 	);
+
+	updatePowerups(step);
 }
 
 EntityType PlayerEntity::getType() const
@@ -297,6 +309,26 @@ int PlayerEntity::getGrenadeCount() const
 	return grenadeWeapon.getAmmoCount();
 }
 
+void PlayerEntity::updatePowerups(double step)
+{
+	//here we lose some precision
+	int msec = static_cast<int>(step * 1000.0);
+
+	std::vector<Powerup> toRemove;
+	for (auto &powerup : powerupsTime) {
+		powerup.second -= msec;
+		if (powerup.second <= 0)
+			toRemove.push_back(powerup.first);
+	}
+
+	for (auto powerup : toRemove) {
+		powerupsTime.erase(powerup);
+
+		if (powerup == Powerup::QuadDamage)
+			damageModifier /= 4;
+	}
+}
+
 void PlayerEntity::pickUpMedKit()
 {
 	health += MedKitEntity::HP_PER_MEDKIT;
@@ -307,4 +339,13 @@ void PlayerEntity::pickUpMedKit()
 void PlayerEntity::pickUpGrenadePack()
 {
 	grenadeWeapon.loadAmmo(1);
+}
+
+void PlayerEntity::pickUpQuadDamage()
+{
+	if (powerupsTime.find(Powerup::QuadDamage) != powerupsTime.end() )
+		return;
+
+	powerupsTime.insert({Powerup::QuadDamage, QuadDamageEntity::QuadTime});
+	damageModifier *= 4;
 }

@@ -26,6 +26,7 @@ enum class LayerType : int
 	FOREGROUND,
 	MIDGROUND,
 	BACKGROUND,
+	QUADDAMAGE_SPAWN,
 	MAX_LAYER
 };
 
